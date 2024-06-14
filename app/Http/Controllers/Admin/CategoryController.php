@@ -111,7 +111,7 @@ class CategoryController extends Controller
         $category->slug         = $slug;
         $category->save();
 
-        
+
         // if($old_category != $request->parent_id){
         //     $main_category = $category->id;
         //     if($category->parent_id != 0){

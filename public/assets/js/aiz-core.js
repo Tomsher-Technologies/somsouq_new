@@ -103,7 +103,7 @@ togglePassword.on('click', function (e) {
                             $.ajax({
                                 url:
                                     AIZ.data.adminUrl +
-                                    "/aiz-uploader/destroy/" +
+                                    "admin/aiz-uploader/destroy/" +
                                     AIZ.uploader.data.clickedForDelete,
                                 type: "DELETE",
                                 dataType: "JSON",
@@ -132,7 +132,7 @@ togglePassword.on('click', function (e) {
                                     AIZ.uploader.updateUploaderSelected();
                                     AIZ.uploader.getAllUploads(
                                         AIZ.data.adminUrl +
-                                        "/aiz-uploader/get_uploaded_files"
+                                        "admin/aiz-uploader/get_uploaded_files"
                                     );
                                     AIZ.uploader.data.clickedForDelete = null;
                                     $("#aizUploaderDelete").modal("hide");
@@ -292,7 +292,7 @@ togglePassword.on('click', function (e) {
                     //     ].aria_hidden = false;
                     // }
                     AIZ.uploader.getAllUploads(
-                        AIZ.data.adminUrl + "/aiz-uploader/get_uploaded_files"
+                        AIZ.data.adminUrl + "admin/aiz-uploader/get_uploaded_files"
                     );
                 }
                 AIZ.uploader.updateUploaderFiles();
@@ -302,7 +302,7 @@ togglePassword.on('click', function (e) {
             $('[name="aiz-uploader-search"]').on("keyup", function () {
                 var value = $(this).val();
                 AIZ.uploader.getAllUploads(
-                    AIZ.data.adminUrl + "/aiz-uploader/get_uploaded_files",
+                    AIZ.data.adminUrl + "admin/aiz-uploader/get_uploaded_files",
                     value,
                     $('[name="aiz-uploader-sort"]').val()
                 );
@@ -336,7 +336,7 @@ togglePassword.on('click', function (e) {
             $('[name="aiz-uploader-sort"]').on("change", function () {
                 var value = $(this).val();
                 AIZ.uploader.getAllUploads(
-                    AIZ.data.adminUrl + "/aiz-uploader/get_uploaded_files",
+                    AIZ.data.adminUrl + "admin/aiz-uploader/get_uploaded_files",
                     $('[name="aiz-uploader-search"]').val(),
                     value
                 );
@@ -496,7 +496,7 @@ togglePassword.on('click', function (e) {
             if (AIZ.uploader.data.selectedFiles.length > 0) {
 
                 $.post(
-                    AIZ.data.adminUrl + "/aiz-uploader/get_file_by_ids",
+                    AIZ.data.adminUrl + "admin/aiz-uploader/get_file_by_ids",
                     { _token: AIZ.data.csrf, ids: AIZ.uploader.data.selectedFiles.toString() },
                     function (data) {
 
@@ -688,14 +688,14 @@ togglePassword.on('click', function (e) {
 
             // setTimeout(function() {
             $.post(
-                AIZ.data.adminUrl + "/aiz-uploader",
+                AIZ.data.adminUrl + "admin/aiz-uploader",
                 { _token: AIZ.data.csrf },
                 function (data) {
                     $("body").append(data);
                     $("#aizUploaderModal").modal("show");
                     AIZ.plugins.aizUppy();
                     AIZ.uploader.getAllUploads(
-                        AIZ.data.adminUrl + "/aiz-uploader/get_uploaded_files",
+                        AIZ.data.adminUrl + "admin/aiz-uploader/get_uploaded_files",
                         null,
                         $('[name="aiz-uploader-sort"]').val()
                     );
@@ -779,7 +779,7 @@ togglePassword.on('click', function (e) {
                 var files = $this.find(".selected-files").val();
                 if (files != "") {
                     $.post(
-                        AIZ.data.adminUrl + "/aiz-uploader/get_file_by_ids",
+                        AIZ.data.adminUrl + "admin/aiz-uploader/get_file_by_ids",
                         { _token: AIZ.data.csrf, ids: files },
                         function (data) {
 
@@ -1161,7 +1161,7 @@ togglePassword.on('click', function (e) {
                     }
                 });
                 uppy.use(Uppy.XHRUpload, {
-                    endpoint: AIZ.data.adminUrl + "/aiz-uploader/upload",
+                    endpoint: AIZ.data.adminUrl + "admin/aiz-uploader/upload",
                     fieldName: "aiz_file",
                     formData: true,
                     headers: {
@@ -1170,7 +1170,7 @@ togglePassword.on('click', function (e) {
                 });
                 uppy.on("upload-success", function () {
                     AIZ.uploader.getAllUploads(
-                        AIZ.data.adminUrl + "/aiz-uploader/get_uploaded_files"
+                        AIZ.data.adminUrl + "admin/aiz-uploader/get_uploaded_files"
                     );
                 });
             }

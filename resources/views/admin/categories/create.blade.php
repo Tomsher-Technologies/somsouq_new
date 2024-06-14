@@ -84,27 +84,27 @@
                                 <div data-repeater-item style="border: 1px solid red">
                                   Repeater <input type="text" name="text-input" value="A"/>
                                   <input data-repeater-delete type="button" value="Delete"/>
-                          
+
                                   <!-- innner repeater -->
                                   <div class="inner-repeater">
                                     <div data-repeater-list="inner-list">
                                       <div data-repeater-item style="background: #f1f1f1">
                                         Inner Repeater <input type="text" name="inner-text-input" value="B"/>
                                         <input data-repeater-delete type="button" value="Delete"/>
-                                        
+
                                         <!-- innner repeater -->
-                                      
+
                                       </div>
                                     </div>
                                     <input data-repeater-create type="button" value="Add Inner Repeater"/>
                                   </div>
-                          
+
                                 </div>
                               </div>
                               <input data-repeater-create type="button" value="Add Repeater"/>
-                            
+
                         </div> --}}
-                       
+
                         <div class="form-group mb-0 text-right">
                             <button type="submit" class="btn btn-sm btn-primary">Save</button>
                             <a href="{{ Session::has('category_last_url') ? Session::get('category_last_url') : route('categories.index') }}" class="btn btn-sm btn-warning">{{translate('Cancel')}}</a>
@@ -117,8 +117,9 @@
 @endsection
 @section('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.repeater/1.2.1/jquery.repeater.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script type="text/javascript">
-        
+
         $('.slug_title').on('change', function() {
             let str = $(this).val();
             str = str.replace(/[^\w\s]/gi, '')
@@ -127,15 +128,15 @@
         });
     </script>
     <script>
-       var $repeater = $('.repeater').repeater({
-            repeaters: [{
-                selector: '.inner-repeater',
-                repeaters: [{ 
-                    selector: '.deep-inner-repeater' 
-                }]
-            }]
-        });
+       // var $repeater = $('.repeater').repeater({
+       //      repeaters: [{
+       //          selector: '.inner-repeater',
+       //          repeaters: [{
+       //              selector: '.deep-inner-repeater'
+       //          }]
+       //      }]
+       //  });
 
         </script>
-        
+
 @endsection

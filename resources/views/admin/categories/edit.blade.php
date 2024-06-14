@@ -79,8 +79,8 @@
                                 </div>
                             </div>
                         </div>
-                        
-                       
+
+
                         <div class="form-group mb-0 text-right">
                             <button type="submit" class="btn btn-sm btn-primary">Save</button>
                             <a href="{{ Session::has('category_last_url') ? Session::get('category_last_url') : route('categories.index') }}" class="btn btn-sm btn-warning">{{translate('Cancel')}}</a>
@@ -95,12 +95,12 @@
     @livewireScripts
     @livewireStyles
     <script type="text/javascript">
-        
-        $('.slug_title').on('change', function() {
-            let str = $(this).val();
-            str = str.replace(/[^\w\s]/gi, '')
-            let output = str.replace(/\s+/g, '-').toLowerCase();
-            $('#slug').val(output);
-        });
+
+        // $('.slug_title').on('change', function() {
+        //     let str = $(this).val();
+        //     str = str.replace(/[^\w\s]/gi, '')
+        //     let output = str.replace(/\s+/g, '-').toLowerCase();
+        //     $('#slug').val(output);
+        // });
     </script>
 @endsection

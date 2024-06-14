@@ -1,0 +1,97 @@
+
+.section-title{
+    margin-bottom: 30px;
+    @media (max-width: 767.98px) {    margin-bottom: 15px; }
+
+    &.title-flex{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    h3{
+        font-size: 26px;
+        font-weight: 600;
+
+        @media (max-width: 767.98px) {    font-size: 20px; }
+    }
+}
+
+.card{
+
+    &.ad-card{
+
+        border: 0;
+
+        .card-img-warpper{
+
+            position: relative;
+
+            &::after{
+                content: '';
+                background: rgb(2,0,36);
+background: linear-gradient(180deg, rgba(2,0,36,0) 0%, rgba(0,0,0,1) 100%);
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 100%;
+                border-top-left-radius: var(--bs-card-inner-border-radius);
+                border-top-right-radius: var(--bs-card-inner-border-radius);
+                opacity: 0.8;
+       
+            }
+          
+            span.card-location{
+                position: absolute;
+                bottom: 12px;
+                left: 15px;
+                font-weight: 300;
+                z-index: 999;
+                color: #fff;
+            }
+
+            a{
+
+                &.wishlist-icon{
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                    background-color: #fff;
+                    height: 32px;
+                    width: 32px;
+                    border-radius: 50%;
+                    color: #000;
+                    line-height: 36px;
+                    text-align: center;
+                    z-index: 999;
+                }
+            }
+        }
+
+        .card-body{
+            padding-left: 0;
+            padding-right: 0;
+
+            h4{
+
+                &.card-title{
+                    font-size: 19px;
+                    font-weight: 500;
+                    color: #6b6969;
+                }
+            }
+
+            h5{
+
+                &.card-price{
+                    font-size: 26px;
+                    font-weight: 800;
+                    color: $color_primary;
+                    margin-bottom: 2px;
+                }
+            }
+        }
+    }
+}

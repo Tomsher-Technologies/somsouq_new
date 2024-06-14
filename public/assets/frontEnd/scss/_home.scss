@@ -1,0 +1,156 @@
+section{
+
+    &.banner-section{
+        padding: 0px 10px;
+
+
+        .carousel{
+            
+            .carousel-inner{
+                  .carousel-item{
+                    img{
+                        border-radius: 10px;
+                    }
+                  }
+            }
+        }
+    }
+}
+
+
+.search-box{
+    width: 800px;
+    margin: auto;
+    background-color: #f2f2f28f;
+    border-radius: 20px;
+    padding: 30px;
+
+    h3{
+        color: #393939;
+    }
+
+    @media (max-width: 767.98px) { width: 100%;}
+
+    .form-inputs{
+
+        form{
+            display: flex;
+            align-items: center;
+            position: relative;
+
+            .search_icon{
+                position: absolute;
+                left: 20px;
+                opacity: 0.4;
+            }
+            
+
+
+            .form-control{
+                padding: 20px;
+                border-radius: 50px 0 0 50px;
+                padding-left: 55px;
+                
+            }
+
+            .form-select{
+                padding: 20px;
+                border-radius: 0;
+            }
+
+
+        }
+    }
+}
+
+
+section{
+
+    &.top-categories-section{
+        margin: 60px 0;
+        @media (max-width: 767.98px) { margin: 0; }
+
+        .categories-box{
+            
+            background-color: #f2f2f2;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            display: block;
+            height: 100%;
+
+            h4{
+                @media (max-width: 767.98px) {font-weight: 300; margin-top: 10px; margin-bottom: 10px; }
+            }
+
+            @media (max-width: 767.98px) { padding: 20px 30px; }
+
+            img{
+                width: auto;
+                margin: auto;
+            }
+
+            h4{
+                font-weight: 400;
+                margin-top: 12px;
+                font-size: 18px;
+                color: #000;
+            }
+        }
+    }
+}
+
+
+section{
+
+    &.popular-ads-section{
+        margin: 60px 0;
+    }
+}
+
+section{
+
+    &.popular-cars-section{
+        margin: 60px 0;
+    }
+}
+
+
+section{
+
+    &.popular-electronics-section{
+        margin: 60px 0;
+    }
+}
+
+
+section{
+
+    &.popular-properties-section{
+        margin: 60px 0;
+    }
+}
+
+
+.carousel-caption {
+    bottom: 30%;
+}
+
+.carousel-dark .carousel-caption {
+    bottom: 20%;
+    transform: translate(0px, -0%);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
