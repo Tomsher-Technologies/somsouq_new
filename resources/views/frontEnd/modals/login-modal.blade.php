@@ -10,13 +10,14 @@
                     <div class="col-md-8 m-auto">
                         <img src="{{ asset('assets/frontEnd/images/login-img.jpg') }}" class="img-fluid" alt="">
                         <h3 class="my-4">Login</h3>
-                        <a href="#" class="btn btn-login mb-2"> <img src="{{ asset('assets/frontEnd/images/facebook.png') }}" class="img-fluid"
+                        <a href="{{ url('auth/facebook') }}" class="btn btn-login mb-2"> <img src="{{ asset('assets/frontEnd/images/facebook.png') }}" class="img-fluid"
                                                                      alt=""> Continue with Facebook</a>
-                        <a href="#" class="btn btn-login mb-2"> <img src="{{ asset('assets/frontEnd/images/google.png') }}" class="img-fluid"
+                        <a href="{{ url('auth/google') }}" class="btn btn-login mb-2"> <img src="{{ asset('assets/frontEnd/images/google.png') }}" class="img-fluid"
                                                                      alt=""> Continue with Google</a>
-                        <a href="#" class="btn btn-login mb-2"> <img src="{{ asset('assets/frontEnd/images/apple.png') }}" class="img-fluid"
-                                                                     alt=""> Continue with Apple</a>
-                        <a href="#" class="btn btn-login"> <img src="{{ asset('assets/frontEnd/images/email.png') }}" class="img-fluid" alt="">
+{{--                        <a href="#" class="btn btn-login mb-2"> <img src="{{ asset('assets/frontEnd/images/apple.png') }}" class="img-fluid"--}}
+{{--                                                                     alt=""> Continue with Apple</a>--}}
+                        <a href="#" class="btn btn-login" data-bs-target="#signInModal"
+                           data-bs-toggle="modal"> <img src="{{ asset('assets/frontEnd/images/email.png') }}" class="img-fluid" alt="">
                             Continue with Email</a>
                         <p class="py-3 text-center">Don’t have an account? <a href="#" data-bs-target="#signUpModal"
                                                                               data-bs-toggle="modal">Create</a></p>
@@ -83,6 +84,46 @@
     </div>
 </div>
 
+<div class="modal fade login-modal" id="signInModal" tabindex="-1" aria-labelledby="signINModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content rounded-0">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-11 m-auto">
+                        <h3 class="my-4">Log in with your email</h3>
+                        <form action="{{ url('email/login') }}" method="post" id="loginForm">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="text" class="form-control" name="email" placeholder="Enter email">
+                                    <span class="text-danger" id="emailError"></span>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Password</label>
+                                    <input type="text" name="password" class="form-control" placeholder="Enter password">
+                                    <span class="text-danger" id="passwordError"></span>
+
+                                    <span class="text-danger" id="isLoginError"></span>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-login mb-2"> Log In </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <div class="mobile-nav">
 
     <a href="#" class="add-post"><i class="bi bi-plus"></i></a>
@@ -113,3 +154,7 @@
         </li>
     </ul>
 </div>
+
+
+
+

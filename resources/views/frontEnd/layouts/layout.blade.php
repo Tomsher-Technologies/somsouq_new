@@ -23,8 +23,13 @@
 @include('frontEnd.modals.login-modal')
 
 <script src="{{ asset('assets/frontEnd/js/bootstrap.bundle.js') }}"></script>
+
 <script src="{{ asset('assets/frontEnd/js/jquery.min.js') }}"></script>
+{{--<script src="{{ asset('assets/frontEnd/js/owl.carousel.js') }}"></script>--}}
+
 <script src="{{ asset('assets/frontEnd/js/custom.js') }}"></script>
+
+
 
 @yield('script')
 <!-- <script type="text/javascript">

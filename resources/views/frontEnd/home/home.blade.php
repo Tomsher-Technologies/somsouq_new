@@ -1145,3 +1145,46 @@
     </section>
 
 @endsection
+
+@section('script')
+    <script>
+        $(function() {
+            $("#loginForm").submit(function(e) {
+                //prevent Default functionality
+                e.preventDefault();
+
+                //get the action-url of the form
+                var actionurl = e.currentTarget.action;
+
+                //do your own request an handle the results
+                $.ajax({
+                    url: actionurl,
+                    type: 'post',
+                    data: $("#loginForm").serialize(),
+                    success: function(data) {
+                        if(data.is_login){
+                            window.location.href = "{{ route('home') }}";
+                        }
+
+                        if(!data.success){
+                            $('#emailError').html(data.error.email);
+                            $('#passwordError').html(data.error.password);
+                        } else {
+                            $('#emailError').html("");
+                            $('#passwordError').html("");
+                        }
+
+                        if(!data.is_login){
+                            $('#isLoginError').html(data.error);
+                        }else {
+                            $('#isLoginError').html("");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr, status, error)
+                    }
+                });
+            });
+        });
+    </script>
+@endsection
