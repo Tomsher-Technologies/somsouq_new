@@ -94,7 +94,11 @@
     					@csrf
     					<div class="form-group mb-3">
     						<label for="name">{{translate('Name')}}</label>
-    						<input type="text" placeholder="{{translate('Name')}}" name="name" class="form-control" required>
+    						<input type="text" placeholder="{{translate('Name')}}" name="name" class="form-control">
+
+                            @if($errors->has('name'))
+                                <span class="text-danger">{{ $errors->first('name') }}</span>
+                            @endif
     					</div>
 
                         <div class="form-group">

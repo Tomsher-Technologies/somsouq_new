@@ -43,6 +43,10 @@ class CityController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
         $city           = new City;
         $city->name     = $request->name;
         $city->state_id = $request->state_id;
@@ -67,6 +71,10 @@ class CityController extends Controller
 
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+        ]);
+
         $city               = City::findOrFail($id);
         if($request->lang == env("DEFAULT_LANGUAGE")){
             $city->name     = $request->name;
@@ -83,7 +91,7 @@ class CityController extends Controller
         return back();
     }
 
-   
+
     public function destroy($id)
     {
         $city = City::findOrFail($id);

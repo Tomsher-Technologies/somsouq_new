@@ -57,43 +57,6 @@ final class SocialiteAuthController extends Controller
         ]);
     }
 
-    public function loginWithEmail(Request $request)
-    {
-        try {
-            $validator = Validator::make($request->all(),[
-                'email'    => 'required|email',
-                'password' => 'required|string',
-            ]);
-
-            if ($validator->fails()) {
-                 return response()->json([
-                    'error' => $validator->errors(),
-                    'success' => false
-                ]);
-            }
-
-            if (Auth::attempt($request->only('email','password'))){
-                return response()->json([
-                    'message' => 'Your are logged in successfully',
-                    'success' => true,
-                    'is_login' => true
-                ]);
-            } else {
-                return response()->json([
-                    'error' => 'Invalid email and password!',
-                    'success' => true,
-                    'is_login' => false
-                ]);
-            }
-        }catch (\Exception $exception){
-            return response()->json([
-                'error' => $exception->getMessage(),
-                'success' => true,
-                'is_login' => false
-            ]);
-        }
-    }
-
     public function logout(Request $request)
     {
        Auth::logout();

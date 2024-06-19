@@ -35,6 +35,10 @@ class StateController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+           'name' => 'required|unique:states,name',
+        ]);
+
         $state = new State;
         $state->name        = $request->name;
         $state->save();
@@ -56,6 +60,11 @@ class StateController extends Controller
 
     public function update(Request $request, $id)
     {
+       dd($request->all());
+        $request->validate([
+            'name' => 'required|unique:states,name,' . $id,
+        ]);
+
         $state = State::findOrFail($id);
         if($request->lang == env("DEFAULT_LANGUAGE")){
             $state->name        = $request->name;

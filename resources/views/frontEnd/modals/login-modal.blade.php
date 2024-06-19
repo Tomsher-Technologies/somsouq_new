@@ -40,42 +40,63 @@
                 <div class="row">
                     <div class="col-md-11 m-auto">
                         <h3 class="my-4">Create an account</h3>
+                        <form action="{{ route('user.registration') }}" method="post" id="registrationForm">
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">Username</label>
-                                <input type="text" class="form-control" placeholder="Enter username">
+                                <input type="text" name="username" class="form-control" placeholder="Enter username" required>
+                                <span class="text-danger" id="usernameError"></span>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">Password</label>
-                                <input type="text" class="form-control" placeholder="Enter password">
+                                <input type="password" class="form-control" name="password" placeholder="Enter password">
+                                <span class="text-danger" id="passwordErrorReg"></span>
                             </div>
                             <div class="col-md-12 mb-3">
-                                <label class="form-label">Location</label>
-                                <input type="text" class="form-control" placeholder="State, Region">
+                                <label class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" name="password_confirmation" placeholder="Enter password">
+                                <span class="text-danger" id="password_confirmation_error"></span>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">State</label>
+                                <select class="form-control" name="state_id" onChange="getCityByStateId(this.value, 'city_id')">
+                                    <option value="">-Select-</option>
+                                    @foreach($states as $key => $state)
+                                        <option value="{{ $key }}">{{ $state }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">City</label>
+                                <select class="form-control" name="city_id" id="city_id">
+                                    <option value="">-Select-</option>
+                                </select>
                             </div>
                             <div class="col-md-12 text-center py-4">
                                 <a href="#"><i class="bi bi-geo-alt-fill"></i> User my current location</a>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">Email <small>( Optional )</small></label>
-                                <input type="text" class="form-control" placeholder="Enter email address">
+                                <input type="email" class="form-control" name="email" placeholder="Enter email address">
+                                <span class="text-danger" id="emailErrorReg"></span>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">Phone Number <small>( Optional )</small></label>
-                                <input type="text" class="form-control" placeholder="State, Region">
+                                <input type="text" class="form-control" name="phone_number" placeholder="Enter Phone number">
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">Which City You Was Born</label>
-                                <input type="text" class="form-control" placeholder="Enter City">
+                                <input type="text" class="form-control" name="place_of_birth" placeholder="Enter City">
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">Year Of Birth</label>
-                                <input type="text" class="form-control" placeholder="Enter DOB">
+                                <input type="date" class="form-control" name="date_of_birth" placeholder="Enter DOB">
                             </div>
                             <div class="col-md-12">
-                                <a href="#" class="btn btn-login mb-2"> Sign Up </a>
+                                <button type="submit" class="btn btn-login mb-2"> Sign Up </button>
                             </div>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -95,17 +116,18 @@
                 <div class="row">
                     <div class="col-md-11 m-auto">
                         <h3 class="my-4">Log in with your email</h3>
-                        <form action="{{ url('email/login') }}" method="post" id="loginForm">
+                        <form action="{{ route('user.login') }}" method="post" id="loginForm">
                             @csrf
                             <div class="row">
                                 <div class="col-md-12 mb-3">
-                                    <label class="form-label">Email</label>
-                                    <input type="text" class="form-control" name="email" placeholder="Enter email">
+                                    <label class="form-label">Email/ Username</label>
+                                    <input type="text" class="form-control" name="input_type" placeholder="Enter email or username">
                                     <span class="text-danger" id="emailError"></span>
+                                    <span class="text-danger" id="usernameErrorLogin"></span>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <label class="form-label">Password</label>
-                                    <input type="text" name="password" class="form-control" placeholder="Enter password">
+                                    <input type="password" name="password" class="form-control" placeholder="Enter password">
                                     <span class="text-danger" id="passwordError"></span>
 
                                     <span class="text-danger" id="isLoginError"></span>

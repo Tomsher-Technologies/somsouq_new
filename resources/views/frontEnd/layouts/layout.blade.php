@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Som Souq</title>
     <link rel="stylesheet" href="{{ asset('assets/frontEnd/css/main.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,16 +21,12 @@
 
 @include('frontEnd.includes.footer')
 
-@include('frontEnd.modals.login-modal')
-
 <script src="{{ asset('assets/frontEnd/js/bootstrap.bundle.js') }}"></script>
 
 <script src="{{ asset('assets/frontEnd/js/jquery.min.js') }}"></script>
 {{--<script src="{{ asset('assets/frontEnd/js/owl.carousel.js') }}"></script>--}}
 
 <script src="{{ asset('assets/frontEnd/js/custom.js') }}"></script>
-
-
 
 @yield('script')
 <!-- <script type="text/javascript">
