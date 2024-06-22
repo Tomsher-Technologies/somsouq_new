@@ -10,7 +10,7 @@
 // window and document to slightly quicken the process.
 // To be sure that undefined is truly undefined (For ES3)
 ;(function($, window, document, undefined) {
- 
+
   // Prevent issues about browser opening file by dropping it.
   window.addEventListener("dragover", function(e) {
     e = e || event;
@@ -85,7 +85,7 @@
         else {
           regexp = new RegExp("\.([A-Za-z-]*)()", "g");
         }
-        // Exec the regexp and then 
+        // Exec the regexp and then
         const r = regexp.exec(item);
         result = result.concat(r);
       });
@@ -123,7 +123,7 @@
       /** FUNCTIONS  **/
 
 
-      // Function to read and store files. 
+      // Function to read and store files.
       const retrieveFiles = (files) => {
 
         for(let index = 0; index < files.length; ++index) {
@@ -173,7 +173,7 @@
         .mouseleave(function() {
           $(this).css("opacity", "0");
         });
-       
+
         // If the given file in the parameter is an image.
         if (file.type && file.type.search(/image/) != -1) {
           // Associated function to a ending load
@@ -204,7 +204,7 @@
           }
           // If the file is an video file, replace the icon by an video file icon.
           else if (file.type.search(/video/) != -1) {
-            type = "<i class='fa fa-file-video-o'></i>"; 
+            type = "<i class='fa fa-file-video-o'></i>";
           }
 
           // Associated function to a ending load
@@ -232,7 +232,7 @@
           for (let index = 0; totalFiles.length > index; ++index) {
             if (totalFiles[index].id === id) {
               totalFiles.splice(index, 1);
-              break;    
+              break;
             }
           }
         });
@@ -258,7 +258,7 @@
           overlay.css("display", "none");
           dragbox.css("border-color", "rgb(210, 210, 210)");
 
-        // Enable back pointer events to capture click, hover... 
+        // Enable back pointer events to capture click, hover...
           button.css("pointer-events", "initial");
           addMsg.css("pointer-events", "initial");
           addIcon.css("pointer-events", "initial");
@@ -381,8 +381,8 @@
           else if (!inputs[index].getAttribute("type") || ((inputs[index].getAttribute("type").toLowerCase()) !== "checkbox" && (inputs[index].getAttribute("type").toLowerCase()) !== "radio") || inputs[index].checked) {
             formData.append(inputs[index].name, inputs[index].value);
           }
-          else if ($(inputs[index]).getAttribute("type") != "file") {
-            formData.append(inputs[index].name, inputs[index].value);  
+          else if ($(inputs[index])[0].getAttribute("type") != "file") {
+            formData.append(inputs[index].name, inputs[index].value);
           }
         }
 

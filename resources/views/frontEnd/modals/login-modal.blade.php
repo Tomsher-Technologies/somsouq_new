@@ -55,11 +55,10 @@
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">Confirm Password</label>
                                 <input type="password" class="form-control" name="password_confirmation" placeholder="Enter password">
-                                <span class="text-danger" id="password_confirmation_error"></span>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">State</label>
-                                <select class="form-control" name="state_id" onChange="getCityByStateId(this.value, 'city_id')">
+                                <select class="form-control" name="state_id" onChange="getCityByStateId(this.value, 'city_id', '{{ route('get-city-by-state-id') }}')">
                                     <option value="">-Select-</option>
                                     @foreach($states as $key => $state)
                                         <option value="{{ $key }}">{{ $state }}</option>

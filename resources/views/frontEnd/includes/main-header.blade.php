@@ -64,7 +64,9 @@
 
 
                     </div>
-                    <a href="post-ad-type.html" class="btn btn-primary">Post Free Ad</a>
+                    @auth
+                    <a href="{{ route('post.create') }}" class="btn btn-primary">Post Free Ad</a>
+                    @endauth
                 </div>
             </div>
         </div>

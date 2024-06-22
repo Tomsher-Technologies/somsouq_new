@@ -1149,6 +1149,7 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('custom-js/getCityByStateId.js') }}"></script>
     <script>
         $(function() {
             /**
@@ -1251,12 +1252,6 @@
                                 $('#passwordErrorReg').html("");
                             }
 
-                            if(data.errors.password_confirmation) {
-                                $('#password_confirmation_error').html(data.errors.password_confirmation);
-                            } else {
-                                $('#password_confirmation_error').html("");
-                            }
-
                             if(data.errors.email) {
                                 $('#emailErrorReg').html(data.errors.email);
                             } else {
@@ -1281,36 +1276,6 @@
                 });
             });
         });
-
-        function getCityByStateId(state_id, city_id){
-            if(state_id != "" ){
-                $.ajax({
-                    url: "{{ route('get-city-by-state-id') }}",
-                    type: 'get',
-                    data: {
-                        state_id:state_id
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        var option = '<option value="">-Select-</option>';
-
-                        if (response.status) {
-                            $.each(response.data, function (id, value) {
-                                option += '<option value="' + id + '">' + value + '</option>';
-                            });
-                        }
-
-                        $("#" + city_id).html(option);
-
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(xhr, status, error)
-                    }
-                });
-            }
-        }
 
     </script>
 @endsection
