@@ -10,5 +10,17 @@ class Category {
 
 
     //sub category
+    const LAND_FOR_SALE = 13;
+    const HOUSE_AND_APARTMENT_FOR_SALE = 14;
+    const SHOP_FOR_SALE = 15;
+    const LAND_FOR_RENT = 16;
+    const HOUSE_AND_APARTMENT_FOR_RENT = 17;
+    const SHOP_FOR_RENT = 18;
+    const CAR_FOR_RENT = 19;
+    const TRUCK_AND_TRAILER_FOR_RENT = 20;
+
+
+
+
 
 }

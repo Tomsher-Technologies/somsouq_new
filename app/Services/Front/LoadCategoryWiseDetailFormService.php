@@ -20,22 +20,29 @@ class LoadCategoryWiseDetailFormService
 
     const VIEW_PATH = "file_path";
     const DATA = 'data';
-    public static function getCategoryWiseHtml(int $categoryId, int $subCategoryId): array
+    public static function getCategoryWiseHtml(int $categoryId, int $subCategoryId, ? int $postId = null): array
     {
         switch ($categoryId) {
             case Category::PROPERTY_FOR_RENT:
             case Category::PROPERTY_FOR_SALE:
-                if (in_array($subCategoryId, [13, 16])) {
+
+                if (in_array($subCategoryId, [Category::LAND_FOR_SALE, Category::LAND_FOR_RENT])) {
                     static::$htmlFormName = "frontEnd.post.form.property_form_land";
                 } else {
                     static::$htmlFormData['furniture_status'] = FurnitureStatus::getFurnitureStatus();
                     static::$htmlFormData['condition_status'] = ConditionStatus::getConditionStatus();
                     static::$htmlFormName = "frontEnd.post.form.property_form";
                 }
+
+                //post detail data for the edit page
+                static::$htmlFormData['postDetail'] = ($postId) ? CategoryWisePostDetailDataService::getData(categoryId: $categoryId, postId: $postId) : "";
+
                 break;
+
             case Category::VEHICLE_FOR_RENT:
             case Category::VEHICLE_FOR_SALE:
-                static::$htmlFormData['brands'] = Brand::whereIn('category_id', [3, 4])->where('is_active', true)->pluck('en_name', 'id');
+                static::$htmlFormData['brands'] = Brand::whereIn('category_id', [Category::VEHICLE_FOR_RENT, Category::VEHICLE_FOR_SALE])
+                    ->where('is_active', true)->pluck('en_name', 'id');
                 static::$htmlFormData['model_years'] = range(date('Y'), 1950);
 
                 if (!in_array($subCategoryId, [25, 32])) {
@@ -53,20 +60,30 @@ class LoadCategoryWiseDetailFormService
 
                 } elseif (in_array($subCategoryId, [20, 27])) {
                     static::$htmlFormName = "frontEnd.post.form.vehicle.truck_form";
+
                 } elseif (in_array($subCategoryId, [21, 28])) {
                     static::$htmlFormName = "frontEnd.post.form.vehicle.motorcycle_form";
+
                 } elseif (in_array($subCategoryId, [22, 29])) {
                     static::$htmlFormName = "frontEnd.post.form.vehicle.bus_form";
+
                 } elseif (in_array($subCategoryId, [23, 30])) {
                     static::$htmlFormData['autoPartTypes'] = AutoPartType::where('is_active', true)->pluck('en_name', 'id');
                     static::$htmlFormName = "frontEnd.post.form.vehicle.part_form";
+
                 } elseif (in_array($subCategoryId, [24, 31])) {
                     static::$htmlFormData['heavyEquipmentTypes'] = HeavyEquipmentType::where('is_active', true)->pluck('en_name', 'id');
                     static::$htmlFormName = "frontEnd.post.form.vehicle.heavy_equipment_form";
+
                 } elseif (in_array($subCategoryId, [25, 32])) {
                     static::$htmlFormData['boatTypes'] = BoatType::where('is_active', true)->pluck('en_name', 'id');
                     static::$htmlFormName = "frontEnd.post.form.vehicle.boat_form";
+
                 }
+
+                //post detail data for the edit page
+                static::$htmlFormData['postDetail'] = ($postId) ? CategoryWisePostDetailDataService::getData(categoryId: $categoryId, postId: $postId) : "";
+
                 break;
             default:
                 break;

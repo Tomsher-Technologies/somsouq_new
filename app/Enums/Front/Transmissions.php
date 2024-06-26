@@ -6,7 +6,7 @@ class Transmissions
 {
     const MANUAL = 'manual';
     const AUTOMATIC = 'automatic';
-    const AUTO_MANUAL = 'auto_manual';
+    const AUTO_MANUAL = 'automanual';
     const AMT = 'amt';
     const CVT = 'cvt';
 

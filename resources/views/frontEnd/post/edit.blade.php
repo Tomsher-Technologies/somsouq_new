@@ -6,6 +6,30 @@
             display: none;
         }
 
+        .edit-image {
+            position: relative;
+            border-radius: 6px;
+        }
+
+        .edit-image::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 100%;
+            background: rgb(0, 0, 0);
+            background: linear-gradient(211deg, rgb(0, 0, 0) 0%, rgba(247, 154, 64, 0) 100%);
+            opacity: 0.5;
+            border-radius: 6px;
+        }
+        .edit-image .edit-overly {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 999;
+        }
+
     </style>
 @endsection
 @section('content')
@@ -13,19 +37,19 @@
         <div class="container">
             <div class="row">
 
-                <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data" id="postForm">
+                <form action="{{ route('post.update') }}" method="post" enctype="multipart/form-data" id="postForm">
                     @csrf
                     <div class="tab">
                         <div class="col-md-12 m-auto">
                             <div class="post-ad-types">
                                 <div class="row g-3">
-                                    <input type="hidden" name="category_id" id="final_category_id">
-                                    <input type="hidden" name="input_type" value="add">
+                                    <input type="hidden" name="category_id" id="final_category_id" value="{{$post->category_id}}">
+                                    <input type="hidden" name="previous_category_id" id="previous_category_id" value="{{$post->category_id}}">
+                                    <input type="hidden" name="post_id" id="final_category_id" value="{{$post->id}}">
+                                    <input type="hidden" name="input_type" value="edit">
                                     @foreach($categories as $category)
                                         <div class="col-6 col-md-2">
-                                            <div class="categories-box type_select" data-id="{{$category->id}}">
-                                                <input type="checkbox" class="checked-category" name="check_category_id" id="check_category_id">
-
+                                            <div class="type_select categories-box {{ ($category->id == $post->category_id) ? 'active' : '' }}" data-id="{{$category->id}}">
 
                                                 @if ($category->icon != null)
                                                     <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
@@ -72,10 +96,10 @@
                                 <h4>Where should we place your Ad?</h4>
                                 <div class="row g-3">
                                     <div class="col-md-12">
-                                        <select class="form-select" aria-label="Default select example" name="state_id" onChange="getCityByStateId(this.value, 'city_id', '{{ route('get-city-by-state-id') }}')">
+                                        <select class="form-select" id="state_id" aria-label="Default select example" name="state_id" onChange="getCityByStateId(this.value, 'city_id', '{{ route('get-city-by-state-id') }}', '{{ $post->city_id }}')">
                                             <option value="">Select State</option>
                                             @foreach($states as $key => $state)
-                                                <option value="{{ $key }}">{{ $state }}</option>
+                                                <option value="{{ $key }}" @selected($post->state_id == $key)>{{ $state }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -96,25 +120,39 @@
                         </div>
                     </div>
 
-                    <div class="tab">
+                    <div class="tab ad-edit-details">
                         <div class="col-md-8 m-auto">
                             <div class="post-ad-place">
                                 <h4>Add Details</h4>
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" id="formGroupExampleInput" name="title" placeholder="Ad Title">
+                                        <input type="text" class="form-control" id="formGroupExampleInput" name="title" placeholder="Ad Title" value="{{ $post->title ?? "" }}">
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Price" name="price">
+                                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Price" name="price" value="{{ $post->price ?? "" }}">
                                     </div>
                                     <div class="col-md-12">
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Descrption" name="description"></textarea>
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Description" name="description">{{ $post->description ?? "" }}</textarea>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="drag-and-drop">
-                                            <input type="file" name="file[]" class="uploadifyfile" accept=".xlsx,.xls,image/*,.doc,audio/*,.docx                            ,video/*,.ppt,.pptx,.txt,.pdf" multiple>
+                                            <input type="file" name="file[]" id="image_file" class="uploadifyfile" accept="image/*" multiple>
                                         </div>
                                     </div>
+
+                                    @forelse($images as $image)
+                                        <div class="col-md-3" id="image_div_{{$image->id}}">
+                                            <input type="hidden" name="upload_file_ids[]" value="{{ $image->id }}">
+                                            <div class="edit-image">
+                                                <img src="{{ CommonFunction::showPostImageByFileName($image->file_name) }}" class="img-fluid rounded-2" alt="{{ $image->file_original_name }}">
+                                                <div class="edit-overly">
+                                                    <button type="button" onclick="removeImage('{{ $image->id }}')" class="btn-close btn-close-white" aria-label="Close"></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @empty
+                                    @endforelse
+
                                     <div class="col-md-12">
                                         <div class="file-upload-info">
                                             <h5>Please read below, so your Ad gets approved :</h5>
@@ -164,20 +202,21 @@
             </div>
         </div>
     </section>
+
+
 @endsection
 
 @section('script')
     <script src="{{ asset('assets/frontEnd/js/imageuploadify.js') }}"></script>
     <script src="{{ asset('custom-js/getCityByStateId.js') }}"></script>
+    <script src="{{ asset('custom-js/getSubCategoryByCategory.js') }}"></script>
     <script>
         $('.type_select').click(function(){
-
             if(!$(this).hasClass('active')) {
                 $('#final_category_id').val(parseInt($(this).attr("data-id")));
                 getSubCategoryByCategory($(this).attr("data-id"), 'sub_category_id', '{{ route('get-subCategories-by-category') }}')
             }else {
                 $('#final_category_id').val("");
-                getSubCategoryByCategory($(this).attr("data-id"), 'sub_category_id', '{{ route('get-subCategories-by-category') }}')
             }
 
             let checkbox = $(this).find("input[type=checkbox]");
@@ -195,9 +234,18 @@
         });
 
         $(document).ready(function() {
-            $('input[type="file"]').imageuploadify()
-            //console.log($('input[type="file"]').imageuploadify());
-        })
+            $('input[type="file"]').imageuploadify();
+
+            $('.btn-default').trigger('change');
+
+            getSubCategoryByCategory('{{ $post->category_id }}', 'sub_category_id', '{{ route('get-subCategories-by-category') }}', '{{ $post->sub_category_id }}');
+
+            $('#state_id').trigger('change');
+
+            // $('.btn-close').on('click', function (e) {
+            //     $(e.target).parent().remove();
+            // });
+        });
     </script>
 
 
@@ -250,7 +298,7 @@
             x = document.getElementsByClassName("tab");
             y = x[currentTab].getElementsByTagName("input");
 
-           console.log(y.length)
+            console.log(y.length)
             // A loop that checks every input field in the current tab:
             for (i = 0; i < y.length; i++) {
                 // If a field is empty...
@@ -265,38 +313,6 @@
             return valid; // return the valid status
         }
 
-
-
-        function getSubCategoryByCategory(category_id, sub_category_id, url){
-            if(category_id != "" ){
-                $.ajax({
-                    url: url,
-                    type: 'get',
-                    data: {
-                        category_id:category_id
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        var option = '<option value="">-Select-</option>';
-
-                        if (response.status) {
-                            $.each(response.data, function (id, value) {
-                                option += '<option value="' + value.id + '">' + value.en_name + '</option>';
-                            });
-                        }
-
-                        $("#" + sub_category_id).html(option);
-
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(xhr, status, error)
-                    }
-                });
-            }
-        }
-
         function getCategoryDetailPage(subCategoryId) {
             let categoryId = $('#final_category_id').val();
             $('#loadCategoryDetailHtml').html("");
@@ -308,7 +324,7 @@
                     data: {
                         category_id:categoryId,
                         sub_category_id:subCategoryId,
-                        post_id:""
+                        post_id: '{{ $post->id }}'
                     },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -324,6 +340,12 @@
                 });
             }
             //console.log()
+        }
+
+
+        function removeImage(imageId)
+        {
+            $('#image_div_' + imageId).remove();
         }
 
 

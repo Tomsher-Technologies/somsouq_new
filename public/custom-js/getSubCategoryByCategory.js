@@ -1,34 +1,35 @@
-function getCityByStateId(state_id, city_id, url, old_data){
+function getSubCategoryByCategory(category_id, sub_category_id, url, old_data){
     if (typeof old_data === 'undefined') {
         old_data = 0;
     }
 
-    if(state_id != "" ){
+    if(category_id != "" ){
         $.ajax({
             url: url,
             type: 'get',
             data: {
-                state_id:state_id
+                category_id:category_id
             },
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
                 var option = '<option value="">-Select-</option>';
-
                 if (response.status) {
                     $.each(response.data, function (id, value) {
-                        if (id == old_data) {
-                            option += '<option value="' + id + '" selected>' + value + '</option>';
+                        if (value.id == old_data) {
+                            option += '<option value="' + value.id + '" selected>' + value.en_name + '</option>';
                         } else {
-                            option += '<option value="' + id + '">' + value + '</option>';
+                            option += '<option value="' + value.id + '">' + value.en_name + '</option>';
                         }
-
                     });
                 }
 
-                $("#" + city_id).html(option);
+                $("#" + sub_category_id).html(option);
 
+                if (old_data) {
+                    $("#" + sub_category_id).trigger('change');
+                }
             },
             error: function(xhr, status, error) {
                 console.log(xhr, status, error)
@@ -36,4 +37,3 @@ function getCityByStateId(state_id, city_id, url, old_data){
         });
     }
 }
-

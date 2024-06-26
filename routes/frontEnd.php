@@ -32,7 +32,12 @@ Route::middleware('user')->group(callback: function () {
 
     //user post
     Route::get('add-post', [PostController::class, 'create'])->name('post.create');
-    Route::post('store-post', [PostController::class, 'store'])->name('post.store');
+    Route::post('store-post', [PostController::class, 'AppStore'])->name('post.store');
+    Route::post('store-update', [PostController::class, 'AppStore'])->name('post.update');
+    Route::get('post-delete/{id}', [PostController::class, 'destroy'])->name('post.delete');
+    Route::get('post-edit/{id}', [PostController::class, 'edit'])->name('post.edit');
+    Route::get('post-view/{id}', [PostController::class, 'view'])->name('post.view');
+
     Route::get('load-category-detail-form', [PostController::class, 'loadCategoryDetailForm'])->name('load-category-detail-form');
 
     //get sub category by category id

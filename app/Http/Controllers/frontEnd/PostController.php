@@ -6,11 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\State;
+use App\Models\Upload;
+use App\Services\Front\CategoryWiseDetailViewService;
+use App\Services\Front\CategoryWisePostDetailDataService;
+use App\Services\Front\CategoryWisePostDetailDeleteService;
 use App\Services\Front\ImageUploadService;
 use App\Services\Front\LoadCategoryWiseDetailFormService;
-use App\Services\Front\PostCategoryWiseDetailService;
+use App\Services\Front\CategoryWisePostDetailStoreService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 final class PostController extends Controller
 {
@@ -26,12 +31,12 @@ final class PostController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function AppStore(Request $request)
     {
         try {
             DB::beginTransaction();
 
-            $post = new Post();
+            $post = Post::findOrNew($request->get('post_id') ?? "");
             $post->category_id = $request->get('category_id');
             $post->sub_category_id = $request->get('sub_category_id');
             $post->state_id = $request->get('state_id');
@@ -41,16 +46,30 @@ final class PostController extends Controller
             $post->description = $request->get('description');
             $post->save();
 
+            //Delete images which are previously added for the post
+            if ($request->get('input_type') == "edit" && $request->get('upload_file_ids')) {
+                ImageUploadService::deletePostImageForEdit(postId: $request->get('post_id'), uploadIds: $request->get('upload_file_ids'));
+            }
+
+            //upload file if file is exist
             if ($request->hasFile('file')) {
                 foreach ($request->file('file') as $key => $file) {
                     ImageUploadService::fileUpload(file: $request->file('file')[$key], postId: $post->id);
                 }
             }
 
-            //category wise details data store
-            PostCategoryWiseDetailService::storePostDetails(request: $request->all(), postId: $post->id);
+            //delete previous category wise post detail
+            if ($request->get('input_type') == "edit" && ($request->get('category_id') != $request->get('previous_category_id'))) {
+                CategoryWisePostDetailDeleteService::deletePostDetail(categoryId: $post->previous_category_id, postId: $request->get('post_id'));
+            }
 
-            $this->generateTrackingNumber(postId: $post->id, category_it: $request->get('category_id'));
+            //category wise details data store and update
+            CategoryWisePostDetailStoreService::storePostDetails(request: $request->all(), postId: $post->id);
+
+            //generate unique tracking number for the each post
+            if ($request->get('input_type') == "add") {
+                $this->generateTrackingNumber(postId: $post->id, category_it: $request->get('category_id'));
+            }
 
             DB::commit();
             return redirect()->back();
@@ -69,7 +88,7 @@ final class PostController extends Controller
     public function loadCategoryDetailForm(Request $request)
     {
         try {
-            $html = LoadCategoryWiseDetailFormService::getCategoryWiseHtml(categoryId: $request->input('category_id'), subCategoryId: $request->input('sub_category_id'));
+            $html = LoadCategoryWiseDetailFormService::getCategoryWiseHtml(categoryId: $request->input('category_id'), subCategoryId: $request->input('sub_category_id'), postId: $request->input('post_id'));
 
             if (in_array("", $html)) {
                 return response()->json([
@@ -91,6 +110,62 @@ final class PostController extends Controller
         }
     }
 
+    public function edit(int $postId)
+    {
+        try {
+            $data['categories'] = Category::where('parent_id', 0)->where('is_active', 1)->get(['id', 'en_name', 'icon']);
+            $data['states'] = State::where('status', 1)->pluck('name', 'id');
+            $data['post'] = Post::find($postId);
+            $data['postDetail'] = CategoryWisePostDetailDataService::getData(categoryId: $data['post']->category_id, postId: $postId);
+            $data['images'] = ImageUploadService::getPostImage(postId: $postId);
+
+
+            return view('frontEnd.post.edit', $data);
+        }catch (\Exception $exception){
+            dd($exception->getMessage());
+        }
+    }
+
+    public function view(int $postId)
+    {
+        try {
+            $data['post'] = Post::leftJoin('states', 'states.id', '=', 'posts.state_id')
+                ->leftJoin('cities', 'cities.id', '=', 'posts.city_id')
+                ->where('posts.id', $postId)
+                ->first([
+                    'posts.*',
+                    'states.name as state',
+                    'cities.name as city',
+                ]);
+
+            $data['postDetail'] = CategoryWisePostDetailDataService::getData(categoryId: $data['post']->category_id, postId: $postId);
+            $data['images'] = ImageUploadService::getPostImage(postId: $postId);
+            $getPostDetail = CategoryWiseDetailViewService::getView(categoryId: $data['post']->category_id, subCategoryId: $data['post']->sub_category_id,postId: $postId);
+            $data['postDetailHtml'] = view($getPostDetail['file_path'], $getPostDetail['data'])->render();
+
+            return view('frontEnd.post.view', $data);
+        }catch (\Exception $exception){
+            dd($exception->getMessage());
+        }
+    }
+
+    public function destroy(int $postId)
+    {
+        try {
+            $post = Post::find($postId);
+            if ($post) {
+                CategoryWisePostDetailDeleteService::deletePostDetail(categoryId: $post->category_id, postId: $postId);
+                ImageUploadService::deletePostImage(postId: $postId);
+                $post->delete();
+
+                return redirect()->back()->with('success', 'Post deleted successfully');
+            }
+            return redirect()->back()->with('error', 'Post not found');
+        }catch (\Exception $exception){
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
+    }
+
     protected function generateTrackingNumber(int $postId, int $category_it): string
     {
         $trackingPrefix = 'AD-' . date("dmY") . $category_it;
@@ -103,4 +178,6 @@ final class PostController extends Controller
                         )
                       where posts.id='$postId' and table2.id='$postId'");
     }
+
+
 }
