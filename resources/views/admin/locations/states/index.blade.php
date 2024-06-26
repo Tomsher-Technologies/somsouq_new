@@ -26,12 +26,13 @@
                                 <option value="2" @if ($status_state == '2') selected @endif>Inactive</option>
                             </select>
                         </div>
-                        
+
                         <div class="col-md-2">
                             <button class="btn btn-primary" type="submit">{{ translate('Filter') }}</button>
                         </div>
                     </div>
                 </form>
+
                 <div class="card-body">
                     <table class="table aiz-table mb-0">
                         <thead>
@@ -47,7 +48,7 @@
                                 <tr>
                                     <td>{{ ($key+1) + ($states->currentPage() - 1)*$states->perPage() }}</td>
                                     <td>{{ $state->name }}</td>
-                                    
+
                                     <td>
                                         <label class="aiz-switch aiz-switch-success mb-0">
                                             <input onchange="update_status(this)" value="{{ $state->id }}" type="checkbox" <?php if($state->status == 1) echo "checked";?> >
@@ -58,7 +59,7 @@
                                         <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{ route('states.edit', ['id'=>$state->id, 'lang'=>env('DEFAULT_LANGUAGE')]) }}" title="{{ translate('Edit') }}">
                                             <i class="las la-edit"></i>
                                         </a>
-                                       
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -81,6 +82,11 @@
     					<div class="form-group mb-3">
     						<label for="name">{{translate('Name')}}</label>
     						<input type="text" placeholder="{{translate('Name')}}" name="name" class="form-control" required>
+
+                            @if($errors->has('name'))
+                                <span class="text-danger">{{ $errors->first('name') }}</span>
+                            @endif
+
     					</div>
 
     					<div class="form-group mb-3 text-right">

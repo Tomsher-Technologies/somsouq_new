@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="col-md-2 text-center">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="{{ route('home') }}">
                     <img src="{{ asset('assets/frontEnd/images/logo.png') }}" class="rounded-3" alt="Logo">
                 </a>
             </div>
@@ -47,9 +47,26 @@
                         <div class="user-avatar">
                             <img src="{{ asset('assets/frontEnd/images/user.png') }}" alt="">
                         </div>
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login/Register</a>
+                        @guest
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login/Register</a>
+                        @endguest
+                        @auth
+                            <div class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ ucfirst(auth()->user()->name) }}
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ route('my-account.index') }}">My Account</a></li>
+                                    <li class="border-0"><a class="dropdown-item" href="{{ route('front.logout') }}">Logout</a></li>
+                                </ul>
+                            </div>
+                        @endauth
+
+
                     </div>
-                    <a href="post-ad-type.html" class="btn btn-primary">Post Free Ad</a>
+                    @auth
+                    <a href="{{ route('post.create') }}" class="btn btn-primary">Post Free Ad</a>
+                    @endauth
                 </div>
             </div>
         </div>

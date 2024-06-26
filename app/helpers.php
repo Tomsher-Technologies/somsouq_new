@@ -101,6 +101,15 @@ if (!function_exists('uploaded_asset')) {
     }
 }
 
+function uploaded_asset_profile($id)
+{
+    if ($id && ($asset = \App\Models\Upload::find($id)) != null) {
+        return $asset->external_link == null ? storage_asset($asset->file_name) : $asset->external_link;
+    }
+    return app('url')->asset('assets/frontEnd/images/user.png');
+}
+
+
 if (!function_exists('storage_asset')) {
     function storage_asset($path, $secure = null)
     {

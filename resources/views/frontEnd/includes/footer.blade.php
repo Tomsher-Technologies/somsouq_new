@@ -20,10 +20,12 @@
                     <img src="assets/images/logo.png" width="120" class="rounded-2" alt="">
                 </div>
 
+                @auth
                 <div class="col-md-10 text-md-end">
 
                     <a href="post-ad-type.html" class="btn btn-primary">Post Free Ad</a>
                 </div>
+                @endauth
             </div>
             <hr class="footer-hr">
             <div class="row">

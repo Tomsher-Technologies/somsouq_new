@@ -42,7 +42,7 @@ class AdminLoginController extends Controller
 
      /**
      * Show the login form.
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function showLoginForm()
@@ -56,10 +56,10 @@ class AdminLoginController extends Controller
 
     private function validator(Request $request)
     {
-       
+
         //validation rules.
         $rules = [
-            'email'    => 'required|email|exists:users|min:5|max:191',
+            'email'    => 'required|email|exists:users|min:6|max:191',
             'password' => 'required|string|min:4|max:255',
         ];
 
@@ -85,20 +85,20 @@ class AdminLoginController extends Controller
 
         if(Auth::attempt($request->only('email','password'),$request->filled('remember'))){
             //Authentication passed...
-           
+
             if(Auth::user()->user_type == "admin" || Auth::user()->user_type == "staff"){
                 return redirect()->route('admin.dashboard');
             }else{
                 auth()->guard()->logout();
-       
+
                 $request->session()->invalidate();
 
                 $request->session()->regenerateToken();
                 return back()->with('status', 'Permission Denied!');
             }
-            
+
         }
-        
+
         //Authentication failed...
         return $this->loginFailed();
     }
@@ -106,7 +106,7 @@ class AdminLoginController extends Controller
     public function logout(Request $request)
     {
         auth()->guard()->logout();
-       
+
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
