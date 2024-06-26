@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div class="col-md-2 text-center">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="{{ route('home') }}">
                     <img src="{{ asset('assets/frontEnd/images/logo.png') }}" class="rounded-3" alt="Logo">
                 </a>
             </div>
