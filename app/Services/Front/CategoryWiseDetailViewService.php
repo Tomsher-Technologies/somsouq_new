@@ -23,11 +23,11 @@ class CategoryWiseDetailViewService
     public static function getView(int $categoryId, int $subCategoryId, int $postId): array
     {
         switch ($categoryId) {
-            case Category::PROPERTY_FOR_RENT:
-            case Category::PROPERTY_FOR_SALE:
+            case CategoryNameService::PROPERTY_FOR_RENT:
+            case CategoryNameService::PROPERTY_FOR_SALE:
                 static::$htmlFormData['postDetail'] = PropertyDetail::where('post_id', $postId)->first();
 
-                if (in_array($subCategoryId, [Category::LAND_FOR_SALE, Category::LAND_FOR_RENT])) {
+                if (in_array($subCategoryId, [CategoryNameService::LAND_FOR_SALE, CategoryNameService::LAND_FOR_RENT])) {
                     static::$htmlFormName = "frontEnd.post.views.property_view_land";
                 } else {
                     static::$htmlFormName = "frontEnd.post.views.property_view";
@@ -35,8 +35,8 @@ class CategoryWiseDetailViewService
 
                 break;
 
-            case Category::VEHICLE_FOR_RENT:
-            case Category::VEHICLE_FOR_SALE:
+            case CategoryNameService::VEHICLE_FOR_RENT:
+            case CategoryNameService::VEHICLE_FOR_SALE:
 
             $query = VehicleDetail::query();
             $query->leftJoin('brands', 'brands.id', '=', 'vehicle_details.brand_id')
@@ -49,12 +49,15 @@ class CategoryWiseDetailViewService
                     static::$htmlFormName = "frontEnd.post.views.vehicle.car_view";
 
                 } elseif (in_array($subCategoryId, [20, 27])) {
+                    $query->select('vehicle_details.*', 'brands.en_name as brand_name', 'colors.en_name as color_name');
                     static::$htmlFormName = "frontEnd.post.views.vehicle.truck_view";
 
                 } elseif (in_array($subCategoryId, [21, 28])) {
+                    $query->select('vehicle_details.*', 'brands.en_name as brand_name', 'colors.en_name as color_name');
                     static::$htmlFormName = "frontEnd.post.views.vehicle.motorcycle_view";
 
                 } elseif (in_array($subCategoryId, [22, 29])) {
+                    $query->select('vehicle_details.*', 'brands.en_name as brand_name', 'colors.en_name as color_name');
                     static::$htmlFormName = "frontEnd.post.views.vehicle.bus_view";
 
                 } elseif (in_array($subCategoryId, [23, 30])) {

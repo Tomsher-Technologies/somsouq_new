@@ -13,6 +13,7 @@ use App\Services\Front\CategoryWisePostDetailDeleteService;
 use App\Services\Front\ImageUploadService;
 use App\Services\Front\LoadCategoryWiseDetailFormService;
 use App\Services\Front\CategoryWisePostDetailStoreService;
+use App\Services\Front\CategoryNameService as CATEGORY_NAME;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -33,9 +34,8 @@ final class PostController extends Controller
 
     public function AppStore(Request $request)
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
-
             $post = Post::findOrNew($request->get('post_id') ?? "");
             $post->category_id = $request->get('category_id');
             $post->sub_category_id = $request->get('sub_category_id');
@@ -59,21 +59,21 @@ final class PostController extends Controller
             }
 
             //delete previous category wise post detail
-            if ($request->get('input_type') == "edit" && ($request->get('category_id') != $request->get('previous_category_id'))) {
-                CategoryWisePostDetailDeleteService::deletePostDetail(categoryId: $post->previous_category_id, postId: $request->get('post_id'));
+            if ($request->get('input_type') == "edit" && ($this->getCategoryNameById($request->get('category_id')) != $this->getCategoryNameById($request->get('previous_category_id')))) {
+                CategoryWisePostDetailDeleteService::deletePostDetail(categoryId: $request->get('previous_category_id'), postId: $request->get('post_id'));
             }
 
             //category wise details data store and update
             CategoryWisePostDetailStoreService::storePostDetails(request: $request->all(), postId: $post->id);
 
-            //generate unique tracking number for the each post
+            //generate unique tracking number for each post
             if ($request->get('input_type') == "add") {
                 $this->generateTrackingNumber(postId: $post->id, category_it: $request->get('category_id'));
             }
 
+
             DB::commit();
             return redirect()->back();
-
         }catch (\Exception $exception){
             DB::rollBack();
             dd($exception->getMessage());
@@ -164,6 +164,24 @@ final class PostController extends Controller
         }catch (\Exception $exception){
             return redirect()->back()->with('error', $exception->getMessage());
         }
+    }
+
+    protected function getCategoryNameById(int $categoryId = null): string|null
+    {
+        $category_name = '';
+        switch ($categoryId) {
+            case CATEGORY_NAME::PROPERTY_FOR_RENT:
+            case CATEGORY_NAME::PROPERTY_FOR_SALE:
+            $category_name = "property";
+                break;
+            case CATEGORY_NAME::VEHICLE_FOR_RENT:
+            case CATEGORY_NAME::VEHICLE_FOR_SALE:
+            $category_name = "vehicle";
+                break;
+            default:
+                break;
+        }
+        return $category_name;
     }
 
     protected function generateTrackingNumber(int $postId, int $category_it): string

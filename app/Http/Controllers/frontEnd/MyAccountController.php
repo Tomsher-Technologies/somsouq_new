@@ -15,6 +15,7 @@ final class MyAccountController extends Controller
         $data['posts'] = Post::leftJoin('states', 'states.id', '=', 'posts.state_id')
             ->leftJoin('cities', 'cities.id', '=', 'posts.city_id')
             ->where('posts.created_by', Auth::id())->whereIn('posts.status', ['pending', 'approved'])
+            ->where('posts.tracking_number', '!=', null)
             ->orderBy('posts.id', 'desc')
             ->get([
                 'posts.id',
@@ -26,8 +27,6 @@ final class MyAccountController extends Controller
             ]);
 
         $data['total_pending'] = Post::where('created_by', Auth::id())->whereIn('status', ['pending'])->count();
-
-
 
         return view('frontEnd.account.index', $data);
     }

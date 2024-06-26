@@ -174,10 +174,9 @@
 
             if(!$(this).hasClass('active')) {
                 $('#final_category_id').val(parseInt($(this).attr("data-id")));
-                getSubCategoryByCategory($(this).attr("data-id"), 'sub_category_id', '{{ route('get-subCategories-by-category') }}')
+                getSubCategoryByCategory($(this).attr("data-id"), 'sub_category_id', '{{ route('get-subCategories-by-category') }}');
             }else {
                 $('#final_category_id').val("");
-                getSubCategoryByCategory($(this).attr("data-id"), 'sub_category_id', '{{ route('get-subCategories-by-category') }}')
             }
 
             let checkbox = $(this).find("input[type=checkbox]");

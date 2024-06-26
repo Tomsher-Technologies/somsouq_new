@@ -23,10 +23,10 @@ class LoadCategoryWiseDetailFormService
     public static function getCategoryWiseHtml(int $categoryId, int $subCategoryId, ? int $postId = null): array
     {
         switch ($categoryId) {
-            case Category::PROPERTY_FOR_RENT:
-            case Category::PROPERTY_FOR_SALE:
+            case CategoryNameService::PROPERTY_FOR_RENT:
+            case CategoryNameService::PROPERTY_FOR_SALE:
 
-                if (in_array($subCategoryId, [Category::LAND_FOR_SALE, Category::LAND_FOR_RENT])) {
+                if (in_array($subCategoryId, [CategoryNameService::LAND_FOR_SALE, CategoryNameService::LAND_FOR_RENT])) {
                     static::$htmlFormName = "frontEnd.post.form.property_form_land";
                 } else {
                     static::$htmlFormData['furniture_status'] = FurnitureStatus::getFurnitureStatus();
@@ -39,9 +39,9 @@ class LoadCategoryWiseDetailFormService
 
                 break;
 
-            case Category::VEHICLE_FOR_RENT:
-            case Category::VEHICLE_FOR_SALE:
-                static::$htmlFormData['brands'] = Brand::whereIn('category_id', [Category::VEHICLE_FOR_RENT, Category::VEHICLE_FOR_SALE])
+            case CategoryNameService::VEHICLE_FOR_RENT:
+            case CategoryNameService::VEHICLE_FOR_SALE:
+                static::$htmlFormData['brands'] = Brand::whereIn('category_id', [CategoryNameService::VEHICLE_FOR_RENT, CategoryNameService::VEHICLE_FOR_SALE])
                     ->where('is_active', true)->pluck('en_name', 'id');
                 static::$htmlFormData['model_years'] = range(date('Y'), 1950);
 

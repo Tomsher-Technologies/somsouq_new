@@ -10,8 +10,8 @@ class CategoryWisePostDetailStoreService
     public static function storePostDetails(array $request, int $postId): void
     {
         switch ($request['category_id']) {
-            case Category::PROPERTY_FOR_RENT:
-            case Category::PROPERTY_FOR_SALE:
+            case CategoryNameService::PROPERTY_FOR_RENT:
+            case CategoryNameService::PROPERTY_FOR_SALE:
                 $propertyDetails = PropertyDetail::findOrNew($request['post_detail_id'] ?? "");
                 $propertyDetails->post_id = $postId;
                 $propertyDetails->size = $request['size'] ?? null;
@@ -27,8 +27,8 @@ class CategoryWisePostDetailStoreService
                 $propertyDetails->save();
 
                 break;
-            case Category::VEHICLE_FOR_RENT:
-            case Category::VEHICLE_FOR_SALE:
+            case CategoryNameService::VEHICLE_FOR_RENT:
+            case CategoryNameService::VEHICLE_FOR_SALE:
                $vehicleDetails = VehicleDetail::findOrNew($request['post_detail_id'] ?? "");
                $vehicleDetails->post_id = $postId;
                $vehicleDetails->brand_id = $request['brand_id'] ?? null;
