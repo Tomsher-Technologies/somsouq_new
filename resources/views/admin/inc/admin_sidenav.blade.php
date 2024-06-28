@@ -2,7 +2,7 @@
     <div class="aiz-sidebar left c-scrollbar">
         <div class="aiz-side-nav-logo-wrap">
             <a href="{{ route('admin.dashboard') }}" class="d-block text-left">
-                <img class="mw-100" height="100" src="{{ asset('assets/img/logo.png') }}" 
+                <img class="mw-100" height="100" src="{{ asset('assets/img/logo.png') }}"
                         alt="{{ env('APP_NAME') }}">
             </a>
         </div>
@@ -15,7 +15,7 @@
             <ul class="aiz-side-nav-list" id="search-menu">
             </ul>
             <ul class="aiz-side-nav-list" id="main-menu" data-toggle="aiz-side-menu">
-            
+
                 <li class="aiz-side-nav-item">
                     <a href="{{ route('admin.dashboard') }}" class="aiz-side-nav-link">
                         <i class="las la-home aiz-side-nav-icon"></i>
@@ -31,10 +31,10 @@
                         </a>
                     </li>
                 @endcan
-                
-             
+
+
                 <!-- Sellers -->
-               
+
                     {{-- <li class="aiz-side-nav-item">
                         <a href="#" class="aiz-side-nav-link">
                             <i class="las la-user aiz-side-nav-icon"></i>
@@ -42,17 +42,17 @@
                             <span class="aiz-side-nav-arrow"></span>
                         </a>
                         <ul class="aiz-side-nav-list level-2">
-                            
+
                             <li class="aiz-side-nav-item">
                                 <a href="#" class="aiz-side-nav-link">
                                     <span class="aiz-side-nav-text">{{ translate('Payouts') }}</span>
                                 </a>
                             </li>
-                          
+
                         </ul>
                     </li> --}}
-                
-               
+
+
                 @can('uploads')
                     <li class="aiz-side-nav-item">
                         <a href="{{ route('uploaded-files.index') }}"
@@ -85,6 +85,28 @@
                     </li>
                 @endcan
 
+{{--                @can('ad_post')--}}
+{{--                    <li class="aiz-side-nav-item">--}}
+{{--                        <a href="#" class="aiz-side-nav-link">--}}
+{{--                            <i class="las la-shopping-cart aiz-side-nav-icon"></i>--}}
+{{--                            <span class="aiz-side-nav-text">{{ translate('Ad Post') }}</span>--}}
+{{--                            <span class="aiz-side-nav-arrow"></span>--}}
+{{--                        </a>--}}
+{{--                        <ul class="aiz-side-nav-list level-2">--}}
+{{--                            <li class="aiz-side-nav-item">--}}
+{{--                                <a href="{{ route('states.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['states.index', 'states.edit', 'states.update']) }}">--}}
+{{--                                    <span class="aiz-side-nav-text">Lists</span>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                            <li class="aiz-side-nav-item">--}}
+{{--                                <a href="{{ route('cities.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['cities.index', 'cities.edit', 'cities.update']) }}">--}}
+{{--                                    <span class="aiz-side-nav-text">{{ translate('Cities') }}</span>--}}
+{{--                                </a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                    </li>--}}
+{{--                @endcan--}}
+
                 @can('general_settings')
                     <li class="aiz-side-nav-item">
                         <a href="{{ route('general_setting.index') }}" class="aiz-side-nav-link">
@@ -111,7 +133,7 @@
                         </a>
                     </li>
                 @endcan
-             
+
             </ul><!-- .aiz-side-nav -->
         </div><!-- .aiz-side-nav-wrap -->
     </div><!-- .aiz-sidebar -->

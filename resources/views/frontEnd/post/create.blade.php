@@ -2,77 +2,90 @@
 
 @section('stylesheet')
     <style>
-        .tab {
-            display: none;
+        .checked-category {
+            opacity:0;
         }
-
     </style>
 @endsection
 @section('content')
     <section class="post-ad-section">
         <div class="container">
             <div class="row">
+                <div class="col-md-6 m-auto">
+                    <div class="progress px-1">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="step-container d-flex justify-content-between">
+                        <div class="step-circle" onclick="displayStep(1)">1</div>
+                        <div class="step-circle" onclick="displayStep(2)">2</div>
+                        <div class="step-circle" onclick="displayStep(3)">3</div>
+                        <div class="step-circle" onclick="displayStep(4)">4</div>
+                        <div class="step-circle" onclick="displayStep(5)">5</div>
+                    </div>
+                </div>
+                <div class="col-md-12">
 
-                <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data" id="postForm">
-                    @csrf
-                    <div class="tab">
-                        <div class="col-md-12 m-auto">
+                    <form action="{{ route('post.store') }}" method="post" enctype="multipart/form-data" id="multi-step-form">
+                        @csrf
+                        <input type="hidden" name="category_id" id="final_category_id">
+                        <input type="hidden" name="input_type" value="add">
+
+                        <div class="step step-1">
+                            <!-- Step 1 content here -->
                             <div class="post-ad-types">
                                 <div class="row g-3">
-                                    <input type="hidden" name="category_id" id="final_category_id">
-                                    <input type="hidden" name="input_type" value="add">
                                     @foreach($categories as $category)
-                                        <div class="col-6 col-md-2">
+                                        <div class="col-6 col-md-2" style="cursor: pointer">
                                             <div class="categories-box type_select" data-id="{{$category->id}}">
-                                                <input type="checkbox" class="checked-category" name="check_category_id" id="check_category_id">
-
-
+                                                <input type="checkbox" class="checked-category" name="check_category_id[]" id="check_category_id" required>
                                                 @if ($category->icon != null)
                                                     <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
                                                 @endif
-
                                                 <h4>{{ $category->en_name }}</h4>
                                             </div>
                                         </div>
                                     @endforeach
                                 </div>
-
-
-                                {{--                        <div class="text-end mt-3">--}}
-                                {{--                            <button type="button" class="btn btn-primary" id="nextBtn" onclick="nextPrev(1)">Next</button>--}}
-                                {{--                        </div>--}}
-
+                            </div>
+                            <div class="d-flex align-items-center justify-content-end g-2">
+                                <button type="button" class="btn btn-primary next-step pe-3">Next <i class="bi bi-chevron-right ms-2"></i></button>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="tab">
-                        <div class="col-md-8 m-auto">
-                            <div class="post-ad-place">
-                                <h4>Select one sub category</h4>
-                                <div class="row g-3">
-                                    <div class="col-md-12">
-                                        <select class="form-select" aria-label="Default select example" name="sub_category_id" id="sub_category_id" onchange="getCategoryDetailPage(this.value)">
-                                            <option value="">Select Sub Category</option>
-                                        </select>
+                        <div class="step step-2">
+                            <!-- Step 2 content here -->
+
+                            <div class="row ">
+                                <div class="col-md-12 ">
+                                    <div class="post-ad-place">
+                                        <h4>Select one sub category</h4>
+                                        <div class="row g-3">
+                                            <div class="col-md-12">
+                                                <select class="form-select" aria-label="Default select example" name="sub_category_id" id="sub_category_id" onchange="getCategoryDetailPage(this.value)" required>
+                                                    <option value="">Select Sub Category</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-
-                                {{--                            <div class="text-end mt-3 d-flex align-items-center justify-content-between">--}}
-                                {{--                                <a href="post-ad-type.html" class="btn btn-primary">Back</a>--}}
-                                {{--                                <a href="post-ad-details.html" class="btn btn-primary">Next</a>--}}
-                                {{--                            </div>--}}
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="tab">
-                        <div class="col-md-8 m-auto">
+                            <div class="d-flex align-items-center justify-content-end gap-3">
+                                <button type="button" class="btn btn-outline-step prev-step ps-3"><i class="bi bi-chevron-left me-2"></i> Previous</button>
+                                <button type="button" class="btn btn-primary next-step pe-3">Next <i class="bi bi-chevron-right ms-2"></i></button>
+                            </div>
+
+
+                        </div>
+
+                        <div class="step step-3">
+                            <!-- Step 3 d-flex align-items-center justify-content-end gap-2 here -->
+
                             <div class="post-ad-place">
                                 <h4>Where should we place your Ad?</h4>
                                 <div class="row g-3">
                                     <div class="col-md-12">
-                                        <select class="form-select" aria-label="Default select example" name="state_id" onChange="getCityByStateId(this.value, 'city_id', '{{ route('get-city-by-state-id') }}')">
+                                        <select class="form-select" aria-label="Default select example" name="state_id" onChange="getCityByStateId(this.value, 'city_id', '{{ route('get-city-by-state-id') }}')" required>
                                             <option value="">Select State</option>
                                             @foreach($states as $key => $state)
                                                 <option value="{{ $key }}">{{ $state }}</option>
@@ -81,31 +94,30 @@
                                     </div>
 
                                     <div class="col-md-12">
-                                        <select class="form-select" aria-label="Default select example" name="city_id" id="city_id">
+                                        <select class="form-select" aria-label="Default select example" name="city_id" id="city_id" required>
                                             <option value="">Select City</option>
                                         </select>
                                     </div>
-
                                 </div>
+                            </div>
 
-                                {{--                            <div class="text-end mt-3 d-flex align-items-center justify-content-between">--}}
-                                {{--                                <a href="post-ad-type.html" class="btn btn-primary">Back</a>--}}
-                                {{--                                <a href="post-ad-details.html" class="btn btn-primary">Next</a>--}}
-                                {{--                            </div>--}}
+                            <div class="d-flex align-items-center justify-content-end gap-3">
+                                <button type="button" class="btn btn-outline-step prev-step ps-3"><i class="bi bi-chevron-left me-2"></i> Previous</button>
+                                <button type="button" class="btn btn-primary next-step pe-3">Next <i class="bi bi-chevron-right ms-2"></i></button>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="tab">
-                        <div class="col-md-8 m-auto">
+                        <div class="step step-4">
+                            <!-- Step 4 d-flex align-items-center justify-content-end gap-2 here -->
+
                             <div class="post-ad-place">
                                 <h4>Add Details</h4>
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" id="formGroupExampleInput" name="title" placeholder="Ad Title">
+                                        <input type="text" class="form-control" id="formGroupExampleInput" name="title" placeholder="Ad Title" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Price" name="price">
+                                        <input type="number" class="form-control number" id="formGroupExampleInput" placeholder="Price" name="price" required>
                                     </div>
                                     <div class="col-md-12">
                                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Descrption" name="description"></textarea>
@@ -128,50 +140,116 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
-
-
-                                <hr class="my-4">
-
-                                {{--                            <div class="text-end mt-3 d-flex align-items-center justify-content-between">--}}
-                                {{--                                <a href="post-ad-place.html" class="btn btn-primary">Back</a>--}}
-                                {{--                                <a href="post-ad-about.html" class="btn btn-primary">Next</a>--}}
-                                {{--                            </div>--}}
+                            <div class="d-flex align-items-center justify-content-end gap-3">
+                                <button type="button" class="btn btn-outline-step prev-step ps-3"><i class="bi bi-chevron-left me-2"></i> Previous</button>
+                                <button type="button" class="btn btn-primary next-step pe-3">Next <i class="bi bi-chevron-right ms-2"></i></button>
                             </div>
                         </div>
-                    </div>
 
-                    <div id="loadCategoryDetailHtml">
+                        <div class="step step-5">
+                            <!-- Step 5 content here -->
+                            <div id="loadCategoryDetailHtml">
 
-                    </div>
-
-                    <div class="col-md-8 m-auto">
-                        <div class="post-ad-place">
-                            <div class="text-end mt-3 d-flex align-items-center justify-content-between">
-                                <button type="button" id="prevBtn" onclick="nextPrev(-1)">Back</button>
-                                <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
                             </div>
+
+                            <div class="d-flex align-content-center justify-content-end gap-3">
+                                <button type="button" class="btn btn-outline-step prev-step ps-3"><i class="bi bi-chevron-left me-2"></i> Previous</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+
                         </div>
-                    </div>
-
-                </form>
-
-
-                <div class="col-md-10 m-auto pt-5">
-                    <img src="assets/images/add-banner.png" class="img-fluid" alt="">
+                    </form>
                 </div>
-
             </div>
+            </form>
         </div>
     </section>
 @endsection
 
 @section('script')
     <script src="{{ asset('assets/frontEnd/js/imageuploadify.js') }}"></script>
-    <script src="{{ asset('custom-js/getCityByStateId.js') }}"></script>
-    <script>
-        $('.type_select').click(function(){
+    <script src="{{ asset('assets/frontEnd/js/jquery-validation/jquery.validate.js') }}"></script>
+    <script src="{{ asset('assets/custom-js/getSubCategoryByCategory.js') }}"></script>
+    <script src="{{ asset('assets/custom-js/getCityByStateId.js') }}"></script>
 
+    <script>
+        $(document).ready(function () {
+            var currentStep = 1;
+            var updateProgressBar;
+            var inputForm = $("#multi-step-form");
+
+            function displayStep(stepNumber) {
+                if (stepNumber >= 1 && stepNumber <= 5) {
+                    $(".step-" + currentStep).hide();
+                    $(".step-" + stepNumber).show();
+                    currentStep = stepNumber;
+                    updateProgressBar();
+                }
+            }
+
+            $(document).ready(function() {
+                $('#multi-step-form').find('.step').slice(1).hide();
+
+                $(".next-step").click(function() {
+                    inputForm.validate({
+                        rules: {
+                            price: {
+                                required: true,
+                                numberNoNegative: true
+                            }
+                        },
+                        onfocusout: false,
+                        highlight: function (element) {
+                            $(element).focus();
+                            $(element).css('border-color', 'red');
+                            $(element).next().css({'color': 'red', 'float' : 'left'});
+                            $(element).parent().css('border-color', 'red');
+                        },
+                        unhighlight: function(element) {
+                            $(element).css('border-color', '#dee2e6');
+                            $(element).parent().css('border-color', '#dee2e6');
+                        },
+                        errorPlacement: function(error, element) {
+
+                        },
+                    });
+
+                    if(!inputForm.valid()) {
+                        return false;
+                    }
+
+                    if (currentStep < 5) {
+                        $(".step-" + currentStep).addClass("");
+                        currentStep++;
+                        setTimeout(function() {
+                            $(".step").removeClass("").hide();
+                            $(".step-" + currentStep).show().addClass("");
+                            updateProgressBar();
+                        }, 500);
+                    }
+                });
+
+                $(".prev-step").click(function() {
+                    if (currentStep > 1) {
+                        $(".step-" + currentStep).addClass("");
+                        currentStep--;
+                        setTimeout(function() {
+                            $(".step").removeClass("").hide();
+                            $(".step-" + currentStep).show().addClass("");
+                            updateProgressBar();
+                        }, 500);
+                    }
+                });
+                updateProgressBar = function() {
+                    var progressPercentage = ((currentStep - 1) / 4) * 100;
+                    $(".progress-bar").css("width", progressPercentage + "%");
+                }
+            });
+        });
+
+        $('.type_select').click(function(){
             if(!$(this).hasClass('active')) {
                 $('#final_category_id').val(parseInt($(this).attr("data-id")));
                 getSubCategoryByCategory($(this).attr("data-id"), 'sub_category_id', '{{ route('get-subCategories-by-category') }}');
@@ -188,113 +266,13 @@
                 $(this).find("input[type=checkbox]").attr("checked", true)
             }
 
-
             $('.type_select').not(this).removeClass("active");
             $(this).toggleClass("active");
         });
 
         $(document).ready(function() {
             $('input[type="file"]').imageuploadify()
-            //console.log($('input[type="file"]').imageuploadify());
         })
-    </script>
-
-
-    <script>
-        var currentTab = 0; // Current tab is set to be the first tab (0)
-        showTab(currentTab); // Display the current tab
-
-        function showTab(n) {
-            // This function will display the specified tab of the form...
-            var x = document.getElementsByClassName("tab");
-            x[n].style.display = "block";
-            //... and fix the Previous/Next buttons:
-            if (n == 0) {
-                document.getElementById("prevBtn").style.display = "none";
-            } else {
-                document.getElementById("prevBtn").style.display = "inline";
-            }
-            if (n == (x.length - 1)) {
-                document.getElementById("nextBtn").innerHTML = "Post an Ad";
-            } else {
-                document.getElementById("nextBtn").innerHTML = "Next";
-            }
-        }
-
-        function nextPrev(n) {
-            // This function will figure out which tab to display
-            var x = document.getElementsByClassName("tab");
-            // Exit the function if any field in the current tab is invalid:
-            if (n == 1 && !validateForm()) return false;
-            // Hide the current tab:
-            x[currentTab].style.display = "none";
-            // Increase or decrease the current tab by 1:
-            currentTab = currentTab + n;
-            // if you have reached the end of the form...
-            if (currentTab >= x.length) {
-                // ... the form gets submitted:
-                // document.getElementById("postForm").submit()
-                document.getElementById("nextBtn").type = "submit";
-
-                return false;
-            }
-            // Otherwise, display the correct tab:
-            showTab(currentTab);
-        }
-
-        function validateForm() {
-            return true;
-            // This function deals with validation of the form fields
-            var x, y, i, valid = true;
-            x = document.getElementsByClassName("tab");
-            y = x[currentTab].getElementsByTagName("input");
-
-           console.log(y.length)
-            // A loop that checks every input field in the current tab:
-            for (i = 0; i < y.length; i++) {
-                // If a field is empty...
-                if (y[i].value == "") {
-                    // add an "invalid" class to the field:
-                    y[i].className += " invalid";
-                    // and set the current valid status to false
-                    valid = false;
-                }
-            }
-
-            return valid; // return the valid status
-        }
-
-
-
-        function getSubCategoryByCategory(category_id, sub_category_id, url){
-            if(category_id != "" ){
-                $.ajax({
-                    url: url,
-                    type: 'get',
-                    data: {
-                        category_id:category_id
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        var option = '<option value="">-Select-</option>';
-
-                        if (response.status) {
-                            $.each(response.data, function (id, value) {
-                                option += '<option value="' + value.id + '">' + value.en_name + '</option>';
-                            });
-                        }
-
-                        $("#" + sub_category_id).html(option);
-
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(xhr, status, error)
-                    }
-                });
-            }
-        }
 
         function getCategoryDetailPage(subCategoryId) {
             let categoryId = $('#final_category_id').val();
@@ -322,11 +300,10 @@
                     }
                 });
             }
-            //console.log()
         }
 
-
+        $(".btn-custom").on('click', function (e){
+            $(e.target).parent().remove();
+        });
     </script>
-
-
 @endsection

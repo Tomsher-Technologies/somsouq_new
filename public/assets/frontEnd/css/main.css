@@ -1,9 +1,13 @@
 @charset "UTF-8";
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
 .main-header {
-    padding: 20px 10px;
+    padding: 15px 10px;
     background-color: #fff;
     border-bottom: 1px solid #efebeb;
+}
+.main-header .navbar-brand img {
+    width: 100px;
+    margin: auto;
 }
 .main-header .header-start {
     display: flex;
@@ -469,6 +473,11 @@ section.product-detail-section .product-detail-title {
     align-items: center;
     margin-bottom: 30px;
 }
+@media (max-width: 767.98px) {
+    section.product-detail-section .product-detail-title {
+        flex-wrap: wrap;
+    }
+}
 section.product-detail-section .product-detail-title h3 {
     font-size: 35px;
     font-weight: 600;
@@ -492,7 +501,7 @@ section.product-detail-section ul li {
     font-weight: 300;
 }
 section.product-detail-section .price-seller-info {
-    background-color: #e9f1e7;
+    background-color: #ffffff;
     border-radius: 10px;
 }
 section.product-detail-section .price-seller-info .product-price-warpper {
@@ -550,12 +559,57 @@ section.post-ad-section {
     padding: 80px 0;
     background-color: #f4f5f4;
 }
+section.post-ad-section .step-container {
+    position: relative;
+    text-align: center;
+    transform: translateY(-43%);
+    margin-bottom: 20px;
+}
+section.post-ad-section .step-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid #405d3e;
+    line-height: 50px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+section.post-ad-section .step-circle.active {
+    background-color: #405d3e;
+    color: #fff;
+}
+section.post-ad-section .step-line {
+    position: absolute;
+    top: 16px;
+    left: 50px;
+    width: calc(100% - 100px);
+    height: 2px;
+    background-color: #405d3e;
+    z-index: -1;
+}
+section.post-ad-section #multi-step-form {
+    overflow-x: hidden;
+}
+section.post-ad-section .progress {
+    height: 2px !important;
+    background-color: #e4e4e4;
+    --bs-progress-bar-bg: #405d3e;
+}
+section.post-ad-section .post-ad-types {
+    margin-bottom: 30px;
+}
 section.post-ad-section .post-ad-types .type_select {
     border: 1px solid #ccc;
     padding: 20px;
     display: block;
     border-radius: 10px;
     background-color: #fff;
+    height: 100%;
 }
 section.post-ad-section .post-ad-types .type_select h4 {
     font-size: 18px;
@@ -565,7 +619,7 @@ section.post-ad-section .post-ad-types .type_select h4 {
     text-align: center;
 }
 section.post-ad-section .post-ad-types .type_select.active {
-    border: 2px solid #405d3e;
+    border: 1px solid #405d3e;
 }
 section.post-ad-section .post-ad-types ul {
     display: flex;
@@ -595,6 +649,7 @@ section.post-ad-section .post-ad-place {
     padding: 20px;
     border-radius: 10px;
     background-color: #fff;
+    margin-bottom: 30px;
 }
 section.post-ad-section .post-ad-place h4 {
     font-size: 24px;
@@ -909,11 +964,30 @@ ol.breadcrumb {
 }
 
 section.breadcrumb-section {
-    border-bottom: 1px solid #e5e4e4;
+    background-color: rgba(62, 91, 60, 0.1098039216);
 }
 
 li.breadcrumb-item {
     font-weight: 300;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 400;
+    color: #405d3e;
+}
+li.breadcrumb-item.active {
+    color: #405d3e;
+    font-weight: 500;
+}
+li.breadcrumb-item a {
+    color: #405d3e;
+}
+li.breadcrumb-item + .breadcrumb-item::before {
+    float: left;
+    padding-right: var(--bs-breadcrumb-item-padding-x);
+    color: var(--bs-breadcrumb-divider-color);
+    content: var(--bs-breadcrumb-divider, ">");
+    content: "\f285";
+    font-family: "bootstrap-icons";
 }
 
 section.categories_page {
@@ -927,9 +1001,6 @@ section.categories_page .category_slider .owl-nav {
     position: absolute;
     top: 40%;
     transform: translate(0%, -40%);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     width: 100%;
 }
 section.categories_page .category_slider .owl-nav button {
@@ -951,7 +1022,7 @@ section.categories_page .category_slider .owl-nav button.owl-prev span {
 }
 section.categories_page .category_slider .owl-nav button.owl-next {
     right: -25px;
-    position: relative;
+    position: absolute;
 }
 section.categories_page .category_slider .owl-nav button.owl-next span {
     font-size: 25px;
@@ -963,6 +1034,12 @@ section.categories_page .category_slider .item .categories-box {
     border-radius: 10px;
     display: block;
     height: 100%;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    min-height: 240px;
+}
+section.categories_page .category_slider .item .categories-box.active {
+    border: 1px solid #405d3e;
 }
 @media (max-width: 767.98px) {
     section.categories_page .category_slider .item .categories-box h4 {
@@ -13543,6 +13620,25 @@ a:hover {
 .card.ad-card {
     border: 0;
 }
+.card.ad-card .btn.btn-wishlist {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #fff;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    color: #000;
+    line-height: 36px;
+    text-align: center;
+    z-index: 999;
+    padding: 0;
+    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+.card.ad-card .btn.btn-wishlist:hover {
+    background-color: #405d3e;
+    color: #ffffff;
+}
 .card.ad-card .card-img-warpper {
     position: relative;
 }
@@ -13567,7 +13663,7 @@ a:hover {
     z-index: 999;
     color: #fff;
 }
-.card.ad-card .card-img-warpper a.wishlist-icon {
+.card.ad-card .card-img-warpper button.wishlist {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -13608,6 +13704,15 @@ a:hover {
 .btn.btn-primary:hover {
     background-color: #506f4e;
 }
+.btn.btn-outline-step {
+    background-color: transparent;
+    border: 1px solid #405d3e;
+    color: #405d3e;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 50px;
+    padding: 12px 30px;
+}
 .btn.btn-search {
     background-color: #405d3e;
     border: 0;
@@ -13633,6 +13738,16 @@ a:hover {
     background-color: transparent;
     border: 1px solid #3e5b3c;
     color: #3e5b3c;
+    font-size: 16px;
+    font-weight: 400;
+    border-radius: 50px;
+    padding: 12px 30px;
+    width: 100%;
+}
+.btn.btn-whatsapp {
+    background-color: #25D366;
+    border: 1px solid #25D366;
+    color: #ffffff;
     font-size: 16px;
     font-weight: 400;
     border-radius: 50px;

@@ -8,8 +8,9 @@
                             <div class="search-box">
                                 <h3 class="mb-3">What are you looking for?</h3>
                                 <div class="form-inputs">
-                                    <form action="#">
-                                        <input type="search" class="form-control" placeholder="Search for items">
+                                    <form action="{{ route('post.search') }}" method="post" id="searchFormId">
+                                        @csrf
+                                        <input type="search" class="form-control" placeholder="Search for items" name="search">
                                         <svg class="search_icon" width="25px" height="25px" viewBox="0 0 32 32"
                                              version="1.1" xmlns="http://www.w3.org/2000/svg"
                                              xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -27,24 +28,15 @@
                                                 </g>
                                             </g>
                                         </svg>
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected="">- Select Categories -</option>
-                                            <option>All Categories</option>
-                                            <option value="properties for rent">Properties for Rent</option>
-                                            <option value="properties for sale">Properties for Sale</option>
-                                            <option value="vehicles rent">Vehicles Rent</option>
-                                            <option value="vehicles sale">Vehicles Sale</option>
-                                            <option value="fashion">Fashion</option>
-                                            <option value="electronics">Electronics</option>
-                                            <option value="health and beauty">Health & Beauty</option>
-                                            <option value="furniture and home">Furniture & Home</option>
-                                            <option value="mobile and tablet">Mobile & Tablet</option>
-                                            <option value="jobs">Jobs</option>
-                                            <option value="sports and school product">Sports & School Product</option>
-                                            <option value="Services">Services</option>
+
+                                        <select class="form-select" aria-label="Default select example" name="category_id" required>
+                                            <option value="">- Select Categories -</option>
+                                            @foreach($categories as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
                                         </select>
 
-                                        <a href="#" class="btn btn-search">Search</a>
+                                        <button type="submit" class="btn btn-search">Search</button>
                                     </form>
                                 </div>
                             </div>

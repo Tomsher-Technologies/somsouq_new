@@ -1149,7 +1149,8 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('custom-js/getCityByStateId.js') }}"></script>
+    <script src="{{ asset('assets/custom-js/getCityByStateId.js') }}"></script>
+    <script src="{{ asset('assets/frontEnd/js/jquery-validation/jquery.validate.js') }}"></script>
     <script>
         $(function() {
             /**
@@ -1275,7 +1276,25 @@
                     }
                 });
             });
+
+
+            /**
+             * Global search form validation here
+             */
+
+            $('#searchFormId').validate({
+                onfocusout: false,
+                highlight: function (element) {
+                    $(element).focus();
+                    $(element).css('border-color', 'red');
+                },
+                unhighlight: function(element) {
+                    $(element).css('border-color', '#dee2e6');
+                },
+                errorPlacement: function(error, element) {},
+            });
         });
 
     </script>
 @endsection
+

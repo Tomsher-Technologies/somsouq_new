@@ -1,5 +1,11 @@
 @extends('frontEnd.layouts.layout')
 
+@section('stylesheet')
+    <style>
+        .owl-item {height: 0;}
+        .owl-item.active {height: auto;}
+    </style>
+@endsection
 @section('content')
     <section class="breadcrumb-section">
         <div class="container">

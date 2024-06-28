@@ -65,7 +65,7 @@
                                     <div class="ad-filter-warpper">
                                         @forelse($posts as $post)
                                             <div class="ad-list-item {{ $post->status }}">
-                                                <img src="{{ CommonFunction::showPostImage($post->id) }}" class="img-fluid" alt="" height="144" width="144">
+                                                <img src="{{ CommonFunction::showPostImage($post->id) }}" class="img-fluid" alt="" height="144" width="144" style="object-fit: cover">
                                                 <div class="ad-list-info">
                                                     <h5>{{ $post->title ?? "" }}</h5>
                                                     <p>{{ $post->description ? substr($post->description, 0, 185) : "" }}</p>
