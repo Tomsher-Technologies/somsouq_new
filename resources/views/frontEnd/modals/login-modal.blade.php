@@ -60,7 +60,7 @@
                                 <label class="form-label">State</label>
                                 <select class="form-control" name="state_id" onChange="getCityByStateId(this.value, 'city_id', '{{ route('get-city-by-state-id') }}')">
                                     <option value="">-Select-</option>
-                                    @foreach($states as $key => $state)
+                                    @foreach(CommonFunction::getState() as $key => $state)
                                         <option value="{{ $key }}">{{ $state }}</option>
                                     @endforeach
                                 </select>

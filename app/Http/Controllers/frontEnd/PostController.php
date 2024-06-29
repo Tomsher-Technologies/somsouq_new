@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\State;
-use App\Models\Upload;
 use App\Services\Front\CategoryWiseDetailViewService;
 use App\Services\Front\CategoryWisePostDetailDataService;
 use App\Services\Front\CategoryWisePostDetailDeleteService;
@@ -16,7 +15,6 @@ use App\Services\Front\CategoryWisePostDetailStoreService;
 use App\Services\Front\CategoryNameService as CATEGORY_NAME;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 final class PostController extends Controller
 {
@@ -28,7 +26,7 @@ final class PostController extends Controller
 
             return view('frontEnd.post.create', $data);
         }catch (\Exception $exception){
-            dd($exception->getMessage());
+            abort('404', $exception->getMessage());
         }
     }
 
@@ -71,12 +69,13 @@ final class PostController extends Controller
                 $this->generateTrackingNumber(postId: $post->id, category_it: $request->get('category_id'));
             }
 
-
             DB::commit();
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Post created successfully');
         }catch (\Exception $exception){
             DB::rollBack();
-            dd($exception->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong at line number'. $exception->getLine());
+        }catch (\Illuminate\Database\QueryException $e){
+            return redirect()->back()->with('error', 'Something went wrong at line number'. $e->getLine());
         }
     }
 
@@ -122,7 +121,7 @@ final class PostController extends Controller
 
             return view('frontEnd.post.edit', $data);
         }catch (\Exception $exception){
-            dd($exception->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong at line number'. $exception->getLine());
         }
     }
 
@@ -140,12 +139,13 @@ final class PostController extends Controller
 
             $data['postDetail'] = CategoryWisePostDetailDataService::getData(categoryId: $data['post']->category_id, postId: $postId);
             $data['images'] = ImageUploadService::getPostImage(postId: $postId);
+
             $getPostDetail = CategoryWiseDetailViewService::getView(categoryId: $data['post']->category_id, subCategoryId: $data['post']->sub_category_id,postId: $postId);
             $data['postDetailHtml'] = view($getPostDetail['file_path'], $getPostDetail['data'])->render();
 
             return view('frontEnd.post.view', $data);
         }catch (\Exception $exception){
-            dd($exception->getMessage());
+            return redirect()->back()->with('error', 'Something went wrong at line number'. $exception->getLine());
         }
     }
 

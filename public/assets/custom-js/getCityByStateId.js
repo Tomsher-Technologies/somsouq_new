@@ -29,6 +29,9 @@ function getCityByStateId(state_id, city_id, url, old_data){
 
                 $("#" + city_id).html(option);
 
+
+
+
             },
             error: function(xhr, status, error) {
                 console.log(xhr, status, error)

@@ -6,6 +6,7 @@ use App\Http\Controllers\frontEnd\CategoryController;
 use App\Http\Controllers\frontEnd\HomeController;
 use App\Http\Controllers\frontEnd\MyAccountController;
 use App\Http\Controllers\frontEnd\PostController;
+use App\Http\Controllers\frontEnd\SearchController;
 use App\Http\Controllers\frontEnd\StateCityController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,14 @@ Route::controller(AuthController::class)->group(function (){
 
 Route::get('get-city-by-state-id', [StateCityController::class, 'getCityByStateId'])->name('get-city-by-state-id');
 
+//category wise search
+Route::post('search', [SearchController::class, 'index'])->name('post.search');
+Route::get('get-category-wise-search-bar', [SearchController::class, 'getCategoryWiseSearchBar'])->name('get-category-wise-search-bar');
+Route::get('detail-category/{cat_id}', [SearchController::class, 'index'])->name('post.detail-category');
+
+//view post
+Route::get('post-view/{id}', [PostController::class, 'view'])->name('post.view');
+
 Route::middleware('user')->group(callback: function () {
     Route::get('logout', [SocialiteAuthController::class, 'logout'])->name('front.logout');
     Route::get('my-account', [MyAccountController::class, 'index'])->name('my-account.index');
@@ -36,12 +45,17 @@ Route::middleware('user')->group(callback: function () {
     Route::post('store-update', [PostController::class, 'AppStore'])->name('post.update');
     Route::get('post-delete/{id}', [PostController::class, 'destroy'])->name('post.delete');
     Route::get('post-edit/{id}', [PostController::class, 'edit'])->name('post.edit');
-    Route::get('post-view/{id}', [PostController::class, 'view'])->name('post.view');
 
     Route::get('load-category-detail-form', [PostController::class, 'loadCategoryDetailForm'])->name('load-category-detail-form');
 
     //get sub category by category id
     Route::get('get-subCategories-by-category', [CategoryController::class, 'getSubCategoriesByCategory'])->name('get-subCategories-by-category');
+});
+
+
+Route::get('cache-clear', function (){
+    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+    return 'cleared';
 });
 
 

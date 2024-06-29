@@ -1,5 +1,11 @@
 @extends('frontEnd.layouts.layout')
 
+@section('stylesheet')
+    <style>
+        .owl-item {height: 0;}
+        .owl-item.active {height: auto;}
+    </style>
+@endsection
 @section('content')
     <section class="breadcrumb-section">
         <div class="container">
@@ -97,4 +103,12 @@
 
         </div>
     </section>
+
+    @include('frontEnd.modals.login-modal')
 @endsection
+
+@section('script')
+    <script src="{{ asset('assets/custom-js/getCityByStateId.js') }}"></script>
+    <script src="{{ asset('assets/custom-js/login.js') }}"></script>
+@endsection
+

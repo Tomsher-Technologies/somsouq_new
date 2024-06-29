@@ -23,7 +23,7 @@
                 @auth
                 <div class="col-md-10 text-md-end">
 
-                    <a href="post-ad-type.html" class="btn btn-primary">Post Free Ad</a>
+                    <a href="{{ route('post.create') }}" class="btn btn-primary">Post Free Ad</a>
                 </div>
                 @endauth
             </div>

@@ -43,7 +43,7 @@ class ImageUploadService
 
     public static function getPostImage(int $postId): object
     {
-        return Upload::where('post_id', $postId)->where('user_id', Auth::id())->get([
+        return Upload::where('post_id', $postId)->get([
             'id',
             'file_original_name',
             'file_name',
