@@ -85,27 +85,22 @@
                     </li>
                 @endcan
 
-{{--                @can('ad_post')--}}
-{{--                    <li class="aiz-side-nav-item">--}}
-{{--                        <a href="#" class="aiz-side-nav-link">--}}
-{{--                            <i class="las la-shopping-cart aiz-side-nav-icon"></i>--}}
-{{--                            <span class="aiz-side-nav-text">{{ translate('Ad Post') }}</span>--}}
-{{--                            <span class="aiz-side-nav-arrow"></span>--}}
-{{--                        </a>--}}
-{{--                        <ul class="aiz-side-nav-list level-2">--}}
-{{--                            <li class="aiz-side-nav-item">--}}
-{{--                                <a href="{{ route('states.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['states.index', 'states.edit', 'states.update']) }}">--}}
-{{--                                    <span class="aiz-side-nav-text">Lists</span>--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
-{{--                            <li class="aiz-side-nav-item">--}}
-{{--                                <a href="{{ route('cities.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['cities.index', 'cities.edit', 'cities.update']) }}">--}}
-{{--                                    <span class="aiz-side-nav-text">{{ translate('Cities') }}</span>--}}
-{{--                                </a>--}}
-{{--                            </li>--}}
-{{--                        </ul>--}}
-{{--                    </li>--}}
-{{--                @endcan--}}
+                @can('ad_post')
+                    <li class="aiz-side-nav-item">
+                        <a href="#" class="aiz-side-nav-link">
+                            <i class="las la-shopping-cart aiz-side-nav-icon"></i>
+                            <span class="aiz-side-nav-text">{{ translate('Ad Post') }}</span>
+                            <span class="aiz-side-nav-arrow"></span>
+                        </a>
+                        <ul class="aiz-side-nav-list level-2">
+                            <li class="aiz-side-nav-item">
+                                <a href="{{ route('post.list') }}" class="aiz-side-nav-link {{ areActiveRoutes(['post.list']) }}">
+                                    <span class="aiz-side-nav-text">Lists</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
 
                 @can('general_settings')
                     <li class="aiz-side-nav-item">

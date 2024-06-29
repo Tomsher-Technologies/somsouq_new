@@ -3,6 +3,7 @@
 namespace App\Libraries;
 
 use App\Models\Category;
+use App\Models\State;
 use App\Models\Upload;
 
 class CommonFunction
@@ -41,5 +42,10 @@ class CommonFunction
                 'parent_id',
                 'icon'
             ]);
+    }
+
+    public static function getState()
+    {
+        return State::where('status', 1)->pluck('name', 'id');
     }
 }

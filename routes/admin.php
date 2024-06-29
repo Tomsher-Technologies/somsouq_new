@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PostController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Auth\AdminLoginController;
@@ -69,4 +70,10 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/categories/edit/{id}', [CategoryController::class, 'edit'])->name('categories.edit');
     Route::get('/categories/destroy/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     Route::post('/categories/status', [CategoryController::class, 'updateStatus'])->name('categories.status');
+
+    //Ad post
+    Route::get('/post/list', [PostController::class, 'index'])->name('post.list');
+    Route::get('/post/is-popular', [PostController::class, 'updateIsPopular'])->name('post.is-popular');
+    Route::get('/post/update-status', [PostController::class, 'updateUpdateStatus'])->name('post.update-status');
+
 });

@@ -139,6 +139,7 @@ final class PostController extends Controller
 
             $data['postDetail'] = CategoryWisePostDetailDataService::getData(categoryId: $data['post']->category_id, postId: $postId);
             $data['images'] = ImageUploadService::getPostImage(postId: $postId);
+
             $getPostDetail = CategoryWiseDetailViewService::getView(categoryId: $data['post']->category_id, subCategoryId: $data['post']->sub_category_id,postId: $postId);
             $data['postDetailHtml'] = view($getPostDetail['file_path'], $getPostDetail['data'])->render();
 

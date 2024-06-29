@@ -8,15 +8,16 @@ use App\Services\Front\CategoryWiseSearchBar;
 use Illuminate\Http\Request;
 final class SearchController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, $cat_id = null)
     {
         try {
-            $data = [];
+            $data['category_id'] = ($request->get('category_id')) ? $request->get('category_id') : $cat_id;
+
             $query = Post::query()
                 ->leftJoin('states', 'states.id', '=', 'posts.state_id')
                 ->leftJoin('cities', 'cities.id', '=', 'posts.city_id')
-                ->whereIn('posts.status', ['pending', 'approved'])
-                ->where('category_id', $request->get('category_id'));
+                ->whereIn('posts.status', ['approved'])
+                ->where('category_id', $data['category_id']);
 
             if ($request->get('search')) {
                 $query->where('title', 'like', '%' . $request->get('search') . '%');
@@ -28,13 +29,11 @@ final class SearchController extends Controller
                 'cities.name as city',
             ]);
 
-            $getBarHtml = CategoryWiseSearchBar::getSearchBar(categoryId: $request->get('category_id'));
+            $getBarHtml = CategoryWiseSearchBar::getSearchBar(categoryId: $data['category_id']);
 
             if (!in_array("", $getBarHtml)) {
                 $data['searchBarHtml'] = view($getBarHtml['file_path'], $getBarHtml['data'])->render();
             }
-
-            $data['category_id'] = $request->get('category_id');
 
             return view('frontEnd.search.search', $data);
         }catch (\Exception $e){
@@ -44,6 +43,7 @@ final class SearchController extends Controller
 
     public function getCategoryWiseSearchBar(Request $request)
     {
+
         try {
             $getBarHtml = CategoryWiseSearchBar::getSearchBar(categoryId: $request->get('category_id'));
             if (in_array("", $getBarHtml)) {
