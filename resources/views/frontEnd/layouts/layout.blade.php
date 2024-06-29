@@ -27,6 +27,9 @@
 <script src="{{ asset('assets/frontEnd/js/owl.carousel.js') }}"></script>
 
 <script src="{{ asset('assets/frontEnd/js/custom.js') }}"></script>
+<script>
+    let BASE_URL = "{{ route('home') }}";
+</script>
 
 @yield('script')
 <!-- <script type="text/javascript">
@@ -38,5 +41,7 @@
     }, delayMs);
 });
 </script> -->
+
+
 </body>
 </html>
