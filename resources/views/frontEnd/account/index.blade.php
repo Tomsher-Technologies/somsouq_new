@@ -49,9 +49,6 @@
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="my-ads-tab" data-bs-toggle="tab" data-bs-target="#my-ads-tab-pane" type="button" role="tab" aria-controls="my-ads-tab-pane" aria-selected="true">My Ads</button>
                             </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="my-ratings-tab" data-bs-toggle="tab" data-bs-target="#my-ratings-tab-pane" type="button" role="tab" aria-controls="my-ratings-tab-pane" aria-selected="false">My Ratings</button>
-                            </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="my-ads-tab-pane" role="tabpanel" aria-labelledby="my-ads-tab" tabindex="0">
@@ -75,7 +72,7 @@
                                                 <div class="d-flex justify-content-end gap-3 ms-auto">
                                                     <a href="{{ route('post.view', ['id' => $post->id]) }}" class="btn btn-outline ms-auto bg_primary border-0 text-white"><i class="bi bi-eye"></i>View</a>
                                                     <a href="{{ route('post.edit', ['id' => $post->id]) }}" class="btn btn-outline ms-auto"><i class="bi bi-pencil-fill"></i>Edit</a>
-                                                    <a href="{{ route('post.delete', ['id' => $post->id]) }}" class="btn btn-outline ms-auto bg-danger text-white border-0"><i class="bi bi-trash3"></i>Delete</a>
+                                                    <a href="{{ route('post.delete', ['id' => $post->id]) }}" class="btn btn-outline ms-auto bg-danger text-white border-0"><i class="bi bi-trash3"></i>Withdraw</a>
                                                 </div>
 
                                             </div>
@@ -84,116 +81,6 @@
                                     </div>
                                 </div>
 
-                            </div>
-                            <div class="tab-pane fade" id="my-ratings-tab-pane" role="tabpanel" aria-labelledby="my-ratings-tab" tabindex="0">
-
-                                <nav class="ad-filter filters-button-group mb-3">
-                                    <button class="btn btn-filter is-checked" data-filter="*">All</button>
-                                    <button class="btn btn-filter" data-filter="latest">Latest</button>
-                                    <button class="btn btn-filter" data-filter="buyer">Buyer</button>
-                                    <button class="btn btn-filter" data-filter="seller">Seller</button>
-                                </nav>
-
-                                <div class="rating-warpper">
-                                    <div class="rating-list ad-list-item latest">
-                                        <div class="rating-user-profile">
-                                            <img src="assets/images/user.png" class="img-fluid" alt="">
-                                            <div class="rating-user">
-                                                <h4>Name</h4>
-                                                <span>Buyer</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="rating-sec pb-2">
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <span>3 Days ago</span>
-                                        </div>
-                                        <p>I recently purchased an item from this seller and I couldn't be happier with the entire transaction. From start to finish, the experience was seamless. Communication was prompt and clear, addressing all my inquiries efficiently. The item arrived quickly and was exactly as described, if not better! The seller took great care in packaging the item, ensuring it arrived in pristine condition. I highly recommend this seller to anyone looking for a reliable and trustworthy source. I'll definitely be a returning customer in the future!</p>
-
-                                        <div class="btn_group mt-3">
-                                            <a href="#" class="btn btn-callnow mb-2 w-auto"><i class="bi bi-hand-thumbs-up"></i> Call Now</a>
-                                            <a href="#" class="btn btn-callnow mb-2 w-auto"><i class="bi bi-reply"></i> Call Now</a>
-                                        </div>
-                                    </div>
-                                    <div class="rating-list ad-list-item buyer">
-                                        <div class="rating-user-profile">
-                                            <img src="assets/images/user.png" class="img-fluid" alt="">
-                                            <div class="rating-user">
-                                                <h4>Name</h4>
-                                                <span>Buyer</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="rating-sec pb-2">
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <span>3 Days ago</span>
-                                        </div>
-                                        <p>I recently purchased an item from this seller and I couldn't be happier with the entire transaction. From start to finish, the experience was seamless. Communication was prompt and clear, addressing all my inquiries efficiently. The item arrived quickly and was exactly as described, if not better! The seller took great care in packaging the item, ensuring it arrived in pristine condition. I highly recommend this seller to anyone looking for a reliable and trustworthy source. I'll definitely be a returning customer in the future!</p>
-
-                                        <div class="btn_group mt-3">
-                                            <a href="#" class="btn btn-callnow mb-2 w-auto"><i class="bi bi-hand-thumbs-up"></i> Call Now</a>
-                                            <a href="#" class="btn btn-callnow mb-2 w-auto"><i class="bi bi-reply"></i> Call Now</a>
-                                        </div>
-                                    </div>
-
-                                    <div class="rating-list ad-list-item seller">
-                                        <div class="rating-user-profile">
-                                            <img src="assets/images/user.png" class="img-fluid" alt="">
-                                            <div class="rating-user">
-                                                <h4>Name</h4>
-                                                <span>Buyer</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="rating-sec pb-2">
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <span>3 Days ago</span>
-                                        </div>
-                                        <p>I recently purchased an item from this seller and I couldn't be happier with the entire transaction. From start to finish, the experience was seamless. Communication was prompt and clear, addressing all my inquiries efficiently. The item arrived quickly and was exactly as described, if not better! The seller took great care in packaging the item, ensuring it arrived in pristine condition. I highly recommend this seller to anyone looking for a reliable and trustworthy source. I'll definitely be a returning customer in the future!</p>
-
-                                        <div class="btn_group mt-3">
-                                            <a href="#" class="btn btn-callnow mb-2 w-auto"><i class="bi bi-hand-thumbs-up"></i> Call Now</a>
-                                            <a href="#" class="btn btn-callnow mb-2 w-auto"><i class="bi bi-reply"></i> Call Now</a>
-                                        </div>
-                                    </div>
-
-                                    <div class="rating-list ad-list-item latest">
-                                        <div class="rating-user-profile">
-                                            <img src="assets/images/user.png" class="img-fluid" alt="">
-                                            <div class="rating-user">
-                                                <h4>Name</h4>
-                                                <span>Buyer</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="rating-sec pb-2">
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <i class="bi bi-star-fill"></i>
-                                            <span>3 Days ago</span>
-                                        </div>
-                                        <p>I recently purchased an item from this seller and I couldn't be happier with the entire transaction. From start to finish, the experience was seamless. Communication was prompt and clear, addressing all my inquiries efficiently. The item arrived quickly and was exactly as described, if not better! The seller took great care in packaging the item, ensuring it arrived in pristine condition. I highly recommend this seller to anyone looking for a reliable and trustworthy source. I'll definitely be a returning customer in the future!</p>
-
-                                        <div class="btn_group mt-3">
-                                            <a href="#" class="btn btn-callnow mb-2 w-auto"><i class="bi bi-hand-thumbs-up"></i> Call Now</a>
-                                            <a href="#" class="btn btn-callnow mb-2 w-auto"><i class="bi bi-reply"></i> Call Now</a>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

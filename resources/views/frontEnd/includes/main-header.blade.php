@@ -64,9 +64,7 @@
 
 
                     </div>
-                    @auth
-                    <a href="{{ route('post.create') }}" class="btn btn-primary">Post Free Ad</a>
-                    @endauth
+                    <a href="{{ route('post.create') }}" class="btn btn-primary" @guest data-bs-toggle="modal" data-bs-target="#loginModal" @endguest>Post Free Ad</a>
                 </div>
             </div>
         </div>

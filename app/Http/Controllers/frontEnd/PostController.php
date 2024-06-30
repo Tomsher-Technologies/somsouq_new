@@ -158,7 +158,7 @@ final class PostController extends Controller
                 ImageUploadService::deletePostImage(postId: $postId);
                 $post->delete();
 
-                return redirect()->back()->with('success', 'Post deleted successfully');
+                return redirect()->back()->with('success', 'Withdraw successfully');
             }
             return redirect()->back()->with('error', 'Post not found');
         }catch (\Exception $exception){
