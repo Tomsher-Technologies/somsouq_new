@@ -2,9 +2,11 @@
 
 namespace App\Services\Front;
 
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\State;
+use App\Models\VehicleDetail;
 
 class CategoryWiseSearchBar {
     protected static string|null $htmlFormName = null;
@@ -14,6 +16,8 @@ class CategoryWiseSearchBar {
     const DATA = 'data';
     public static function getSearchBar(int $categoryId)
     {
+        static::$htmlFormData['category_id'] = $categoryId;
+
         switch ($categoryId) {
             case CategoryNameService::PROPERTY_FOR_RENT:
             case CategoryNameService::PROPERTY_FOR_SALE:
@@ -26,10 +30,22 @@ class CategoryWiseSearchBar {
                 static::$htmlFormData['price_ranges'] = self::generatePriceRange(categoryId: $categoryId);
                 static::$htmlFormData['size_range'] = self::generateSizeRange(categoryId: $categoryId);
 
+
                 static::$htmlFormName = "frontEnd.search.bar.property_bar";
                 break;
             case CategoryNameService::VEHICLE_FOR_RENT:
             case CategoryNameService::VEHICLE_FOR_SALE:
+                static::$htmlFormData['subCategories'] = Category::where('parent_id', '=', $categoryId)->where('is_active', 1)->get([
+                    'id',
+                    'en_name'
+                ]);
+
+                static::$htmlFormData['brands'] = Brand::whereIn('category_id', [CategoryNameService::VEHICLE_FOR_RENT, CategoryNameService::VEHICLE_FOR_SALE])
+                ->where('is_active', true)->pluck('en_name', 'id');
+                static::$htmlFormData['price_ranges'] = self::generatePriceRange(categoryId: $categoryId);
+                static::$htmlFormData['states'] = State::where('status', 1)->pluck('name', 'id');
+                static::$htmlFormData['years'] = VehicleDetail::whereNotNull('model_year')->distinct()->orderBy('model_year', 'DESC')->pluck('model_year');
+                static::$htmlFormData['km'] = VehicleDetail::whereNotNull('km')->distinct()->orderBy('km', 'ASC')->pluck('km');
 
                 static::$htmlFormName = "frontEnd.search.bar.vehicle_bar";
                 break;
@@ -51,7 +67,7 @@ class CategoryWiseSearchBar {
 
         $data = [];
 
-        if (empty($getPrice)) {
+        if (!empty($getPrice)) {
             if ($getPrice->max_price === $getPrice->min_price) {
                 $data[0] = (float) $getPrice->max_price;
             } else {
@@ -59,7 +75,6 @@ class CategoryWiseSearchBar {
                 $data[10] = (float) $getPrice->max_price;
             }
         }
-
         return $data;
     }
 
@@ -71,16 +86,14 @@ class CategoryWiseSearchBar {
             ->get();
 
         $data = [];
-        if (empty($getSize)) {
-            dd(11);
+        if (!empty($getSize)) {
             if ($getSize[0]->max_size === $getSize[0]->min_size) {
-                $data[0] = (float) $getSize->max_size;
+                $data[0] = (float) $getSize[0]->max_size;
             } else {
                 $data = range($getSize[0]->min_size, $getSize[0]->max_size, $getSize[0]->max_size/10);
                 $data[10] = (float) $getSize[0]->max_size;
             }
         }
-
         return $data;
     }
 }

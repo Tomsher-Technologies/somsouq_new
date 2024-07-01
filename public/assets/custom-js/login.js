@@ -20,7 +20,7 @@ $("#loginForm").submit(function(e) {
         success: function(data) {
             if(data.is_login){
                 $("#loginForm").get(0).reset();
-                window.location.href = "{{ route('home') }}";
+                window.location.href = BASE_URL;
             }
 
             if(!data.success && data.error){

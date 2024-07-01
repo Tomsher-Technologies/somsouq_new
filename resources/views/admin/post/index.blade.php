@@ -26,7 +26,7 @@
                             <option value="">Status</option>
                             <option value="pending" {{ ($status ?? "" == "pending") ? "selected" : "" }}>Pending</option>
                             <option value="approved" {{ ($status ?? "" == "approved") ? "selected" : "" }}>Approved</option>
-                            <option value="cancelled" {{ ($status ?? "" == "cancelled") ? "selected" : "" }}>Cancelled</option>
+                            <option value="cancelled" {{ ($status ?? "" == "rejected") ? "selected" : "" }}>Rejected</option>
 
                         </select>
                     </div>
@@ -79,7 +79,7 @@
                                 <select class="form-control" name="status" value="{{ $post->id }}" onchange="updatePostStatus(this, '{{ $post->id }}')">
                                     <option value="pending" {{ ($post->status == 'pending') ? 'selected' : '' }}>Pending</option>
                                     <option value="approved" {{ ($post->status == 'approved') ? 'selected' : '' }}>Approved</option>
-                                    <option value="cancelled" {{ ($post->status == 'cancelled') ? 'selected' : '' }}>Cancelled</option>
+                                    <option value="rejected" {{ ($post->status == 'rejected') ? 'selected' : '' }}>Rejected</option>
                                 </select>
                             </label>
                         </td>

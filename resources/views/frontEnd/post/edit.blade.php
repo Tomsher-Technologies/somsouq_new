@@ -43,11 +43,11 @@
                         <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <div class="step-container d-flex justify-content-between">
-                        <div class="step-circle" onclick="displayStep(1)">1</div>
-                        <div class="step-circle" onclick="displayStep(2)">2</div>
-                        <div class="step-circle" onclick="displayStep(3)">3</div>
-                        <div class="step-circle" onclick="displayStep(4)">4</div>
-                        <div class="step-circle" onclick="displayStep(5)">5</div>
+                        <div class="step-circle circle-1 active" onclick="displayStep(1)">1</div>
+                        <div class="step-circle circle-2" onclick="displayStep(2)">2</div>
+                        <div class="step-circle circle-3" onclick="displayStep(3)">3</div>
+                        <div class="step-circle circle-4" onclick="displayStep(4)">4</div>
+                        <div class="step-circle circle-5" onclick="displayStep(5)">5</div>
                     </div>
                 </div>
                 <div class="col-md-12">
@@ -263,6 +263,7 @@
 
                     if (currentStep < 5) {
                         $(".step-" + currentStep).addClass("");
+                        $(".circle-" + parseInt(currentStep + 1)).addClass("active");
                         currentStep++;
                         setTimeout(function() {
                             $(".step").removeClass("").hide();
@@ -276,6 +277,7 @@
                     if (currentStep > 1) {
                         $(".step-" + currentStep).addClass("");
                         currentStep--;
+                        $(".circle-" + parseInt(currentStep + 1)).removeClass("active");
                         setTimeout(function() {
                             $(".step").removeClass("").hide();
                             $(".step-" + currentStep).show().addClass("");

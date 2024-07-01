@@ -18,7 +18,8 @@
 {{--                                                                     alt=""> Continue with Apple</a>--}}
                         <a href="#" class="btn btn-login" data-bs-target="#signInModal"
                            data-bs-toggle="modal"> <img src="{{ asset('assets/frontEnd/images/email.png') }}" class="img-fluid" alt="">
-                            Continue with Email</a>
+                            Continue with Email/ Username
+                        </a>
                         <p class="py-3 text-center">Don’t have an account? <a href="#" data-bs-target="#signUpModal"
                                                                               data-bs-toggle="modal">Create</a></p>
                     </div>

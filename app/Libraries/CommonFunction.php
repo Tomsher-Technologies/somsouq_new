@@ -5,6 +5,7 @@ namespace App\Libraries;
 use App\Models\Category;
 use App\Models\State;
 use App\Models\Upload;
+use App\Models\User;
 
 class CommonFunction
 {
@@ -47,5 +48,29 @@ class CommonFunction
     public static function getState()
     {
         return State::where('status', 1)->pluck('name', 'id');
+    }
+
+    public static function getPostOwnerName(?int $createdBy): string|null
+    {
+        $getUser = User::where('id', $createdBy)->first(['name', 'username']);
+        $user_name = '';
+        if ($getUser) {
+            if (empty($getUser->name)) {
+                $user_name = $getUser->username;
+            } else {
+                $user_name = ucfirst($getUser->name);
+            }
+        }
+        return $user_name;
+    }
+
+    public static function getPostOwnerPhoneNumber(?int $createdBy)
+    {
+        $getUser = User::where('id', $createdBy)->first(['phone_number']);
+        $user_phone = '';
+        if ($getUser) {
+            $user_phone = $getUser->phone_number ?? "";
+        }
+        return $user_phone;
     }
 }

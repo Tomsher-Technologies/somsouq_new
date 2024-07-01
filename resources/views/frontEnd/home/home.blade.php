@@ -17,7 +17,7 @@
                     <div class="col-md-3">
                         <div class="card ad-card">
                             <button class="btn btn-wishlist"><i class="bi bi-heart"></i></button>
-                            <a href="{{ route('post.view', ['id' => $ad->id]) }}">
+                            <a href="{{ route('public.view', ['type' => 'public', 'id' => $ad->id]) }}">
                                 <div class="card-img-warpper">
                                     <img src="{{ CommonFunction::showPostImage($ad->id) }}" class="card-img-top img-fluid" alt="{{ CommonFunction::getPostImageName($ad->id) }}" style="height: 234px; object-fit: cover">
                                     <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $ad->state }}, {{ $ad->city }}</span>
@@ -25,7 +25,7 @@
                                     <span class="wishlist-icon"><i class="bi bi-heart"></i></span>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-price">{{ $ad->price ?? "" }}</h5>
+                                    <h5 class="card-price">SOS {{ $ad->price ?? "" }}</h5>
                                     <h4 class="card-title">{{ $ad->title ? substr($ad->title, 0, 80) : "" }}</h4>
                                 </div>
                             </a>
@@ -54,7 +54,7 @@
                         <div class="col-md-3">
                             <div class="card ad-card">
                                 <button class="btn btn-wishlist"><i class="bi bi-heart"></i></button>
-                                <a href="{{ route('post.view', ['id' => $post->id]) }}">
+                                <a href="{{ route('public.view', ['type' => 'public', 'id' => $post->id]) }}">
                                     <div class="card-img-warpper">
                                         <img src="{{ CommonFunction::showPostImage($post->id) }}" class="card-img-top img-fluid" alt="{{ CommonFunction::getPostImageName($post->id) }}" style="height: 234px; object-fit: cover">
                                         <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $post->state }}, {{ $post->city }}</span>
@@ -62,7 +62,7 @@
                                         <span class="wishlist-icon"><i class="bi bi-heart"></i></span>
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="card-price">{{ $post->price ?? "" }}</h5>
+                                        <h5 class="card-price">SOS {{ $post->price ?? "" }}</h5>
                                         <h4 class="card-title">{{ $post->title ? substr($post->title, 0, 80) : "" }}</h4>
                                     </div>
                                 </a>
@@ -91,7 +91,7 @@
                     <div class="col-md-3">
                         <div class="card ad-card">
                             <button class="btn btn-wishlist"><i class="bi bi-heart"></i></button>
-                            <a href="{{ route('post.view', ['id' => $post->id]) }}">
+                            <a href="{{ route('public.view', ['type' => 'public', 'id' => $post->id]) }}">
                                 <div class="card-img-warpper">
                                     <img src="{{ CommonFunction::showPostImage($post->id) }}" class="card-img-top img-fluid" alt="{{ CommonFunction::getPostImageName($post->id) }}" style="height: 234px; object-fit: cover">
                                     <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $post->state }}, {{ $post->city }}</span>
@@ -99,7 +99,7 @@
                                     <span class="wishlist-icon"><i class="bi bi-heart"></i></span>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-price">{{ $post->price ?? "" }}</h5>
+                                    <h5 class="card-price">SOS {{ $post->price ?? "" }}</h5>
                                     <h4 class="card-title">{{ $post->title ? substr($post->title, 0, 80) : "" }}</h4>
                                 </div>
                             </a>
@@ -126,7 +126,7 @@
                     <div class="col-md-3">
                         <div class="card ad-card">
                             <button class="btn btn-wishlist"><i class="bi bi-heart"></i></button>
-                            <a href="{{ route('post.view', ['id' => $post->id]) }}">
+                            <a href="{{ route('public.view', ['type' => 'public', 'id' => $post->id]) }}">
                                 <div class="card-img-warpper">
                                     <img src="{{ CommonFunction::showPostImage($post->id) }}" class="card-img-top img-fluid" alt="{{ CommonFunction::getPostImageName($post->id) }}" style="height: 234px; object-fit: cover">
                                     <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $post->state }}, {{ $post->city }}</span>
@@ -134,7 +134,7 @@
                                     <span class="wishlist-icon"><i class="bi bi-heart"></i></span>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-price">{{ $post->price ?? "" }}</h5>
+                                    <h5 class="card-price">SOS {{ $post->price ?? "" }}</h5>
                                     <h4 class="card-title">{{ $post->title ? substr($post->title, 0, 80) : "" }}</h4>
                                 </div>
                             </a>
@@ -161,7 +161,7 @@
                     <div class="col-md-3">
                         <div class="card ad-card">
                             <button class="btn btn-wishlist"><i class="bi bi-heart"></i></button>
-                            <a href="{{ route('post.view', ['id' => $post->id]) }}">
+                            <a href="{{ route('public.view', ['type' => 'public', 'id' => $post->id]) }}">
                                 <div class="card-img-warpper">
                                     <img src="{{ CommonFunction::showPostImage($post->id) }}" class="card-img-top img-fluid" alt="{{ CommonFunction::getPostImageName($post->id) }}" style="height: 234px; object-fit: cover">
                                     <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $post->state }}, {{ $post->city }}</span>
@@ -169,7 +169,7 @@
                                     <span class="wishlist-icon"><i class="bi bi-heart"></i></span>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-price">{{ $post->price ?? "" }}</h5>
+                                    <h5 class="card-price">SOS {{ $post->price ?? "" }}</h5>
                                     <h4 class="card-title">{{ $post->title ? substr($post->title, 0, 80) : "" }}</h4>
                                 </div>
                             </a>
@@ -202,7 +202,6 @@
                 <h3>Popular Electronics</h3>
                 <a href="#" class="page-link">See all <i class="bi bi-chevron-right"></i></a>
             </div>
-
         </div>
     </section>
 

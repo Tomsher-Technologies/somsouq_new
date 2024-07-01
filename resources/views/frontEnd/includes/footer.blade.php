@@ -7,8 +7,8 @@
                         <span>Download the app now!</span></h4>
                 </div>
                 <div class="col-md-5">
-                    <span><img src="assets/images/play.png" alt=""></span>
-                    <span><img src="assets/images/app.png" alt=""></span>
+                    <span><img src="{{ asset('assets/frontEnd/images/play.png') }}" alt=""></span>
+                    <span><img src="{{ asset('assets/frontEnd/images/app.png') }}" alt=""></span>
                 </div>
             </div>
         </div>
@@ -17,15 +17,12 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-2">
-                    <img src="assets/images/logo.png" width="120" class="rounded-2" alt="">
+                    <img src="{{ asset('assets/frontEnd/images/logo.png') }}" width="120" class="rounded-2" alt="">
                 </div>
 
-                @auth
                 <div class="col-md-10 text-md-end">
-
-                    <a href="{{ route('post.create') }}" class="btn btn-primary">Post Free Ad</a>
+                    <a href="{{ route('post.create') }}" class="btn btn-primary" @guest data-bs-toggle="modal" data-bs-target="#loginModal" @endguest>Post Free Ad</a>
                 </div>
-                @endauth
             </div>
             <hr class="footer-hr">
             <div class="row">
