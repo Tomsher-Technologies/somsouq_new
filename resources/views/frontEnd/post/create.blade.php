@@ -124,7 +124,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="drag-and-drop">
-                                            <input type="file" name="file[]" class="uploadifyfile" accept=".xlsx,.xls,image/*,.doc,audio/*,.docx                            ,video/*,.ppt,.pptx,.txt,.pdf" multiple>
+                                            <input type="file" name="file[]" class="uploadifyfile" accept="image/*" multiple required>
                                         </div>
                                     </div>
                                     <div class="col-md-12">

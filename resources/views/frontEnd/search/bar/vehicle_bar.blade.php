@@ -1,72 +1,80 @@
 <div class="row">
     <div class="col-md-12">
         <div class="filter-box">
+            <form action="{{ route('post.data.filter') }}" method="post" id="search_bar_form">
+                <input type="hidden" name="category_id" value="{{ $category_id }}">
             <div class="row">
                 <div class="col-md-2">
                     <div class="form-floating">
-                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                            <option selected>Cars</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select class="form-select" aria-label="Floating label select example" name="sub_category_id" onchange="postBarSearch()">
+                            <option value="">-Select-</option>
+                            @foreach($subCategories as $subCategory)
+                                <option value="{{ $subCategory->id }}">{{ $subCategory->en_name }}</option>
+                            @endforeach
                         </select>
                         <label for="floatingSelect">Sub Category</label>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-floating">
-                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                            <option selected>Toyota</option>
+                        <select class="form-select" aria-label="Floating label select example" name="state_id" onchange="postBarSearch()">
+                            <option value="">-Select-</option>
+                            @foreach($states as $key => $state)
+                                <option value="{{ $key }}">{{ $state }}</option>
+                            @endforeach
                         </select>
-                        <label for="floatingSelect">Make</label>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="form-floating">
-                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                            <option selected>AED 50.000</option>
-                            <option value="1">AED 40.000</option>
-                            <option value="2">AED 30.000</option>
-                            <option value="3">AED 20.000</option>
-                        </select>
-                        <label for="floatingSelect">Price Range (SOS)</label>
+                        <label for="floatingSelect">State</label>
                     </div>
                 </div>
 
                 <div class="col-md-2">
                     <div class="form-floating">
-                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                            <option selected>2015</option>
-                            <option value="1">2016</option>
-                            <option value="2">2017</option>
-                            <option value="3">2018</option>
+                        <select class="form-select" aria-label="Floating label select example" name="brand_id" onchange="postBarSearch()">
+                            <option value="">-Select-</option>
+                            @foreach($brands as $key => $brand)
+                                <option value="{{$key}}">{{ $brand }}</option>
+                            @endforeach
+                        </select>
+                        <label for="floatingSelect">Make</label>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-floating">
+                        <select class="form-select" aria-label="Floating label select example" name="price_range" onchange="postBarSearch()">
+                            <option value="">-Select-</option>
+                            @foreach($price_ranges as $price)
+                                <option value="{{ $price }}">SOS {{ $price }}</option>
+                            @endforeach
+                        </select>
+                        <label for="floatingSelect">Price Range</label>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-floating">
+                        <select class="form-select" aria-label="Floating label select example" name="model_year" onchange="postBarSearch()">
+                            <option value="">-Select-</option>
+                            @foreach($years as $key => $year)
+                                <option value="{{ $year }}">{{ $year }}</option>
+                            @endforeach
                         </select>
                         <label for="floatingSelect">Year</label>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-floating">
-                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                            <option selected>10.00km</option>
-                            <option value="1">20.00km</option>
-                            <option value="2">30.00km</option>
-                            <option value="3">40.00km</option>
+                        <select class="form-select" aria-label="Floating label select example" name="km" onchange="postBarSearch()">
+                            <option value="">-Select-</option>
+                            @foreach($km as $key => $data)
+                                <option value="{{ $data }}">{{ $data }}Km</option>
+                            @endforeach
                         </select>
                         <label for="floatingSelect">Kilometers</label>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div class="form-floating">
-                        <select class="form-select border-0" id="floatingSelect" aria-label="Floating label select example">
-                            <option selected>Convertible</option>
-                            <option value="1">SUV</option>
-                            <option value="2">Pickup</option>
-                            <option value="3">Coupe</option>
-                        </select>
-                        <label for="floatingSelect">Filter</label>
-                    </div>
-                </div>
             </div>
+            </form>
         </div>
     </div>
 </div>

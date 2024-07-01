@@ -53,7 +53,11 @@
                         @auth
                             <div class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ ucfirst(auth()->user()->name) }}
+                                    @if(empty(auth()->user()->name))
+                                        {{ auth()->user()->username }}
+                                    @else
+                                        {{ ucfirst(auth()->user()->name) }}
+                                    @endif
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="{{ route('my-account.index') }}">My Account</a></li>

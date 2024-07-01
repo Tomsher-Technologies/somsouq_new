@@ -125,7 +125,7 @@ final class PostController extends Controller
         }
     }
 
-    public function view(int $postId)
+    public function view(string $viewType, int $postId)
     {
         try {
             $data['post'] = Post::leftJoin('states', 'states.id', '=', 'posts.state_id')
@@ -140,10 +140,16 @@ final class PostController extends Controller
             $data['postDetail'] = CategoryWisePostDetailDataService::getData(categoryId: $data['post']->category_id, postId: $postId);
             $data['images'] = ImageUploadService::getPostImage(postId: $postId);
 
-            $getPostDetail = CategoryWiseDetailViewService::getView(categoryId: $data['post']->category_id, subCategoryId: $data['post']->sub_category_id,postId: $postId);
+            $getPostDetail = CategoryWiseDetailViewService::getView(categoryId: $data['post']->category_id, subCategoryId: $data['post']->sub_category_id,postId: $postId, viewType: $viewType);
+
             $data['postDetailHtml'] = view($getPostDetail['file_path'], $getPostDetail['data'])->render();
 
-            return view('frontEnd.post.view', $data);
+            if ($viewType == 'public') {
+                return view('frontEnd.post.public-view', $data);
+            } elseif ($viewType == 'user') {
+                return view('frontEnd.post.view', $data);
+            }
+
         }catch (\Exception $exception){
             return redirect()->back()->with('error', 'Something went wrong at line number'. $exception->getLine());
         }
@@ -182,6 +188,19 @@ final class PostController extends Controller
                 break;
         }
         return $category_name;
+    }
+
+    public function sold(int $postId)
+    {
+        try {
+            $post = Post::find($postId);
+            $post->status = 'sold';
+            $post->save();
+
+            return redirect()->back()->with('success', 'Sold successfully');
+        }catch (\Exception $exception){
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
     }
 
     protected function generateTrackingNumber(int $postId, int $category_it): string

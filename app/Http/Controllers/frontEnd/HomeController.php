@@ -44,7 +44,7 @@ final class HomeController extends Controller
         $getPost = Post::leftJoin('states', 'states.id', '=', 'posts.state_id')
             ->leftJoin('cities', 'cities.id', '=', 'posts.city_id')
             ->whereIn('posts.status', ['approved'])
-            ->orderBy('posts.id', 'desc')
+            ->orderBy('posts.updated_at', 'desc')
             ->get([
                 'posts.id',
                 'posts.category_id',

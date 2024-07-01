@@ -28,7 +28,10 @@
                         <div class="account-details">
                             <img src="{{ uploaded_asset_profile(auth()->user()->image) }}" class="img-fluid" alt="">
                             <div class="account-info">
-                                <h4>{{ auth()->user()->name ?? ucfirst(auth()->user()->name) }}</h4>
+                                <h4>
+                                    {{ auth()->user()->name ?? ucfirst(auth()->user()->name) }}
+                                </h4>
+
                                 @if(!empty(auth()->user()->email))
                                     <a href="#"> <i class="bi bi-envelope"></i> {{ auth()->user()->email }}</a>
                                 @else
@@ -56,6 +59,9 @@
                                 <nav class="ad-filter filters-button-group">
                                     <button class="btn btn-filter is-checked" data-filter="*">All Ads <span>({{ $posts->count() }})</span></button>
                                     <button class="btn btn-filter" data-filter="pending">Under Review <span>({{ $total_pending }})</span></button>
+                                    <button class="btn btn-filter" data-filter="approved">Live <span>({{ $total_approve }})</span></button>
+                                    <button class="btn btn-filter" data-filter="sold">Sold <span>({{ $total_sold }})</span></button>
+                                    <button class="btn btn-filter" data-filter="rejected">Rejected <span>({{ $total_rejected }})</span></button>
                                 </nav>
 
                                 <div class="ad-filter-content">
@@ -70,7 +76,11 @@
                                                 </div>
 
                                                 <div class="d-flex justify-content-end gap-3 ms-auto">
-                                                    <a href="{{ route('post.view', ['id' => $post->id]) }}" class="btn btn-outline ms-auto bg_primary border-0 text-white"><i class="bi bi-eye"></i>View</a>
+                                                    @if($post->status == 'approved')
+                                                        <a href="{{ route('post.sold', ['id' => $post->id]) }}" class="btn btn-outline ms-auto bg-info border-0 text-white"><i class="bi bi-eye"></i>Sold</a>
+                                                    @endif
+
+                                                    <a href="{{ route('post.view', ['type' => 'user','id' => $post->id]) }}" class="btn btn-outline ms-auto bg_primary border-0 text-white"><i class="bi bi-eye"></i>View</a>
                                                     <a href="{{ route('post.edit', ['id' => $post->id]) }}" class="btn btn-outline ms-auto"><i class="bi bi-pencil-fill"></i>Edit</a>
                                                     <a href="{{ route('post.delete', ['id' => $post->id]) }}" class="btn btn-outline ms-auto bg-danger text-white border-0"><i class="bi bi-trash3"></i>Withdraw</a>
                                                 </div>

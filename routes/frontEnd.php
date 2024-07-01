@@ -29,11 +29,12 @@ Route::get('get-city-by-state-id', [StateCityController::class, 'getCityByStateI
 
 //category wise search
 Route::post('search', [SearchController::class, 'index'])->name('post.search');
-Route::get('get-category-wise-search-bar', [SearchController::class, 'getCategoryWiseSearchBar'])->name('get-category-wise-search-bar');
+Route::get('get-category-wise-search', [SearchController::class, 'getCategoryWiseSearch'])->name('get-category-wise-search');
 Route::get('detail-category/{cat_id}', [SearchController::class, 'index'])->name('post.detail-category');
+Route::post('post-data-filter', [SearchController::class, 'postDataFilter'])->name('post.data.filter');
 
 //view post
-Route::get('post-view/{id}', [PostController::class, 'view'])->name('post.view');
+Route::get('/public-view/{type}/{id}', [PostController::class, 'view'])->name('public.view');
 
 Route::middleware('user')->group(callback: function () {
     Route::get('logout', [SocialiteAuthController::class, 'logout'])->name('front.logout');
@@ -45,6 +46,8 @@ Route::middleware('user')->group(callback: function () {
     Route::post('store-update', [PostController::class, 'AppStore'])->name('post.update');
     Route::get('post-delete/{id}', [PostController::class, 'destroy'])->name('post.delete');
     Route::get('post-edit/{id}', [PostController::class, 'edit'])->name('post.edit');
+    Route::get('/post-view/{type}/{id}', [PostController::class, 'view'])->name('post.view');
+    Route::get('post-sold/{id}', [PostController::class, 'sold'])->name('post.sold');
 
     Route::get('load-category-detail-form', [PostController::class, 'loadCategoryDetailForm'])->name('load-category-detail-form');
 
