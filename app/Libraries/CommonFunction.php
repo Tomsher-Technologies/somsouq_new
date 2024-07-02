@@ -73,4 +73,9 @@ class CommonFunction
         }
         return $user_phone;
     }
+
+    public static function getStateName(int $stateId): string
+    {
+        return State::where('id', $stateId)->first()->name ?? "";
+    }
 }

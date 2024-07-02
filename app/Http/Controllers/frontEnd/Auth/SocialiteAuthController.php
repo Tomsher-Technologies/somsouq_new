@@ -8,7 +8,6 @@ use Artisan;
 use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 
@@ -53,7 +52,7 @@ final class SocialiteAuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'login_by' => $provider,
-            'password' => Hash::make('123456'),
+//            'password' => Hash::make('123456'),
         ]);
     }
 

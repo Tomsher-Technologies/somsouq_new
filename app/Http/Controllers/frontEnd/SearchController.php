@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Services\Front\CategoryNameService as CATEGORY_NAME;
 use App\Services\Front\CategoryWiseSearchBar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 final class SearchController extends Controller
 {
@@ -176,8 +177,17 @@ final class SearchController extends Controller
             $query->where('title', 'like', '%' . $request['search'] . '%');
         }
 
+        if (Session::get('location')) {
+            $query->where('posts.state_id', Session::get('location'));
+        }
+
         return $query->orderBy('updated_at', 'DESC')->get([
-            'posts.*',
+            'posts.id',
+            'posts.price',
+            'posts.title',
+            'posts.category_id',
+            'posts.sub_category_id',
+            'posts.updated_at',
             'states.name as state',
             'cities.name as city',
         ]);

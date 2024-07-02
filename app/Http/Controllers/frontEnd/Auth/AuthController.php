@@ -10,7 +10,6 @@ use Artisan;
 use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 
 final class AuthController extends Controller
 {

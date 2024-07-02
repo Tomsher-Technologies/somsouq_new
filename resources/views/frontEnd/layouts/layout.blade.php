@@ -18,8 +18,37 @@
 @include('frontEnd.includes.main-header')
 
 @yield('content')
-
+<div class="mobile-nav">
+    <a href="{{ route('post.create') }}" class="add-post" @guest data-bs-toggle="modal" data-bs-target="#loginModal" @endguest><i class="bi bi-plus"></i></a>
+    <ul>
+        <li>
+            <a href="{{ route('home') }}">
+                <i class="bi bi-house"></i>
+                <span>Home</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class="bi bi-search"></i>
+                <span>Search</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class="bi bi-heart"></i>
+                <span>Wishlist</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('my-account.index') }}">
+                <i class="bi bi-person"></i>
+                <span>Account</span>
+            </a>
+        </li>
+    </ul>
+</div>
 @include('frontEnd.includes.footer')
+
 
 <script src="{{ asset('assets/frontEnd/js/bootstrap.bundle.js') }}"></script>
 

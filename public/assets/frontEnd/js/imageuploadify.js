@@ -125,7 +125,6 @@
 
       // Function to read and store files.
       const retrieveFiles = (files) => {
-console.log(111)
         for(let index = 0; index < files.length; ++index) {
           if (!accept || compareMimeType(result, files[index].type, /(?:\.([^.]+))?$/.exec(files[index].name)[1])) {
             // Unique number to save the image.
