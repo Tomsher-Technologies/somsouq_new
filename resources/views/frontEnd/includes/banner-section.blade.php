@@ -8,7 +8,7 @@
                             <div class="search-box">
                                 <h3 class="mb-3">What are you looking for?</h3>
                                 <div class="form-inputs">
-                                    <form action="{{ route('post.search') }}" method="post" id="searchFormId">
+                                    <form action="{{ route('post.search') }}" method="get" id="searchFormId">
                                         @csrf
                                         <input type="search" class="form-control" placeholder="Search for items" name="search">
                                         <svg class="search_icon" width="25px" height="25px" viewBox="0 0 32 32"

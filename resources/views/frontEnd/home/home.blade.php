@@ -50,7 +50,7 @@
             </div>
             <div class="row g-3">
                 @if(!empty($posts[1]))
-                @forelse(array_splice($posts[1], 0, 8) as $post)
+                @forelse($posts[1] as $post)
                         <div class="col-md-3">
                             <div class="card ad-card">
                                 <button class="btn btn-wishlist"><i class="bi bi-heart"></i></button>
@@ -87,7 +87,7 @@
             </div>
             <div class="row g-3">
                 @if(!empty($posts[2]))
-                @forelse(array_splice($posts[2], 0, 8) as $post)
+                @forelse($posts[2] as $post)
                     <div class="col-md-3">
                         <div class="card ad-card">
                             <button class="btn btn-wishlist"><i class="bi bi-heart"></i></button>
@@ -122,7 +122,7 @@
             </div>
             <div class="row g-3">
                 @if(!empty($posts[3]))
-                @forelse(array_splice($posts[3], 0, 8) as $post)
+                @forelse($posts[3] as $post)
                     <div class="col-md-3">
                         <div class="card ad-card">
                             <button class="btn btn-wishlist"><i class="bi bi-heart"></i></button>
@@ -157,7 +157,7 @@
             </div>
             <div class="row g-3">
                 @if(!empty($posts[4]))
-                @forelse(array_splice($posts[4], 0, 8) as $post)
+                @forelse($posts[4] as $post)
                     <div class="col-md-3">
                         <div class="card ad-card">
                             <button class="btn btn-wishlist"><i class="bi bi-heart"></i></button>

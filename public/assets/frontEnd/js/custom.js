@@ -9,7 +9,7 @@ $(document).ready(function() {
         items: 1,
         slideSpeed: 2000,
         nav: false,
-        autoplay: false, 
+        autoplay: false,
         dots: false,
         loop: true,
         responsiveRefreshRate: 200,
@@ -82,57 +82,55 @@ $(document).ready(function() {
 
 var navbtn = document.querySelectorAll('.btn-filter'), i; // select all items to become filter
 
-			[].forEach.call(navbtn, function(al) {
-            	al.addEventListener('click', function(){ 
-        
-	            	document.querySelector('.is-checked').classList.remove('is-checked') //remove the active class
-	            	this.classList.add('is-checked') //add the active class to this, the clicked element
-	            	
-	            	var match = this.dataset.filter // store the data-filter of the clicked element in a variable
-	            	
-	            	var project = document.querySelectorAll('.ad-list-item'); // create a variable for element to filter
-					[].forEach.call(project, function(el) {
-			    		el.classList.add('fade')
-					  	setTimeout(function(){
-					  		el.classList.add('none')
-					  	},300) //fade and hide all items
-					  	if( el.classList.contains(match)){ //if one or several items contains the variable of this.datafilter in ther class, show it and fade it in.
-					  		setTimeout(function(){
-					  			el.classList.remove('none')
-					  		},300)
-					  		setTimeout(function(){
-					  			el.classList.remove('fade')
-					  		},400)
-					  	}
-					  	if ( match === "*") { // if * show all
-					  		setTimeout(function(){
-					  			el.classList.remove('none')
-					  		},300)
-					  		setTimeout(function(){
-					  			el.classList.remove('fade')
-					  		},400)
-					  	}
-					})
-				})
-			})
+[].forEach.call(navbtn, function(al) {
+    al.addEventListener('click', function(){
+
+        document.querySelector('.is-checked').classList.remove('is-checked') //remove the active class
+        this.classList.add('is-checked') //add the active class to this, the clicked element
+
+        var match = this.dataset.filter // store the data-filter of the clicked element in a variable
+
+        var project = document.querySelectorAll('.ad-list-item'); // create a variable for element to filter
+        [].forEach.call(project, function(el) {
+            el.classList.add('fade')
+            setTimeout(function(){
+                el.classList.add('none')
+            },300) //fade and hide all items
+            if( el.classList.contains(match)){ //if one or several items contains the variable of this.datafilter in ther class, show it and fade it in.
+                setTimeout(function(){
+                    el.classList.remove('none')
+                },300)
+                setTimeout(function(){
+                    el.classList.remove('fade')
+                },400)
+            }
+            if ( match === "*") { // if * show all
+                setTimeout(function(){
+                    el.classList.remove('none')
+                },300)
+                setTimeout(function(){
+                    el.classList.remove('fade')
+                },400)
+            }
+        })
+    })
+})
 
 
-            $('.category_slider').owlCarousel({
-                loop:true,
-                margin:10,
-                nav:true,
-                dots:false,
-                responsive:{
-                    0:{
-                        items:1
-                    },
-                    600:{
-                        items:2
-                    },
-                    1000:{
-                        items:7
-                    }
-                }
-            })
-            
- 
+$('.category_slider').owlCarousel({
+    loop:true,
+    margin:10,
+    nav:true,
+    dots:false,
+    responsive:{
+        0:{
+            items:1
+        },
+        600:{
+            items:2
+        },
+        1000:{
+            items:7
+        }
+    }
+})

@@ -4,9 +4,16 @@ namespace App\Http\Controllers\frontEnd;
 
 use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Models\Upload;
+use App\Models\User;
+use App\Rules\MatchNewPassword;
+use App\Rules\MatchOldPassword;
 use Artisan;
 use Cache;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 final class MyAccountController extends Controller
 {
@@ -34,6 +41,78 @@ final class MyAccountController extends Controller
             return view('frontEnd.account.index', $data);
         }catch (\Exception $e) {
             dd($e->getMessage());
+        }
+    }
+
+    public function editProfile()
+    {
+        return view('frontEnd.account.edit-profile');
+    }
+
+    public function changePassword()
+    {
+        return view('frontEnd.account.change-password');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        try {
+            $user = User::find($request->user_id);
+            $user->name = $request->get('name') ?? "";
+            $user->email = $request->get('email') ?? "";
+            $user->phone_number = $request->get('phone_number') ?? "";
+            $user->state_id = $request->get('state_id') ?? "";
+            $user->city_id = $request->get('city_id') ?? "";
+            $user->save();
+
+            if ($request->hasFile('profile_img')) {
+                $this->fileUpload(file: $request->file('profile_img'));
+            }
+
+            return redirect()->back()->with('success', 'Profile updated successfully.');
+        }catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Something went wrong.');
+        }
+    }
+
+    public function fileUpload($file):void
+    {
+        $auth_user = Auth::user();
+        $upload = Upload::findOrNew($auth_user->image);
+
+        if (!empty($auth_user->image)) {
+            if (Storage::disk('public')->exists($upload->file_name)) {
+                Storage::disk('public')->delete($upload->file_name);
+            }
+        }
+
+        $upload->extension = $file->getClientOriginalExtension();
+        $upload->file_original_name = explode('.', $file->getClientOriginalName())[0];
+        $upload->file_name = $file->store('uploads/all', 'public');
+        $upload->user_id = Auth::user()->id;
+        $upload->type = explode('/', $file->getClientMimeType())[0];
+        $upload->file_size = $file->getSize();
+        $upload->save();
+
+        $auth_user->image = $upload->id;
+        $auth_user->save();
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+//            'current_password' => ['required', new MatchOldPassword],
+            'new_password' => ['required', 'string', 'min:6', 'same:password_confirmation', new MatchNewPassword],
+            'password_confirmation' => ['required','string', 'min:6'],
+        ]);
+        try {
+            $user = Auth::user();
+            $user->password = Hash::make($request->get('new_password'));
+            $user->save();
+
+            return redirect()->back()->with('success', 'Profile updated successfully.');
+        }catch (\Exception $e){
+            return redirect()->back()->with('error', 'Something went wrong.');
         }
     }
 }

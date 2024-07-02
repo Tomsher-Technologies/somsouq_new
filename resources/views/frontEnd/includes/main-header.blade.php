@@ -6,18 +6,18 @@
                     <div class="select-location">
                         <div class="dropdown">
                             <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                Location
+                                @session('location')
+                                    {{ CommonFunction::getStateName(session('location')) }}
+                                @else
+                                    Location
+                                @endsession
+
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Borama</a></li>
-                                <li><a class="dropdown-item" href="#">Jamaame</a></li>
-                                <li><a class="dropdown-item" href="#">Galkayo</a></li>
-                                <li><a class="dropdown-item" href="#">Bardere</a></li>
-                                <li><a class="dropdown-item" href="#">Garbahaarrey</a></li>
-                                <li><a class="dropdown-item" href="#">Bu'aale</a></li>
-                                <li><a class="dropdown-item" href="#">Baidoa</a></li>
-                                <li><a class="dropdown-item" href="#">Afgoye</a></li>
-                                <li class="border-0"><a class="dropdown-item" href="#">Buur Hakaba</a></li>
+                                <li><a class="dropdown-item" href="{{ route('home.location', ['location' => 0]) }}">All Location</a></li>
+                                @foreach(CommonFunction::getState() as $key => $state)
+                                    <li><a class="dropdown-item" href="{{ route('home.location', ['location' => $key]) }}">{{ $state }}</a></li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>

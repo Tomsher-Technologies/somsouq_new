@@ -146,36 +146,7 @@
     </div>
 </div>
 
-<div class="mobile-nav">
 
-    <a href="#" class="add-post"><i class="bi bi-plus"></i></a>
-    <ul>
-        <li>
-            <a href="#">
-                <i class="bi bi-house"></i>
-                <span>Home</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class="bi bi-search"></i>
-                <span>Search</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class="bi bi-heart"></i>
-                <span>Wishlist</span>
-            </a>
-        </li>
-        <li>
-            <a href="account.html">
-                <i class="bi bi-person"></i>
-                <span>Account</span>
-            </a>
-        </li>
-    </ul>
-</div>
 
 
 
