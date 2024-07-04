@@ -1,7 +1,7 @@
 <header class="main-header">
     <div class="container-fluid">
         <div class="row align-items-center">
-            <div class="col-6 col-md-5">
+            <div class="col-8 col-md-5 order-2 order-md-1">
                 <div class="header-start">
                     <div class="select-location">
                         <div class="dropdown">
@@ -11,7 +11,6 @@
                                 @else
                                     Location
                                 @endsession
-
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('home.location', ['location' => 0]) }}">All Location</a></li>
@@ -35,17 +34,17 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2 text-center">
+            <div class="col-4 col-md-2 text-center order-1 order-md-2">
                 <a class="navbar-brand" href="{{ route('home') }}">
                     <img src="{{ asset('assets/frontEnd/images/logo.png') }}" class="rounded-3" alt="Logo">
                 </a>
             </div>
-            <div class="col-6 col-md-5 text-end">
+            <div class="col-6 col-md-5 text-end d-none d-md-block order-3 order-md-13">
                 <div class="header-end">
 
                     <div class="account-login">
                         <div class="user-avatar">
-                            <img src="{{ asset('assets/frontEnd/images/user.png') }}" alt="">
+                            <img src="{{ uploaded_asset_profile(auth()->user()->image ?? "") }}" alt="{{ auth()->user()->name ?? "" }}" class="rounded-circle">
                         </div>
                         @guest
                             <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login/Register</a>

@@ -1,3 +1,7 @@
+@php
+$category = CommonFunction::getCategory();
+@endphp
+
 <footer class="footer">
     <div class="footer-top">
         <div class="container">
@@ -30,18 +34,11 @@
                     <div class="footer-links">
                         <h5>Our Categories</h5>
                         <ul>
-                            <li>
-                                <a href="#">Properties for Rent </a>
-                            </li>
-                            <li>
-                                <a href="#">Properties for Sale</a>
-                            </li>
-                            <li>
-                                <a href="#">Vehicles Rent </a>
-                            </li>
-                            <li>
-                                <a href="#">Vehicles Sale </a>
-                            </li>
+                            @for($i = 0; $i<=3; $i++)
+                                <li>
+                                    <a href="{{ route('post.detail-category', ['cat_id' => $category[$i]->id]) }}">{{ $category[$i]->en_name }}</a>
+                                </li>
+                            @endfor
                         </ul>
                     </div>
                 </div>

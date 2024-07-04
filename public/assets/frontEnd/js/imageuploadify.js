@@ -425,9 +425,11 @@
                       icon: "success",
                       allowOutsideClick: false,
                       showCancelButton: true,
-                      cancelButtonColor: "#d33",
                       confirmButtonText: "Go My Account",
-                      // showConfirmButton: false
+                      customClass: {
+                          confirmButton: 'btn btn-primary',
+                          cancelButton: 'btn btn-outline-step'
+                      }
                   }).then(function (result) {
                       if(result.isConfirmed) {
                           window.location.replace(response.url)
@@ -442,6 +444,9 @@
                       icon: "error",
                       title: "Oops...",
                       text: "Something went wrong!",
+                      customClass: {
+                          confirmButton: 'btn btn-primary',
+                      }
                   }).then(function (result) {
                       if(result.isConfirmed) {
                           window.location.replace(response.cancel_url)

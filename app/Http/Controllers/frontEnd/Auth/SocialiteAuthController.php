@@ -8,6 +8,7 @@ use Artisan;
 use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 
@@ -59,6 +60,7 @@ final class SocialiteAuthController extends Controller
     public function logout(Request $request)
     {
        Auth::logout();
+       Session::forget('location');
        $request->session()->invalidate();
        $request->session()->regenerateToken();
        $request->session()->flush();

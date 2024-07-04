@@ -24,19 +24,7 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    @if(session('post_success'))
-                        <div class="alert alert-success" role="alert">
-                            {{session('post_success')}}
-                            <button type="button" class="btn-close btn-post-close" aria-label="Close" style="float: right"></button>
-                        </div>
-                    @endif
-
-                    @if(session('post_error'))
-                        <div class="alert alert-danger" role="alert">
-                            {{session('post_error')}}
-                            <button type="button" class="btn-close btn-post-close" aria-label="Close" style="float: right"></button>
-                        </div>
-                    @endif
+                    @include('frontEnd.includes.message')
 
                     <div class="account-start">
                         <h3>My Account</h3>

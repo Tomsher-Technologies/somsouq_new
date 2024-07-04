@@ -74,7 +74,7 @@
                         <div class="product-seller-info">
                             <div class="seller-warpper">
                                 <div class="seller-thumb">
-                                    <img src="{{ asset('assets/frontEnd/images/user.png') }}" width="50" class="img-fluid" alt="">
+                                    <img src="{{ CommonFunction::getPostOwnerProfile($post->created_by) }}" width="50" class="img-fluid rounded-circle" alt="">
                                     <span class="online"></span>
                                     <span class=""></span>
                                 </div>

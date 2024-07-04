@@ -101,7 +101,7 @@ if (!function_exists('uploaded_asset')) {
     }
 }
 
-function uploaded_asset_profile($id)
+function uploaded_asset_profile($id = null)
 {
     if ($id && ($asset = \App\Models\Upload::find($id)) != null) {
         return $asset->external_link == null ? storage_asset($asset->file_name) : $asset->external_link;

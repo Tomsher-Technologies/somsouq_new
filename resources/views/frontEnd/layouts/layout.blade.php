@@ -40,7 +40,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('my-account.index') }}">
+            <a @guest data-bs-toggle="modal" data-bs-target="#loginModal" @endguest href="{{ route('my-account.index') }}">
                 <i class="bi bi-person"></i>
                 <span>Account</span>
             </a>

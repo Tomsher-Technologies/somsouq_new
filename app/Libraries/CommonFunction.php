@@ -78,4 +78,17 @@ class CommonFunction
     {
         return State::where('id', $stateId)->first()->name ?? "";
     }
+
+    public static function getPostOwnerProfile(?int $createdBy): string|null
+    {
+        $getUser = User::leftJoin('uploads', 'uploads.id', '=', 'users.image')
+            ->where('users.id', $createdBy)
+            ->first(['file_name']);
+
+        if ($getUser) {
+            return app('url')->asset('storage/' . $getUser->file_name);
+        }
+
+        return app('url')->asset('assets/frontEnd/images/user.png');
+    }
 }

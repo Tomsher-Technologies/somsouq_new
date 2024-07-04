@@ -29,8 +29,6 @@
 @section('content')
     <section class="post-ad-section">
         <div class="container">
-            <button class="btn btn-success" onclick="success()">success</button>
-            <button class="btn btn-danger" onclick="error()">error</button>
             <div class="row">
                 <div class="col-md-6 m-auto">
                     <div class="progress px-1">
@@ -355,36 +353,5 @@
                 $('#post_price_id').attr("placeholder", "Price");
             }
         })
-
-        function success() {
-            Swal.fire({
-                title: "Your post is successfully submitted",
-                text: "The post is under review, and it will go live in 24 hours.",
-                icon: "success",
-                allowOutsideClick: false,
-                showCancelButton: true,
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Go My Account",
-                // showConfirmButton: false
-            }).then(function (result) {
-                if(result.isConfirmed) {
-                    console.log('will go my account')
-                } else {
-                    console.log('will go create page')
-                }
-            });
-        }
-
-        function error() {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "Something went wrong!",
-            }).then(function (result) {
-                if(result.isConfirmed) {
-                   console.log('will go create page')
-                }
-            });
-        }
     </script>
 @endsection
