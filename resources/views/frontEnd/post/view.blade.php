@@ -32,7 +32,9 @@
                             <div class="d-flex align-items-start justify-content-between">
                                 <span class="bg_primary rounded-5 text-white px-3 py-2"> {{ ucfirst($post->status) ?? "" }}</span>
                                 <div class="card-top-right">
-                                    <span>Price: {{ $post->price ?? "" }}</span>
+                                    @if($post->sub_category_id != 19)
+                                        <span>Price: {{ $post->price ?? "" }}</span>
+                                    @endif
                                 </div>
                             </div>
 

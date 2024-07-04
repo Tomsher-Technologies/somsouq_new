@@ -89,13 +89,10 @@
                                 <a href="#">About Us</a>
                             </li>
                             <li>
-                                <a href="#">Terms of Use</a>
+                                <a href="#">Terms & Conditions</a>
                             </li>
                             <li>
                                 <a href="#">Privacy Policy</a>
-                            </li>
-                            <li>
-                                <a href="#">Blog</a>
                             </li>
                         </ul>
                     </div>
@@ -111,7 +108,7 @@
                                 <a href="#">Contact Us</a>
                             </li>
                             <li>
-                                <a href="#">Call Us</a>
+                                <a href="#">Tutorial</a>
                             </li>
                         </ul>
                     </div>
@@ -141,19 +138,19 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="copyright">
-                        <p>Designed by Tomsher . © 2024 . All Rights Reserved</p>
+                        <p>Designed by som souq . © 2024 . All Rights Reserved</p>
                     </div>
                 </div>
                 <div class="col-md-6 ">
                     <div class="footer-terms-policy">
-                        <ul>
-                            <li>
-                                <a href="#">Privacy Policy</a>
-                            </li>
-                            <li>
-                                <a href="#">Terms & Conditions</a>
-                            </li>
-                        </ul>
+{{--                        <ul>--}}
+{{--                            <li>--}}
+{{--                                <a href="#">Privacy Policy</a>--}}
+{{--                            </li>--}}
+{{--                            <li>--}}
+{{--                                <a href="#">Terms & Conditions</a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
                     </div>
                 </div>
             </div>

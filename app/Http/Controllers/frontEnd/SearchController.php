@@ -177,6 +177,10 @@ final class SearchController extends Controller
             $query->where('title', 'like', '%' . $request['search'] . '%');
         }
 
+        if (isset($request['popular_post'])) {
+            $query->where('is_popular', 'yes');
+        }
+
         if (Session::get('location')) {
             $query->where('posts.state_id', Session::get('location'));
         }

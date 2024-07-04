@@ -22,6 +22,8 @@ class LoadCategoryWiseDetailFormService
     const DATA = 'data';
     public static function getCategoryWiseHtml(int $categoryId, int $subCategoryId, ? int $postId = null): array
     {
+        static::$htmlFormData['sub_category_id'] = $subCategoryId;
+
         switch ($categoryId) {
             case CategoryNameService::PROPERTY_FOR_RENT:
             case CategoryNameService::PROPERTY_FOR_SALE:

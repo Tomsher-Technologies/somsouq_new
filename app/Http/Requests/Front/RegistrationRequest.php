@@ -29,6 +29,7 @@ class RegistrationRequest extends FormRequest
             'password' => 'required|min:6|required_with:password_confirmation|same:password_confirmation',
             'password_confirmation' => 'min:6',
             'email' => 'email|unique:users,email|string|nullable',
+            'phone_number' => 'required',
         ];
     }
 

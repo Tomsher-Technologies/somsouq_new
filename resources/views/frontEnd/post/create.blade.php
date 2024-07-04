@@ -5,11 +5,32 @@
         .checked-category {
             opacity:0;
         }
+
+        .checkbox-error {
+            border: 1px red solid !important;
+        }
+        .categories-box {
+            cursor: pointer;
+        }
+        .display-block {
+            display: block !important;
+            position: relative;
+            top: 50px;
+        }
+        .border-color {
+            border-color: red;
+        }
+
+        .imageuploadify, .well {
+            top: -30px;
+        }
     </style>
 @endsection
 @section('content')
     <section class="post-ad-section">
         <div class="container">
+            <button class="btn btn-success" onclick="success()">success</button>
+            <button class="btn btn-danger" onclick="error()">error</button>
             <div class="row">
                 <div class="col-md-6 m-auto">
                     <div class="progress px-1">
@@ -36,19 +57,18 @@
                                 <div class="row g-3">
                                     @foreach($categories as $category)
                                         <div class="col-6 col-md-2" style="cursor: pointer">
-                                            <div class="categories-box type_select" data-id="{{$category->id}}">
-                                                <input type="checkbox" class="checked-category" name="check_category_id[]" id="check_category_id" required>
-                                                @if ($category->icon != null)
-                                                    <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
-                                                @endif
-                                                <h4>{{ $category->en_name }}</h4>
-                                            </div>
+                                            <label>
+                                                <div class="categories-box type_select">
+                                                    <input type="checkbox" class="checked-category" name="check_category_id" value="{{$category->id}}" id="check_category_{{$category->id}}" required>
+                                                    @if ($category->icon != null)
+                                                        <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
+                                                    @endif
+                                                    <h4>{{ $category->en_name }}</h4>
+                                                </div>
+                                            </label>
                                         </div>
                                     @endforeach
                                 </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-end g-2">
-                                <button type="button" class="btn btn-primary next-step pe-3">Next <i class="bi bi-chevron-right ms-2"></i></button>
                             </div>
                         </div>
 
@@ -117,14 +137,14 @@
                                         <input type="text" class="form-control" id="formGroupExampleInput" name="title" placeholder="Ad Title" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="number" class="form-control number" id="formGroupExampleInput" placeholder="Price" name="price" required>
+                                        <input type="number" class="form-control number" id="post_price_id" placeholder="Price" name="price" required>
                                     </div>
                                     <div class="col-md-12">
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Descrption" name="description"></textarea>
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Description" name="description"></textarea>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="drag-and-drop">
-                                            <input type="file" name="file[]" class="uploadifyfile" accept="image/*" multiple required>
+                                            <input type="file" name="file[]" id="file_id" class="uploadifyfile checked-category display-block" accept="image/*" multiple required>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -169,19 +189,19 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('assets/frontEnd/js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('assets/frontEnd/js/imageuploadify.js') }}"></script>
     <script src="{{ asset('assets/frontEnd/js/jquery-validation/jquery.validate.js') }}"></script>
     <script src="{{ asset('assets/custom-js/getSubCategoryByCategory.js') }}"></script>
     <script src="{{ asset('assets/custom-js/getCityByStateId.js') }}"></script>
-
     <script>
         $(document).ready(function () {
             var currentStep = 1;
             var updateProgressBar;
+            var toNextStep;
             var inputForm = $("#multi-step-form");
 
             function displayStep(stepNumber) {
-                console.log(stepNumber, 1)
                 if (stepNumber >= 1 && stepNumber <= 5) {
                     $(".step-" + currentStep).hide();
                     $(".step-" + stepNumber).show();
@@ -190,92 +210,114 @@
                 }
             }
 
-            $(document).ready(function() {
-                $('#multi-step-form').find('.step').slice(1).hide();
+            $('#multi-step-form').find('.step').slice(1).hide();
 
-                $(".next-step").click(function() {
-                    inputForm.validate({
-                        rules: {
-                            price: {
-                                required: true,
-                                numberNoNegative: true
-                            }
-                        },
-                        onfocusout: false,
-                        highlight: function (element) {
-                            $(element).focus();
-                            $(element).css('border-color', 'red');
-                            $(element).next().css({'color': 'red', 'float' : 'left'});
-                            $(element).parent().css('border-color', 'red');
-                        },
-                        unhighlight: function(element) {
-                            $(element).css('border-color', '#dee2e6');
-                            $(element).parent().css('border-color', '#dee2e6');
-                        },
-                        errorPlacement: function(error, element) {
+            $('input[type="checkbox"]').on('change', function() {
+                $('input[type="checkbox"]').not(this).prop('checked', false);
 
-                        },
-                    });
+                $('.categories-box').not(this).removeClass("active");
 
-                    if(!inputForm.valid()) {
-                        return false;
-                    }
-
-                    if (currentStep < 5) {
-                        $(".step-" + currentStep).addClass("");
-                        $(".circle-" + parseInt(currentStep + 1)).addClass("active");
-                        currentStep++;
-                        setTimeout(function() {
-                            $(".step").removeClass("").hide();
-                            $(".step-" + currentStep).show().addClass("");
-                            updateProgressBar();
-                        }, 500);
-                    }
-                });
-
-                $(".prev-step").click(function() {
-                    if (currentStep > 1) {
-                        $(".step-" + currentStep).addClass("");
-                        currentStep--;
-                        $(".circle-" + parseInt(currentStep + 1)).removeClass("active");
-                        setTimeout(function() {
-                            $(".step").removeClass("").hide();
-                            $(".step-" + currentStep).show().addClass("");
-                            updateProgressBar();
-                        }, 500);
-                    }
-                });
-                updateProgressBar = function() {
-                    var progressPercentage = ((currentStep - 1) / 4) * 100;
-                    $(".progress-bar").css("width", progressPercentage + "%");
+                if($('input[type="checkbox"]').is(':checked')) {
+                    $('#final_category_id').val(parseInt(this.value));
+                    $(this).parent().addClass('active');
+                    getSubCategoryByCategory(this.value, 'sub_category_id', '{{ route('get-subCategories-by-category') }}');
+                    toNextStep();
+                } else {
+                    $('#final_category_id').val("");
+                    $(this).parent().removeClass('active');
                 }
             });
-        });
 
-        $('.type_select').click(function(){
-            if(!$(this).hasClass('active')) {
-                $('#final_category_id').val(parseInt($(this).attr("data-id")));
-                getSubCategoryByCategory($(this).attr("data-id"), 'sub_category_id', '{{ route('get-subCategories-by-category') }}');
-            }else {
-                $('#final_category_id').val("");
+            $(".next-step").click(function() {
+                toNextStep();
+            });
+
+
+            toNextStep = function () {
+
+                inputForm.validate({
+                    rules: {
+                        price: {
+                            required: true,
+                            numberNoNegative: true
+                        },
+                    },
+                    onfocusout: function (element) {
+                        if($(element).is(":checkbox")) {
+                            this.element(element);
+                        }
+                        if($(element).is(":file")) {
+                            if($(element).valid()) {
+                                $(element).next().removeClass('border-color');
+                            }
+                            this.element(element);
+                        }
+                    },
+                    highlight: function (element) {
+                        $(element).focus();
+                        $(element).css('border-color', 'red');
+
+                        if($(element).is(":file")) {
+                            $(element).next().addClass('border-color');
+                        } else {
+                            $(element).next().css({'color': 'red', 'float' : 'left'});
+                        }
+
+                        if($(element).is(":checkbox")) {
+                            $(element).parent().addClass('checkbox-error');
+                        }
+                    },
+                    unhighlight: function(element) {
+                        $(element).css('border-color', '#dee2e6');
+
+                        if($(element).is(":checkbox")) {
+                            $(element).parent().removeClass('checkbox-error');
+                        }
+                        if($(element).is(":file")) {
+                            $(element).next().removeClass('border-color');
+                        }
+
+                    },
+                    errorPlacement: function(error, element) {},
+                });
+
+                if(!inputForm.valid()) {
+                    return false;
+                }
+
+                if (currentStep < 5) {
+                    $(".step-" + currentStep).addClass("");
+                    $(".circle-" + parseInt(currentStep + 1)).addClass("active");
+                    currentStep++;
+                    setTimeout(function() {
+                        $(".step").removeClass("").hide();
+                        $(".step-" + currentStep).show().addClass("");
+                        updateProgressBar();
+                    }, 500);
+                }
             }
 
-            let checkbox = $(this).find("input[type=checkbox]");
-
-            if(checkbox.is(":checked")) {
-                $('.checked-category').attr("checked", false)
-            } else {
-                $('.checked-category').attr("checked", false);
-                $(this).find("input[type=checkbox]").attr("checked", true)
+            $(".prev-step").click(function() {
+                if (currentStep > 1) {
+                    $(".step-" + currentStep).addClass("");
+                    currentStep--;
+                    $(".circle-" + parseInt(currentStep + 1)).removeClass("active");
+                    setTimeout(function() {
+                        $(".step").removeClass("").hide();
+                        $(".step-" + currentStep).show().addClass("");
+                        updateProgressBar();
+                    }, 500);
+                }
+            });
+            updateProgressBar = function() {
+                var progressPercentage = ((currentStep - 1) / 4) * 100;
+                $(".progress-bar").css("width", progressPercentage + "%");
             }
 
-            $('.type_select').not(this).removeClass("active");
-            $(this).toggleClass("active");
-        });
 
-        $(document).ready(function() {
             $('input[type="file"]').imageuploadify()
-        })
+        });
+
 
         function getCategoryDetailPage(subCategoryId) {
             let categoryId = $('#final_category_id').val();
@@ -305,8 +347,44 @@
             }
         }
 
-        $(".btn-custom").on('click', function (e){
-            $(e.target).parent().remove();
-        });
+        //placeholder name change sub category
+        $('#sub_category_id').on('change', function (e) {
+            if(e.target.value == 19){
+                $('#post_price_id').attr("placeholder", "Price per-day");
+            }else {
+                $('#post_price_id').attr("placeholder", "Price");
+            }
+        })
+
+        function success() {
+            Swal.fire({
+                title: "Your post is successfully submitted",
+                text: "The post is under review, and it will go live in 24 hours.",
+                icon: "success",
+                allowOutsideClick: false,
+                showCancelButton: true,
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Go My Account",
+                // showConfirmButton: false
+            }).then(function (result) {
+                if(result.isConfirmed) {
+                    console.log('will go my account')
+                } else {
+                    console.log('will go create page')
+                }
+            });
+        }
+
+        function error() {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Something went wrong!",
+            }).then(function (result) {
+                if(result.isConfirmed) {
+                   console.log('will go create page')
+                }
+            });
+        }
     </script>
 @endsection

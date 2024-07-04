@@ -58,6 +58,9 @@
 <script src="{{ asset('assets/frontEnd/js/custom.js') }}"></script>
 <script>
     let BASE_URL = "{{ route('home') }}";
+    $(".btn-custom-close").on('click', function (e){
+        $(e.target).parent().remove();
+    });
 </script>
 
 @yield('script')

@@ -15,6 +15,7 @@ use App\Services\Front\CategoryWisePostDetailStoreService;
 use App\Services\Front\CategoryNameService as CATEGORY_NAME;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 final class PostController extends Controller
 {
@@ -33,6 +34,7 @@ final class PostController extends Controller
     public function AppStore(Request $request)
     {
         DB::beginTransaction();
+        $data = [];
         try {
             $post = Post::findOrNew($request->get('post_id') ?? "");
             $post->category_id = $request->get('category_id');
@@ -42,6 +44,11 @@ final class PostController extends Controller
             $post->title = $request->get('title');
             $post->price = $request->get('price');
             $post->description = $request->get('description');
+
+            if ($request->get('input_type') == "edit") {
+                $post->status = $post->status;
+            }
+
             $post->save();
 
             //Delete images which are previously added for the post
@@ -67,15 +74,38 @@ final class PostController extends Controller
             //generate unique tracking number for each post
             if ($request->get('input_type') == "add") {
                 $this->generateTrackingNumber(postId: $post->id, category_it: $request->get('category_id'));
+
+                $data = [
+                    'status' => 'success',
+                    'method' => 'add',
+                    'url' => route('my-account.index'),
+                    'cancel_url' => route('post.create'),
+                ];
+            }
+
+            if ($request->get('input_type') == "edit") {
+                $data = [
+                    'status' => 'success',
+                    'method' => 'edit',
+                    'url' => route('my-account.index'),
+                    'cancel_url' => route('post.edit', ['id' => $request->get('post_id')]),
+                ];
             }
 
             DB::commit();
-            return redirect()->back()->with('success', 'Post created successfully');
+            return response()->json($data);
+
         }catch (\Exception $exception){
             DB::rollBack();
-            return redirect()->back()->with('error', 'Something went wrong at line number'. $exception->getLine());
+            return response()->json([
+                'status' => 'error',
+                'cancel_url' => route('post.create'),
+            ]);
         }catch (\Illuminate\Database\QueryException $e){
-            return redirect()->back()->with('error', 'Something went wrong at line number'. $e->getLine());
+            return response()->json([
+                'status' => 'error',
+                'cancel_url' => route('post.create'),
+            ]);
         }
     }
 
@@ -215,6 +245,5 @@ final class PostController extends Controller
                         )
                       where posts.id='$postId' and table2.id='$postId'");
     }
-
 
 }

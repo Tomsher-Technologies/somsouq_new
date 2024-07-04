@@ -111,6 +111,15 @@
                     </li>
                 @endcan
 
+                @can('user')
+                    <li class="aiz-side-nav-item">
+                        <a href="{{ route('user.list') }}" class="aiz-side-nav-link {{ areActiveRoutes(['user.list']) }}">
+                            <i class="las la-user aiz-side-nav-icon"></i>
+                            <span class="aiz-side-nav-text">{{ translate('User') }}</span>
+                        </a>
+                    </li>
+                @endcan
+
                 @can('roles')
                     <li class="aiz-side-nav-item">
                         <a href="{{ route('roles.index') }}" class="aiz-side-nav-link">

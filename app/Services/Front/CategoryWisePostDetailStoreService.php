@@ -51,6 +51,7 @@ class CategoryWisePostDetailStoreService
                $vehicleDetails->auto_part_type_id = $request['auto_part_type_id'] ?? null;
                $vehicleDetails->heavy_equipment_type_id = $request['heavy_equipment_type_id'] ?? null;
                $vehicleDetails->boat_type_id = $request['boat_type_id'] ?? null;
+               $vehicleDetails->price_per_month = $request['price_per_month'] ?? null;
                $vehicleDetails->save();
                 break;
             default:

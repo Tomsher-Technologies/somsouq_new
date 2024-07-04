@@ -3,6 +3,11 @@
     <input type="hidden" name="post_detail_id" value="{{ $postDetail->id ?? "" }}">
 
     <div class="row g-3">
+        @if($sub_category_id == 19)
+            <div class="col-md-6">
+                <input type="number" class="form-control" id="formGroupExampleInput" name="price_per_month" placeholder="Price per-month" value="{{ $postDetail->price_per_month ?? "" }}">
+            </div>
+        @endif
         <div class="col-md-6">
             <select class="form-select" aria-label="Default select example" name="brand_id">
                 <option value="">Select Brand/ Make</option>
@@ -116,22 +121,24 @@
             <input type="number" class="form-control" id="formGroupExampleInput" name="cylinder" placeholder="Cylinder" value="{{ $postDetail->cylinder ?? "" }}">
         </div>
 
-        <div class="col-md-6">
-            <select class="form-select" aria-label="Default select example" name="exchangeable">
-                <option value="">Exchangeable</option>
-                <option value="Yes" {{ ($postDetail->exchangeable ?? "" == "Yes") ? "selected" : "" }}>Yes</option>
-                <option value="No" {{ ($postDetail->exchangeable ?? "" == "No") ? "selected" : "" }}>No</option>
-            </select>
-        </div>
+        @if($sub_category_id == 26)
+            <div class="col-md-6">
+                <select class="form-select" aria-label="Default select example" name="exchangeable">
+                    <option value="">Exchangeable</option>
+                    <option value="Yes" {{ ($postDetail->exchangeable ?? "" == "Yes") ? "selected" : "" }}>Yes</option>
+                    <option value="No" {{ ($postDetail->exchangeable ?? "" == "No") ? "selected" : "" }}>No</option>
+                </select>
+            </div>
 
-        <div class="col-md-6">
-            <select class="form-select" aria-label="Default select example" name="usage_condition">
-                <option value="">Select Condition</option>
-                <option value="new" {{ ($postDetail->usage_condition ?? "" == "new") ? "selected" : "" }}>New</option>
-                <option value="local used" {{ ($postDetail->usage_condition ?? "" == "local used") ? "selected" : "" }}>Local Used</option>
-                <option value="foreign used" {{ ($postDetail->usage_condition ?? "" == "foreign used") ? "selected" : "" }}>Foreign Used</option>
-            </select>
-        </div>
+            <div class="col-md-6">
+                <select class="form-select" aria-label="Default select example" name="usage_condition">
+                    <option value="">Select Condition</option>
+                    <option value="new" {{ ($postDetail->usage_condition ?? "" == "new") ? "selected" : "" }}>New</option>
+                    <option value="local used" {{ ($postDetail->usage_condition ?? "" == "local used") ? "selected" : "" }}>Local Used</option>
+                    <option value="foreign used" {{ ($postDetail->usage_condition ?? "" == "foreign used") ? "selected" : "" }}>Foreign Used</option>
+                </select>
+            </div>
+        @endif
 
     </div>
     <div class="promote-ad">
