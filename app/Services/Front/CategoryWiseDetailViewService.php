@@ -22,6 +22,8 @@ class CategoryWiseDetailViewService
     const DATA = 'data';
     public static function getView(int $categoryId, int $subCategoryId, int $postId, string $viewType): array
     {
+        static::$htmlFormData['sub_category_id'] = $subCategoryId;
+
         switch ($categoryId) {
             case CategoryNameService::PROPERTY_FOR_RENT:
             case CategoryNameService::PROPERTY_FOR_SALE:
@@ -53,7 +55,7 @@ class CategoryWiseDetailViewService
 
                 if (in_array($subCategoryId, [19, 26])) {
                     $query->leftJoin('body_types', 'body_types.id', '=', 'vehicle_details.body_type_id')
-                        ->select('vehicle_details.*', 'posts.description', 'brands.en_name as brand_name', 'colors.en_name as color_name', 'body_types.type_name as body_type_name');
+                        ->select('vehicle_details.*', 'posts.description', 'posts.price', 'brands.en_name as brand_name', 'colors.en_name as color_name', 'body_types.type_name as body_type_name');
 
                     if ($viewType == 'user') {
                         static::$htmlFormName = "frontEnd.post.views.vehicle.car_view";

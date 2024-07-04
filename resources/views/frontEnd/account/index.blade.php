@@ -23,6 +23,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
+
+                    @include('frontEnd.includes.message')
+
                     <div class="account-start">
                         <h3>My Account</h3>
                         <div class="account-details">
@@ -98,3 +101,7 @@
         </div>
     </section>
 @endsection
+
+@section('script')
+@endsection
+

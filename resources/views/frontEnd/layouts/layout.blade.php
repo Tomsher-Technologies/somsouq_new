@@ -40,7 +40,7 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('my-account.index') }}">
+            <a @guest data-bs-toggle="modal" data-bs-target="#loginModal" @endguest href="{{ route('my-account.index') }}">
                 <i class="bi bi-person"></i>
                 <span>Account</span>
             </a>
@@ -58,6 +58,9 @@
 <script src="{{ asset('assets/frontEnd/js/custom.js') }}"></script>
 <script>
     let BASE_URL = "{{ route('home') }}";
+    $(".btn-custom-close").on('click', function (e){
+        $(e.target).parent().remove();
+    });
 </script>
 
 @yield('script')

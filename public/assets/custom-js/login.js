@@ -103,10 +103,18 @@ $("#registrationForm").submit(function(e) {
                 } else {
                     $('#emailErrorReg').html("");
                 }
+
+                if(data.errors.phone_number) {
+                    $('#phoneError').html(data.errors.phone_number);
+                } else {
+                    $('#phoneError').html("");
+                }
+
             } else {
                 $('#usernameError').html("");
                 $('#passwordErrorReg').html("");
                 $('#emailErrorReg').html("");
+                $('#phoneError').html("");
             }
 
             if(data.success){

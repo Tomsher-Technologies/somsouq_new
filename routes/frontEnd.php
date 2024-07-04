@@ -39,12 +39,15 @@ Route::prefix('post')->group(function () {
 Route::get('/public-view/{type}/{id}', [PostController::class, 'view'])->name('public.view');
 
 Route::middleware('user')->group(callback: function () {
-    Route::get('user/logout', [SocialiteAuthController::class, 'logout'])->name('front.logout');
-    Route::get('user/my-account', [MyAccountController::class, 'index'])->name('my-account.index');
-    Route::get('user/edit-profile', [MyAccountController::class, 'editProfile'])->name('edit.profile');
-    Route::post('user/update-profile', [MyAccountController::class, 'updateProfile'])->name('update.profile');
-    Route::get('user/change-password', [MyAccountController::class, 'changePassword'])->name('user.change.password');
-    Route::post('user/update-password', [MyAccountController::class, 'updatePassword'])->name('update.password');
+
+    Route::prefix('user')->group(function () {
+        Route::get('/logout', [SocialiteAuthController::class, 'logout'])->name('front.logout');
+        Route::get('/my-account', [MyAccountController::class, 'index'])->name('my-account.index');
+        Route::get('/edit-profile', [MyAccountController::class, 'editProfile'])->name('edit.profile');
+        Route::post('/update-profile', [MyAccountController::class, 'updateProfile'])->name('update.profile');
+        Route::get('/change-password', [MyAccountController::class, 'changePassword'])->name('user.change.password');
+        Route::post('/update-password', [MyAccountController::class, 'updatePassword'])->name('update.password');
+    });
 
     //user post
     Route::prefix('post')->group(function () {
@@ -66,6 +69,8 @@ Route::middleware('user')->group(callback: function () {
 
 Route::get('cache-clear', function (){
     \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
     return 'cleared';
 });
 

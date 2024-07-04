@@ -230,6 +230,12 @@
           $(this.parentElement).remove();
           for (let index = 0; totalFiles.length > index; ++index) {
             if (totalFiles[index].id === id) {
+
+                if (totalFiles.length == 1) {
+                    document.getElementById('file_id').value = "";
+                }
+
+
               totalFiles.splice(index, 1);
               break;
             }
@@ -392,12 +398,61 @@
 
         // Create an request and post all data.
         var xhr = new XMLHttpRequest();
-
+        var title = "";
+        var text = "";
         // When the request has been successfully submitted, redirect to the
         // location of the form.
         xhr.onreadystatechange = function(e) {
+
           if (xhr.status == 200 && xhr.readyState === XMLHttpRequest.DONE) {
-            window.location.replace(xhr.responseURL);
+              let response = JSON.parse(xhr.response);
+              console.log(response)
+
+              if (response.status == "success") {
+                  if (response.method == "edit") {
+                        title = "The post has been updated";
+                        text = "";
+                  }
+
+                  if (response.method == "add") {
+                      title = "Your post is successfully submitted";
+                      text = "The post is under review, and it will go live in 24 hours.";
+                  }
+
+                  Swal.fire({
+                      title: title,
+                      text: text,
+                      icon: "success",
+                      allowOutsideClick: false,
+                      showCancelButton: true,
+                      confirmButtonText: "Go My Account",
+                      customClass: {
+                          confirmButton: 'btn btn-primary',
+                          cancelButton: 'btn btn-outline-step'
+                      }
+                  }).then(function (result) {
+                      if(result.isConfirmed) {
+                          window.location.replace(response.url)
+                      } else {
+                          window.location.replace(response.cancel_url)
+                      }
+                  });
+              }
+
+              if (response.success == "error") {
+                  Swal.fire({
+                      icon: "error",
+                      title: "Oops...",
+                      text: "Something went wrong!",
+                      customClass: {
+                          confirmButton: 'btn btn-primary',
+                      }
+                  }).then(function (result) {
+                      if(result.isConfirmed) {
+                          window.location.replace(response.cancel_url)
+                      }
+                  });
+              }
           }
         }
 

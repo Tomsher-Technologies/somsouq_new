@@ -1,4 +1,10 @@
 <div class="ad-detail-spec">
+    @if($sub_category_id == 19)
+    <ul>
+        <li><span>Price per-day</span> <span>{{ $postDetail->price ?? "" }} </li>
+        <li><span>Price per-month</span> <span>{{ $postDetail->price_per_month ?? "" }} </li>
+    </ul>
+    @endif
     <ul>
         <li><span>Brand/ Make Name</span> <span>{{ $postDetail->brand_name ?? "" }} </li>
         <li><span>Model Year</span> <span>{{ $postDetail->model_year ?? "" }} </li>
@@ -31,10 +37,13 @@
 
     <ul>
         <li><span>Cylinder</span> <span>{{ $postDetail->cylinder ?? "" }} </li>
+        @if($sub_category_id == 26)
         <li><span>Exchangeable</span> <span>{{ $postDetail->exchangeable ?? "" }} </li>
+        @endif
     </ul>
-
+    @if($sub_category_id == 26)
     <ul>
         <li><span>Condition</span> <span>{{ $postDetail->usage_condition ? ucwords($postDetail->usage_condition) : "" }} </li>
     </ul>
+    @endif
 </div>

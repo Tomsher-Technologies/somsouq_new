@@ -49,7 +49,7 @@
                                     <span class="wishlist-icon"><i class="bi bi-heart"></i></span>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-price">SOS {{ $post->price ?? "" }}</h5>
+                                    <h5 class="card-price">USD {{ $post->price ?? "" }}</h5>
                                     <h4 class="card-title">{{ $post->title ? substr($post->title, 0, 80) : "" }}</h4>
                                 </div>
                                 </a>

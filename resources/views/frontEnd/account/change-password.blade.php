@@ -74,11 +74,6 @@
 @endsection
 
 @section('script')
-    <script>
-        $(".btn-custom").on('click', function (e){
-            $(e.target).parent().remove();
-        });
-    </script>
 @endsection
 
 

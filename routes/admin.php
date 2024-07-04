@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\Auth\AdminLoginController;
@@ -75,5 +76,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/post/list', [PostController::class, 'index'])->name('post.list');
     Route::get('/post/is-popular', [PostController::class, 'updateIsPopular'])->name('post.is-popular');
     Route::get('/post/update-status', [PostController::class, 'updateUpdateStatus'])->name('post.update-status');
+
+    //Mange User
+    Route::get('/user/list', [UserController::class, 'index'])->name('user.list');
 
 });

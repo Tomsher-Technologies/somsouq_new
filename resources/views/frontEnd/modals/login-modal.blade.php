@@ -45,7 +45,7 @@
                         <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">Username</label>
-                                <input type="text" name="username" class="form-control" placeholder="Enter username" required>
+                                <input type="text" name="username" class="form-control" placeholder="Enter username">
                                 <span class="text-danger" id="usernameError"></span>
                             </div>
                             <div class="col-md-12 mb-3">
@@ -81,8 +81,9 @@
                                 <span class="text-danger" id="emailErrorReg"></span>
                             </div>
                             <div class="col-md-12 mb-3">
-                                <label class="form-label">Phone Number <small>( Optional )</small></label>
+                                <label class="form-label">Phone Number</label>
                                 <input type="text" class="form-control" name="phone_number" placeholder="Enter Phone number">
+                                <span class="text-danger" id="phoneError"></span>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">Which City You Was Born</label>

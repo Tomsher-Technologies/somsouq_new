@@ -67,14 +67,14 @@
                     <div class="price-seller-info">
 
                         <div class="product-price-warpper">
-                            <h3>SOS {{ $post->price ?? "" }}</h3>
+                            <h3>USD {{ $post->price ?? "" }}</h3>
 {{--                            <span class="badge">40% OFF</span>--}}
 {{--                            <h5>SOS 6440</h5>--}}
                         </div>
                         <div class="product-seller-info">
                             <div class="seller-warpper">
                                 <div class="seller-thumb">
-                                    <img src="{{ asset('assets/frontEnd/images/user.png') }}" width="50" class="img-fluid" alt="">
+                                    <img src="{{ CommonFunction::getPostOwnerProfile($post->created_by) }}" width="50" class="img-fluid rounded-circle" alt="">
                                     <span class="online"></span>
                                     <span class=""></span>
                                 </div>

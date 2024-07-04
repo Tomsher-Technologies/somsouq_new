@@ -173,9 +173,5 @@
         $("#imageUpload").change(function() {
             readURL(this);
         });
-
-        $(".btn-custom").on('click', function (e){
-            $(e.target).parent().remove();
-        });
     </script>
 @endsection

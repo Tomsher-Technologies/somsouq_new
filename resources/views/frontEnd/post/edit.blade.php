@@ -6,6 +6,14 @@
             opacity:0;
         }
 
+        .checkbox-error {
+            border: 1px red solid !important;
+        }
+
+        .categories-box {
+            cursor: pointer;
+        }
+
         section.post-ad-section .edit-image {
             position: relative;
             border-radius: 6px;
@@ -56,7 +64,7 @@
                         @csrf
                         <input type="hidden" name="category_id" id="final_category_id" value="{{$post->category_id}}">
                         <input type="hidden" name="previous_category_id" id="previous_category_id" value="{{$post->category_id}}">
-                        <input type="hidden" name="post_id" id="final_category_id" value="{{$post->id}}">
+                        <input type="hidden" name="post_id" id="final_post_id" value="{{$post->id}}">
                         <input type="hidden" name="input_type" value="edit">
 
                         <div class="step step-1">
@@ -65,20 +73,22 @@
                                 <div class="row g-3">
                                     @foreach($categories as $category)
                                         <div class="col-6 col-md-2" style="cursor: pointer">
-                                            <div class="categories-box type_select {{ ($category->id == $post->category_id) ? 'active' : '' }}" data-id="{{$category->id}}">
-                                                <input type="checkbox" class="checked-category" name="check_category_id[]" id="check_category_id"  {{ ($category->id == $post->category_id) ? 'checked' : '' }} required>
-                                                @if ($category->icon != null)
-                                                    <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
-                                                @endif
-                                                <h4>{{ $category->en_name }}</h4>
-                                            </div>
+                                            <label>
+                                                <div class="categories-box type_select {{ ($category->id == $post->category_id) ? 'active' : '' }}" data-id="{{$category->id}}">
+                                                    <input type="checkbox" class="checked-category" name="check_category_id" value="{{ $post->category_id }}" id="check_category_{{$category->id}}"  {{ ($category->id == $post->category_id) ? 'checked' : '' }} required>
+                                                    @if ($category->icon != null)
+                                                        <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
+                                                    @endif
+                                                    <h4>{{ $category->en_name }}</h4>
+                                                </div>
+                                            </label>
                                         </div>
                                     @endforeach
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center justify-content-end g-2">
-                                <button type="button" class="btn btn-primary next-step pe-3">Next <i class="bi bi-chevron-right ms-2"></i></button>
-                            </div>
+{{--                            <div class="d-flex align-items-center justify-content-end g-2">--}}
+{{--                                <button type="button" class="btn btn-primary next-step pe-3">Next <i class="bi bi-chevron-right ms-2"></i></button>--}}
+{{--                            </div>--}}
                         </div>
 
                         <div class="step step-2">
@@ -146,7 +156,7 @@
                                         <input type="text" class="form-control" id="formGroupExampleInput" name="title" placeholder="Ad Title" value="{{ $post->title ?? "" }}" required>
                                     </div>
                                     <div class="col-md-6">
-                                        <input type="number" class="form-control" id="formGroupExampleInput" value="{{ $post->price ?? "" }}" placeholder="Price" name="price" required>
+                                        <input type="number" class="form-control" id="post_price_id" value="{{ $post->price ?? "" }}" placeholder="{{ $post->sub_category_id == 19 ? "Price per-day" : "Price" }}" name="price" required>
                                     </div>
                                     <div class="col-md-12">
                                         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Description" name="description">{{ $post->description ?? "" }}</textarea>
@@ -213,6 +223,7 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('assets/frontEnd/js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('assets/frontEnd/js/jquery-validation/jquery.validate.js') }}"></script>
     <script src="{{ asset('assets/frontEnd/js/imageuploadify.js') }}"></script>
     <script src="{{ asset('assets/custom-js/getCityByStateId.js') }}"></script>
@@ -220,6 +231,7 @@
     <script>
         $(document).ready(function (){
             var currentStep = 1;
+            var toNextStep;
             var updateProgressBar;
             var inputForm = $("#multi-step-form");
 
@@ -232,85 +244,95 @@
                 }
             }
 
-            $(document).ready(function() {
-                $('#multi-step-form').find('.step').slice(1).hide();
+            // $(document).ready(function() {
 
-                $(".next-step").click(function() {
-                    inputForm.validate({
-                        rules: {
-                            price: {
-                                required: true,
-                                numberNoNegative: true
-                            }
-                        },
-                        onfocusout: false,
-                        highlight: function (element) {
-                            $(element).focus();
-                            $(element).css('border-color', 'red');
-                            $(element).next().css({'color': 'red', 'float' : 'left'});
-                            $(element).parent().css('border-color', 'red');
-                        },
-                        unhighlight: function(element) {
-                            $(element).css('border-color', '#dee2e6');
-                            $(element).parent().css('border-color', '#dee2e6');
-                        },
-                        errorPlacement: function(error, element) {},
-                    });
+            $('#multi-step-form').find('.step').slice(1).hide();
+            let previous_category = $('#previous_category_id').val();
 
-                    if(!inputForm.valid()) {
-                        return false;
-                    }
+            $('.categories-box').on('click', function () {
+                let checkbox = $(this).find("input[type=checkbox]");
 
-                    if (currentStep < 5) {
-                        $(".step-" + currentStep).addClass("");
-                        $(".circle-" + parseInt(currentStep + 1)).addClass("active");
-                        currentStep++;
-                        setTimeout(function() {
-                            $(".step").removeClass("").hide();
-                            $(".step-" + currentStep).show().addClass("");
-                            updateProgressBar();
-                        }, 500);
-                    }
-                });
+                if(checkbox.is(":checked")) {
+                    $('#final_category_id').val(parseInt($(this).attr("data-id")));
+                    // if(previous_category != parseInt($(this).attr("data-id"))) {
+                        getSubCategoryByCategory($(this).attr("data-id"), 'sub_category_id', '{{ route('get-subCategories-by-category') }}', '{{ $post->sub_category_id }}')
+                    // }
 
-                $(".prev-step").click(function() {
-                    if (currentStep > 1) {
-                        $(".step-" + currentStep).addClass("");
-                        currentStep--;
-                        $(".circle-" + parseInt(currentStep + 1)).removeClass("active");
-                        setTimeout(function() {
-                            $(".step").removeClass("").hide();
-                            $(".step-" + currentStep).show().addClass("");
-                            updateProgressBar();
-                        }, 500);
-                    }
-                });
-                updateProgressBar = function() {
-                    var progressPercentage = ((currentStep - 1) / 4) * 100;
-                    $(".progress-bar").css("width", progressPercentage + "%");
+                    toNextStep();
                 }
             });
-        });
 
-        $('.type_select').click(function(){
-            if(!$(this).hasClass('active')) {
-                $('#final_category_id').val(parseInt($(this).attr("data-id")));
-                getSubCategoryByCategory($(this).attr("data-id"), 'sub_category_id', '{{ route('get-subCategories-by-category') }}')
-            }else {
-                $('#final_category_id').val("");
+            $(".next-step").click(function() {
+                toNextStep();
+            });
+
+            toNextStep = function () {
+                inputForm.validate({
+                    rules: {
+                        price: {
+                            required: true,
+                            numberNoNegative: true
+                        }
+                    },
+                    onfocusout: function (element) {
+                        if($(element).is(":checkbox")) {
+                            this.element(element);
+                        }
+                    },
+                    highlight: function (element) {
+                        $(element).focus();
+                        $(element).css('border-color', 'red');
+                        $(element).next().css({'color': 'red', 'float' : 'left'});
+
+                        if($(element).is(":checkbox")) {
+                            $(element).parent().addClass('checkbox-error');
+                        }
+                    },
+                    unhighlight: function(element) {
+                        $(element).css('border-color', '#dee2e6');
+
+                        if($(element).is(":checkbox")) {
+                            $(element).parent().removeClass('checkbox-error');
+                        }
+                    },
+                    errorPlacement: function(error, element) {
+
+                    },
+                });
+
+                if(!inputForm.valid()) {
+                    return false;
+                }
+
+                if (currentStep < 5) {
+                    $(".step-" + currentStep).addClass("");
+                    $(".circle-" + parseInt(currentStep + 1)).addClass("active");
+                    currentStep++;
+                    setTimeout(function() {
+                        $(".step").removeClass("").hide();
+                        $(".step-" + currentStep).show().addClass("");
+                        updateProgressBar();
+                    }, 500);
+                }
             }
 
-            let checkbox = $(this).find("input[type=checkbox]");
-
-            if(checkbox.is(":checked")) {
-                $('.checked-category').attr("checked", false)
-            } else {
-                $('.checked-category').attr("checked", false);
-                $(this).find("input[type=checkbox]").attr("checked", true)
+            $(".prev-step").click(function() {
+                if (currentStep > 1) {
+                    $(".step-" + currentStep).addClass("");
+                    currentStep--;
+                    $(".circle-" + parseInt(currentStep + 1)).removeClass("active");
+                    setTimeout(function() {
+                        $(".step").removeClass("").hide();
+                        $(".step-" + currentStep).show().addClass("");
+                        updateProgressBar();
+                    }, 500);
+                }
+            });
+            updateProgressBar = function() {
+                var progressPercentage = ((currentStep - 1) / 4) * 100;
+                $(".progress-bar").css("width", progressPercentage + "%");
             }
-
-            $('.type_select').not(this).removeClass("active");
-            $(this).toggleClass("active");
+            // });
         });
 
         $(document).ready(function() {
@@ -357,9 +379,14 @@
             $('#image_div_' + imageId).remove();
         }
 
-        $(".btn-custom").on('click', function (e){
-            $(e.target).parent().remove();
-        });
+        //placeholder name change sub category
+        $('#sub_category_id').on('change', function (e) {
+            if(e.target.value == 19){
+                $('#post_price_id').attr("placeholder", "Price per-day");
+            }else {
+                $('#post_price_id').attr("placeholder", "Price");
+            }
+        })
 
     </script>
 
