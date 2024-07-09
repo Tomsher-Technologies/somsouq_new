@@ -40,13 +40,12 @@
                 @forelse($posts as $post)
                     <div class="col-md-3">
                             <div class="card ad-card">
-                                <button class="btn btn-wishlist"><i class="bi bi-heart"></i></button>
+                                <button class="btn btn-wishlist" @guest data-bs-toggle="modal" data-bs-target="#loginModal" @else onclick="addToWishlist('{{ $post->id }}')" @endguest><i class="bi bi-heart"></i></button>
                                 <a href="{{ route('public.view', ['type' => 'public', 'id' => $post->id]) }}">
                                 <div class="card-img-warpper">
                                     <img src="{{ CommonFunction::showPostImage($post->id) }}" class="card-img-top img-fluid" alt="{{ CommonFunction::getPostImageName($post->id) }}" style="height: 234px; object-fit: cover">
                                     <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $post->state }}, {{ $post->city }}</span>
 
-                                    <span class="wishlist-icon"><i class="bi bi-heart"></i></span>
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-price">USD {{ $post->price ?? "" }}</h5>
@@ -70,7 +69,7 @@
     <script src="{{ asset('assets/custom-js/login.js') }}"></script>
 
     <script>
-        $('.categories-box').click(function(){
+        $('.categories-box').click(function() {
             if(!$(this).hasClass('active')) {
                 getCategoryWiseSearchBar($(this).attr("data-id"), '{{ route('get-category-wise-search') }}');
             }
@@ -89,6 +88,9 @@
                     data: {
                         category_id:categoryId,
                     },
+                    beforeSend: function() {
+                        $('.categories-box').css('pointer-events', 'none');
+                    },
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
@@ -98,6 +100,9 @@
                             $('#load_post_id').html(response.postHtml);
                         }
                     },
+                    complete: function() {
+                        $('.categories-box').css('pointer-events', 'unset');
+                    },
                     error: function(xhr, status, error) {
                         console.log(xhr, status, error)
                     }
@@ -106,10 +111,6 @@
         }
 
 
-
-    </script>
-
-    <script>
         function postBarSearch()
         {
             var actionurl = $('#search_bar_form').attr('action');
@@ -118,6 +119,9 @@
                 url: actionurl,
                 type: 'post',
                 data: $("#search_bar_form").serialize(),
+                beforeSend: function() {
+                    $('form *').prop('disabled', true);
+                },
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
@@ -126,10 +130,46 @@
                         $('#load_post_id').html(data.postHtml);
                     }
                 },
+                complete: function() {
+                    $('form *').prop('disabled', false);
+                },
                 error: function(xhr, status, error) {
                     console.log(xhr, status, error)
                 }
             });
+        }
+
+        // btn-wishlist
+        function addToWishlist(postId)
+        {
+            if(postId){
+                $.ajax({
+                    url: "{{ route('wishlist.add') }}",
+                    type: 'get',
+                    data: {
+                        post_id:postId,
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if(response.http_status == 200) {
+                            toastr.success(response.message);
+                        }
+
+                        if(response.http_status == 201) {
+                            toastr.success(response.message);
+                        }
+
+                        if(response.http_status == 500) {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr, status, error)
+                    }
+                });
+            }
         }
     </script>
 

@@ -31,7 +31,7 @@
                         <select class="form-select" aria-label="Floating label select example" name="price_range" onchange="postBarSearch()">
                             <option value="">-Select-</option>
                             @foreach($price_ranges as $price)
-                                <option value="{{ $price }}">SOS {{ $price }}</option>
+                                <option value="{{ $price }}">USD {{ $price }}</option>
                             @endforeach
                         </select>
                         <label for="floatingSelect">Price Range</label>

@@ -30,6 +30,7 @@
                         <h3>My Account</h3>
                         <div class="account-details">
                             <img src="{{ uploaded_asset_profile(auth()->user()->image) }}" class="img-fluid" alt="">
+                            <a href="{{ route('front.logout') }}" class="btn btn-logout d-block d-md-none"><i class="bi bi-box-arrow-left"></i> Logout</a>
                             <div class="account-info">
                                 <h4>{{ auth()->user()->name ?? ucfirst(auth()->user()->name) }}</h4>
                                 @if(!empty(auth()->user()->email))
@@ -42,7 +43,7 @@
                                 @endif
                             </div>
 
-                            <div class="btn-group ms-0 ms-md-auto gap-2">
+                            <div class="button-flex">
                                 <a href=""><a href="{{ route('user.change.password') }}" class="btn btn-outline ms-auto"><i class="bi bi-lock-fill"></i>Change Password</a></a>
                                 <a href="{{ route('edit.profile') }}" class="btn btn-outline  bg_primary border-0 text-white"><i class="bi bi-pencil-fill"></i>Edit Profile</a>
                             </div>
@@ -54,6 +55,9 @@
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
                                 <button class="nav-link active" id="my-ads-tab" data-bs-toggle="tab" data-bs-target="#my-ads-tab-pane" type="button" role="tab" aria-controls="my-ads-tab-pane" aria-selected="true">My Ads</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="my-wishlist-tab" data-bs-toggle="tab" data-bs-target="#my-wishlist-tab-pane" type="button" role="tab" aria-controls="my-wishlist-tab-pane" aria-selected="false">Wishlist</button>
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
@@ -77,14 +81,14 @@
                                                     <span><i class="bi bi-geo-alt"></i> {{ $post->state }}, {{ $post->city }}</span>
                                                 </div>
 
-                                                <div class="d-flex justify-content-end gap-3 ms-auto">
+                                                <div class="button-flex">
                                                     @if($post->status == 'approved')
-                                                        <a href="{{ route('post.sold', ['id' => $post->id]) }}" class="btn btn-outline ms-auto bg-info border-0 text-white"><i class="bi bi-building-check"></i>Sold</a>
+                                                        <a href="{{ route('post.sold', ['id' => $post->id]) }}" class="btn btn-outline bg-info border-0 text-white"><i class="bi bi-building-check"></i>Sold</a>
                                                     @endif
 
-                                                    <a href="{{ route('post.view', ['type' => 'user','id' => $post->id]) }}" class="btn btn-outline ms-auto bg_primary border-0 text-white"><i class="bi bi-eye"></i>View</a>
-                                                    <a href="{{ route('post.edit', ['id' => $post->id]) }}" class="btn btn-outline ms-auto"><i class="bi bi-pencil-fill"></i>Edit</a>
-                                                    <a href="{{ route('post.delete', ['id' => $post->id]) }}" class="btn btn-outline ms-auto bg-danger text-white border-0"><i class="bi bi-trash3"></i>Withdraw</a>
+                                                    <a href="{{ route('post.view', ['type' => 'user','id' => $post->id]) }}" class="btn btn-outline bg_primary border-0 text-white"><i class="bi bi-eye"></i>View</a>
+                                                    <a href="{{ route('post.edit', ['id' => $post->id]) }}" class="btn btn-outline"><i class="bi bi-pencil-fill"></i>Edit</a>
+                                                    <a href="{{ route('post.delete', ['id' => $post->id]) }}" class="btn btn-outline bg-danger text-white border-0"><i class="bi bi-trash3"></i>Withdraw</a>
                                                 </div>
 
                                             </div>
@@ -95,6 +99,34 @@
 
                             </div>
                         </div>
+{{--                        end first section--}}
+                        <div class="tab-pane fade" id="my-wishlist-tab-pane" role="tabpanel" aria-labelledby="my-wishlist-tab" tabindex="0">
+
+                            <div class="row g-3">
+                                @forelse($wishlists as $post)
+                                    <div class="col-md-3" id="list_id_{{$post->list_id}}">
+                                        <div class="card ad-card">
+                                            <button class="btn btn-wishlist text-white bg-danger" onclick="deleteFromList('{{ $post->list_id }}')"><i class="bi bi-trash"></i></button>
+                                            <a href="{{ route('public.view', ['type' => 'public', 'id' => $post->id]) }}">
+                                                <div class="card-img-warpper">
+                                                    <img src="{{ CommonFunction::showPostImage($post->id) }}" class="card-img-top" alt="{{ CommonFunction::getPostImageName($post->id) }}" style="height: 234px; object-fit: cover">
+                                                    <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $post->state ?? "" }}, {{ $post->city ?? "" }}</span>
+                                                    <span class="property-category">{{ $post->category_name ?? "" }}</span>
+                                                </div>
+                                                <div class="card-body">
+                                                    <h5 class="card-price">USD {{ $post->price ?? "" }} </h5>
+                                                    <h4 class="card-title">{{ $post->title ? substr($post->title, 0, 80) : "" }}</h4>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <span class="text-center">Wishlist is empty</span>
+                                @endforelse
+                            </div>
+                        </div>
+
+
                     </div>
                 </div>
             </div>
@@ -103,5 +135,40 @@
 @endsection
 
 @section('script')
+    <script>
+        function deleteFromList(wishlistId)
+        {
+            if(wishlistId){
+                $.ajax({
+                    url: "{{ route('wishlist.delete') }}",
+                    type: 'get',
+                    data: {
+                        list_id: wishlistId,
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        if(response.http_status == 200) {
+                            toastr.success(response.message);
+                            $('#list_id_' + wishlistId).remove();
+                        }
+
+                        if(response.http_status == 500) {
+                            toastr.error(response.message);
+                        }
+
+                        if(response.http_status == 404) {
+                            toastr.error(response.message);
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr, status, error)
+                    }
+                });
+            }
+        }
+    </script>
 @endsection
 

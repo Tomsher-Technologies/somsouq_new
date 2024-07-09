@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
           rel="stylesheet">
-
+    <link rel="stylesheet" href="{{ asset('assets/frontEnd/vendor/toastr/toastr.min.css') }}">
     @yield('stylesheet')
 
 </head>
@@ -18,35 +18,9 @@
 @include('frontEnd.includes.main-header')
 
 @yield('content')
-<div class="mobile-nav">
-    <a href="{{ route('post.create') }}" class="add-post" @guest data-bs-toggle="modal" data-bs-target="#loginModal" @endguest><i class="bi bi-plus"></i></a>
-    <ul>
-        <li>
-            <a href="{{ route('home') }}">
-                <i class="bi bi-house"></i>
-                <span>Home</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class="bi bi-search"></i>
-                <span>Search</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class="bi bi-heart"></i>
-                <span>Wishlist</span>
-            </a>
-        </li>
-        <li>
-            <a @guest data-bs-toggle="modal" data-bs-target="#loginModal" @endguest href="{{ route('my-account.index') }}">
-                <i class="bi bi-person"></i>
-                <span>Account</span>
-            </a>
-        </li>
-    </ul>
-</div>
+
+@include('frontEnd.includes.mobile-nav')
+
 @include('frontEnd.includes.footer')
 
 
@@ -56,11 +30,49 @@
 <script src="{{ asset('assets/frontEnd/js/owl.carousel.js') }}"></script>
 
 <script src="{{ asset('assets/frontEnd/js/custom.js') }}"></script>
+<script src="{{ asset('assets/frontEnd/js/jquery-validation/jquery.validate.js') }}"></script>
+<script src="{{ asset('assets/frontEnd/vendor/toastr/toastr.min.js') }}"></script>
 <script>
     let BASE_URL = "{{ route('home') }}";
     $(".btn-custom-close").on('click', function (e){
         $(e.target).parent().remove();
     });
+
+    $(function() {
+        /**
+         * Global search form validation here
+         */
+
+        $('#searchFormId1').validate({
+            onfocusout: false,
+            highlight: function (element) {
+                $(element).focus();
+                $(element).css('border-color', 'red');
+            },
+            unhighlight: function(element) {
+                $(element).css('border-color', '#dee2e6');
+            },
+            errorPlacement: function(error, element) {},
+        });
+    });
+
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "1000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
 </script>
 
 @yield('script')

@@ -1,13 +1,57 @@
-<ul>
-    <li>Size: {{ $postDetail->size ?? "" }} <sub>M</sub> 2</li>
-    <li>Age of Building: {{ $postDetail->age_of_building ?? "" }}</li>
-    <li>Number of Room: {{ $postDetail->number_of_room ?? "" }}</li>
-    <li>Number of Washroom: {{ $postDetail->number_of_washroom ?? "" }}</li>
-    <li>Number of Flor: {{ $postDetail->number_of_floor ?? "" }}</li>
-    <li>Flor Number: {{ $postDetail->floor_number ?? "" }}</li>
-    <li>Furniture Status: {{ \App\Enums\Front\FurnitureStatus::getFurnitureStatus()[$postDetail->furniture_status] ?? "" }}</li>
-    <li>Elevator: {{ $postDetail->elevator ?? "" }}</li>
-    <li>Usage of Status: {{ $postDetail->usage_status ?? "" }}</li>
-    <li>Condition: {{ \App\Enums\Front\ConditionStatus::getConditionStatus()[$postDetail->condition_status] ?? "" }}</li>
-    <li>Description: {{ $postDetail->description ?? "" }}</li>
-</ul>
+<div class="row mt-5">
+    <div class="col-md-12">
+        <h4 class="mb-3">Item overview</h4>
+        <div class="item-overview">
+            <div class="card border-0">
+                <div class="card-body p-0">
+                    <ul>
+                        <li>
+                            <h4>{{ $postDetail->number_of_room ?? "" }}</h4>
+                            <h5>Room</h5>
+                        </li>
+                        <li>
+                            <h4>{{ $postDetail->number_of_washroom ?? "" }}</h4>
+                            <h5>Washroom</h5>
+                        </li>
+                        <li>
+                            <h4>{{ \App\Enums\Front\FurnitureStatus::getFurnitureStatus()[$postDetail->furniture_status] ?? "" }}</h4>
+                            <h5>Furniture Status</h5>
+                        </li>
+                        <li>
+                            <h4>{{ $postDetail->elevator ?? "" }}</h4>
+                            <h5>Elevator</h5>
+                        </li>
+                        <li>
+                            <h4>{{ \App\Enums\Front\ConditionStatus::getConditionStatus()[$postDetail->condition_status] ?? "" }}</h4>
+                            <h5>Condition</h5>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-12">
+        <h4 class="mb-3">Additional Details</h4>
+        <div class="additional-details">
+            <div class="card product-card">
+                <div class="card-body p-0">
+                    <ul>
+                        <li><strong>Size: </strong> <span>{{ $postDetail->size ?? "" }} <sub>M</sub> 2</span></li>
+                        <li><strong>Age of Building:</strong> <span>{{ $postDetail->age_of_building ?? "" }}</span></li>
+                        <li><strong>Number of Room:</strong> <span>{{ $postDetail->number_of_room ?? "" }}</span></li>
+                        <li><strong>Number of Washroom:</strong> <span>{{ $postDetail->number_of_washroom ?? "" }}</span></li>
+                        <li><strong>Number of Flor:</strong> <span>{{ $postDetail->number_of_floor ?? "" }}</span></li>
+                        <li><strong>Flor Number:</strong> <span>{{ $postDetail->floor_number ?? "" }}</span></li>
+                        <li><strong>Furniture Status:</strong> <span>{{ \App\Enums\Front\FurnitureStatus::getFurnitureStatus()[$postDetail->furniture_status] ?? "" }}</span></li>
+                        <li><strong>Elevator:</strong> <span>{{ $postDetail->elevator ?? "" }}</span></li>
+                        <li><strong>Usage of Status:</strong> <span>{{ $postDetail->usage_status ?? "" }}</span></li>
+                        <li><strong>Condition:</strong> <span>{{ \App\Enums\Front\ConditionStatus::getConditionStatus()[$postDetail->condition_status] ?? "" }}</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

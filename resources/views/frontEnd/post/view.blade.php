@@ -90,19 +90,6 @@
                 </div>
             </div>
 
-
-            <div class="row mt-3">
-                <div class="col-md-8 m-auto">
-                    <h4 class="mb-2">Description</h4>
-                    <div class="card p-3 border-0">
-                        <div class="card-body">
-                            <p class="mb-0">{{ $post->description ?? "" }}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
         </div>
     </section>
 @endsection

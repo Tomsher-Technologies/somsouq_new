@@ -5,20 +5,22 @@
             <h3>Top Categories</h3>
         </div>
 
-        <div class="row g-3">
-            @forelse(CommonFunction::getCategory() as $category)
-                <div class="col-6 col-md-2">
-                    <a href="{{ route('post.detail-category', ['cat_id' => $category->id]) }}">
-                        <div class="categories-box">
-                            @if ($category->icon != null)
-                                <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
-                            @endif
-                            <h4>{{ $category->en_name }}</h4>
-                        </div>
-                    </a>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="top-categories owl-carousel owl-theme">
+                    @forelse(CommonFunction::getCategory() as $category)
+                            <a href="{{ route('post.detail-category', ['cat_id' => $category->id]) }}">
+                                <div class="categories-box">
+                                    @if ($category->icon != null)
+                                        <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
+                                    @endif
+                                    <h4>{{ $category->en_name }}</h4>
+                                </div>
+                            </a>
+                    @empty
+                    @endforelse
                 </div>
-            @empty
-            @endforelse
+            </div>
         </div>
     </div>
 </section>

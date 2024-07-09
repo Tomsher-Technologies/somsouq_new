@@ -33,6 +33,25 @@ final class MyAccountController extends Controller
                     'cities.name as city',
                 ]);
 
+            $data['wishlists'] = Post::join('wishlists', 'wishlists.post_id', 'posts.id')
+                ->leftJoin('categories', 'categories.id', '=', 'posts.category_id')
+                ->leftJoin('states', 'states.id', '=', 'posts.state_id')
+                ->leftJoin('cities', 'cities.id', '=', 'posts.city_id')
+                ->where('posts.status', 'approved')
+                ->where('wishlists.user_id', Auth::id())
+                ->orderBy('wishlists.id', 'DESC')
+                ->get([
+                    'posts.id',
+                    'posts.category_id',
+                    'posts.title',
+                    'posts.price',
+                    'posts.status',
+                    'wishlists.id as list_id',
+                    'states.name as state',
+                    'cities.name as city',
+                    'categories.en_name as category_name',
+                ]);
+
             $data['total_pending'] = Post::where('created_by', Auth::id())->whereIn('status', ['pending'])->count();
             $data['total_approve'] = Post::where('created_by', Auth::id())->whereIn('status', ['approved'])->count();
             $data['total_sold'] = Post::where('created_by', Auth::id())->whereIn('status', ['sold'])->count();

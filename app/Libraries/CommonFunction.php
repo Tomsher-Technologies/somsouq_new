@@ -91,4 +91,14 @@ class CommonFunction
 
         return app('url')->asset('assets/frontEnd/images/user.png');
     }
+
+    public static function getPostUserJoinDate(?int $createdBy): string|null
+    {
+        $getUser = User::where('id', $createdBy)->first(['created_at']);
+        $join_date = '';
+        if ($getUser) {
+            $join_date = date('Y-m-d', strtotime($getUser->created_at));
+        }
+        return $join_date;
+    }
 }

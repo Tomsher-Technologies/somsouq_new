@@ -134,3 +134,101 @@ $('.category_slider').owlCarousel({
         }
     }
 })
+
+
+// $(document).rea
+
+
+var $categorySlider = $(".top-categories");
+
+$(window).resize(function() {
+    showCategorySlider();
+});
+
+function showCategorySlider() {
+    if ($categorySlider.data("owlCarousel") !== "undefined") {
+        if (window.matchMedia('(max-width: 600px)').matches) {
+            initialCategorySlider();
+        } else {
+            destroyCategorySlider();
+        }
+    }
+}
+showCategorySlider();
+
+function initialCategorySlider() {
+    $categorySlider.addClass("owl-carousel").owlCarousel({
+        items: 1,
+        loop: true,
+        autoplay: false,
+        nav:true,
+        dots:false,
+        autoplayTimeout: 2000,
+        smartSpeed: 1000,
+        responsive:{
+            0:{
+                items:2,
+                margin:10,
+            },
+            600:{
+                items:2
+            },
+            1000:{
+                items:4
+            }
+        }
+    });
+}
+
+function destroyCategorySlider() {
+    $categorySlider.trigger("destroy.owl.carousel").removeClass("owl-carousel");
+}
+
+
+
+var $propertySlider = $(".list-properties");
+
+$(window).resize(function() {
+    showPropertySlider();
+});
+
+function showPropertySlider() {
+    if ($propertySlider.data("owlCarousel") !== "undefined") {
+        if (window.matchMedia('(max-width: 600px)').matches) {
+            initialPropertySlider();
+        } else {
+            destroyPropertySlider();
+        }
+    }
+}
+showPropertySlider();
+
+function initialPropertySlider() {
+    $propertySlider.addClass("owl-carousel").owlCarousel({
+        items: 1,
+        loop: true,
+        autoplay: false,
+        nav:true,
+        dots:false,
+        autoplayTimeout: 2000,
+        smartSpeed: 1000,
+        responsive:{
+            0:{
+                items:1.5,
+                margin:10,
+            },
+            600:{
+                items:2.5
+            },
+            1000:{
+                items:4
+            }
+        }
+    });
+}
+
+function destroyPropertySlider() {
+    $propertySlider.trigger("destroy.owl.carousel").removeClass("owl-carousel");
+}
+
+//end

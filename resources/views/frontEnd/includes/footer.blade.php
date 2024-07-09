@@ -83,13 +83,13 @@ $category = CommonFunction::getCategory();
                         <h5>Quick Links</h5>
                         <ul>
                             <li>
-                                <a href="#">About Us</a>
+                                <a href="{{ route('about-us') }}">About Us</a>
                             </li>
                             <li>
-                                <a href="#">Terms & Conditions</a>
+                                <a href="{{ route('term-condition') }}">Terms & Conditions</a>
                             </li>
                             <li>
-                                <a href="#">Privacy Policy</a>
+                                <a href="{{ route('privacy-policy') }}">Privacy Policy</a>
                             </li>
                         </ul>
                     </div>
@@ -99,13 +99,13 @@ $category = CommonFunction::getCategory();
                         <h5>Support</h5>
                         <ul>
                             <li>
-                                <a href="#">Help</a>
+                                <a href="{{ route('help') }}">Help</a>
                             </li>
                             <li>
-                                <a href="#">Contact Us</a>
+                                <a href="{{ route('contact-us') }}">Contact Us</a>
                             </li>
                             <li>
-                                <a href="#">Tutorial</a>
+                                <a href="{{ route('tutorial') }}">Tutorial</a>
                             </li>
                         </ul>
                     </div>

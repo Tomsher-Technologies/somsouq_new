@@ -79,7 +79,7 @@ final class PostController extends Controller
                     'status' => 'success',
                     'method' => 'add',
                     'url' => route('my-account.index'),
-                    'cancel_url' => route('post.create'),
+                    'home_url' => route('home'),
                 ];
             }
 
@@ -88,7 +88,7 @@ final class PostController extends Controller
                     'status' => 'success',
                     'method' => 'edit',
                     'url' => route('my-account.index'),
-                    'cancel_url' => route('post.edit', ['id' => $request->get('post_id')]),
+                    'home_url' => route('home'),
                 ];
             }
 
@@ -160,14 +160,25 @@ final class PostController extends Controller
         try {
             $data['post'] = Post::leftJoin('states', 'states.id', '=', 'posts.state_id')
                 ->leftJoin('cities', 'cities.id', '=', 'posts.city_id')
+                ->leftJoin('categories', 'categories.id', '=', 'posts.category_id')
                 ->where('posts.id', $postId)
                 ->first([
-                    'posts.*',
+                    'posts.id',
+                    'posts.title',
+                    'posts.price',
+                    'posts.tracking_number',
+                    'posts.category_id',
+                    'posts.sub_category_id',
+                    'posts.updated_at',
+                    'posts.created_by',
+                    'posts.created_at',
+                    'posts.description',
                     'states.name as state',
                     'cities.name as city',
+                    'categories.en_name as category_name',
                 ]);
 
-            $data['postDetail'] = CategoryWisePostDetailDataService::getData(categoryId: $data['post']->category_id, postId: $postId);
+            //$data['postDetail'] = CategoryWisePostDetailDataService::getData(categoryId: $data['post']->category_id, postId: $postId);
             $data['images'] = ImageUploadService::getPostImage(postId: $postId);
 
             $getPostDetail = CategoryWiseDetailViewService::getView(categoryId: $data['post']->category_id, subCategoryId: $data['post']->sub_category_id,postId: $postId, viewType: $viewType);
@@ -235,7 +246,7 @@ final class PostController extends Controller
 
     protected function generateTrackingNumber(int $postId, int $category_it): string
     {
-        $trackingPrefix = 'AD-' . date("dmY") . $category_it;
+        $trackingPrefix = 'SOM-' . date("dmY") . $category_it;
         return DB::statement("update  posts, posts as table2  SET posts.tracking_number=(
                             select concat('$trackingPrefix',
                                     LPAD( IFNULL(MAX(SUBSTR(table2.tracking_number,-4,4) )+1,1),4,'0')
