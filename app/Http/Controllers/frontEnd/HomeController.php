@@ -18,9 +18,11 @@ final class HomeController extends Controller
 
              $query = Post::query();
                 $query->leftJoin('states', 'states.id', '=', 'posts.state_id')
-                ->leftJoin('cities', 'cities.id', '=', 'posts.city_id')
-                ->where('posts.is_popular', 'yes')
-                ->whereIn('posts.status', ['approved']);
+                    ->leftJoin('cities', 'cities.id', '=', 'posts.city_id')
+                    ->leftJoin('categories', 'categories.id', '=', 'posts.category_id')
+                    ->where('posts.is_popular', 'yes')
+                    ->where('categories.parent_id', 0)
+                    ->whereIn('posts.status', ['approved']);
 
             if (Session::get('location')) {
                 $query->where('posts.state_id', Session::get('location'));
@@ -35,6 +37,7 @@ final class HomeController extends Controller
                     'posts.status',
                     'states.name as state',
                     'cities.name as city',
+                    'categories.en_name as category_name',
                 ]);
 
 //        $getPost = Post::leftJoin('states', 'states.id', '=', 'posts.state_id')
@@ -53,14 +56,14 @@ final class HomeController extends Controller
 
             $query = Post::query();
                 $query->latest("p.updated_at")
-                ->fromSub('select *, ROW_NUMBER() OVER (PARTITION BY category_id) as RowNumber from posts', 'p')
-                ->leftJoin('states', 'states.id', '=', 'p.state_id')
-                ->leftJoin('cities', 'cities.id', '=', 'p.city_id')
-                ->where('RowNumber', '<=', 8);
+                    ->fromSub('select *, ROW_NUMBER() OVER (PARTITION BY category_id) as RowNumber from posts', 'p')
+                    ->leftJoin('states', 'states.id', '=', 'p.state_id')
+                    ->leftJoin('cities', 'cities.id', '=', 'p.city_id')
+                    ->where('RowNumber', '<=', 8);
 
-                if (Session::get('location')) {
-                    $query->where('p.state_id', Session::get('location'));
-                }
+                    if (Session::get('location')) {
+                        $query->where('p.state_id', Session::get('location'));
+                    }
 
             $getPost = $query->whereIn('p.status', ['approved'])
                 ->orderBy('p.updated_at', 'desc')
@@ -71,7 +74,7 @@ final class HomeController extends Controller
                     'p.price',
                     'p.status',
                     'states.name as state',
-                    'cities.name as city'
+                    'cities.name as city',
                 ]);
 
             $posts = [];
@@ -83,7 +86,7 @@ final class HomeController extends Controller
             $data['posts'] = $posts;
             return view('frontEnd.home.home', $data);
         }catch (\Exception $e){
-            abort(404);
+            dd($e->getMessage());
         }
     }
 

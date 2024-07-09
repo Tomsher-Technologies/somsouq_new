@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal fade login-modal" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered">
-        <div class="modal-content rounded-0">
+        <div class="modal-content">
             <div class="modal-header border-0">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -33,8 +33,9 @@
 <div class="modal fade login-modal" id="signUpModal" tabindex="-1" aria-labelledby="signUpModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered">
-        <div class="modal-content rounded-0">
+        <div class="modal-content">
             <div class="modal-header border-0">
+                <a href="#" class="text-black" data-bs-target="#loginModal" data-bs-toggle="modal"><i class="bi bi-arrow-left me-2"></i>Back</a>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -109,13 +110,14 @@
 <div class="modal fade login-modal" id="signInModal" tabindex="-1" aria-labelledby="signINModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-md modal-dialog-centered">
-        <div class="modal-content rounded-0">
+        <div class="modal-content">
             <div class="modal-header border-0">
+                <a href="#" class="text-black" data-bs-target="#loginModal" data-bs-toggle="modal"><i class="bi bi-arrow-left me-2"></i>Back</a>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-11 m-auto">
+                    <div class="col-md-10 m-auto">
                         <h3 class="my-4">Log in with your email</h3>
                         <form action="{{ route('user.login') }}" method="post" id="loginForm">
                             @csrf

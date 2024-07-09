@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -79,5 +81,14 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
     //Mange User
     Route::get('/user/list', [UserController::class, 'index'])->name('user.list');
+
+    //Contact us
+    Route::get('/contact/list', [ContactController::class, 'index'])->name('contact.list');
+    Route::get('/contact/destroy/{contact}', [ContactController::class, 'destroy'])->name('contact.destroy');
+
+    //about us
+    Route::get('about', [AboutController::class, 'index'])->name('about.index');
+    Route::get('about/edit/{about}', [AboutController::class, 'edit'])->name('about.edit');
+    Route::post('about/update', [AboutController::class, 'update'])->name('about.update');
 
 });

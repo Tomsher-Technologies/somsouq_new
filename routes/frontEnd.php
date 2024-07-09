@@ -1,13 +1,20 @@
 <?php
 
+use App\Http\Controllers\frontEnd\AboutController;
 use App\Http\Controllers\frontEnd\Auth\SocialiteAuthController;
 use App\Http\Controllers\frontEnd\Auth\AuthController;
 use App\Http\Controllers\frontEnd\CategoryController;
+use App\Http\Controllers\frontEnd\ContactController;
+use App\Http\Controllers\frontEnd\HelpController;
 use App\Http\Controllers\frontEnd\HomeController;
 use App\Http\Controllers\frontEnd\MyAccountController;
+use App\Http\Controllers\frontEnd\PolicyController;
 use App\Http\Controllers\frontEnd\PostController;
 use App\Http\Controllers\frontEnd\SearchController;
 use App\Http\Controllers\frontEnd\StateCityController;
+use App\Http\Controllers\frontEnd\TermConditionController;
+use App\Http\Controllers\frontEnd\TutorialController;
+use App\Http\Controllers\frontEnd\WishlistController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -38,6 +45,14 @@ Route::prefix('post')->group(function () {
 //view post
 Route::get('/public-view/{type}/{id}', [PostController::class, 'view'])->name('public.view');
 
+Route::get('about-us', [AboutController::class, 'index'])->name('about-us');
+Route::get('contact-us', [ContactController::class, 'index'])->name('contact-us');
+Route::post('contact-store', [ContactController::class, 'store'])->name('contact.store');
+Route::get('tutorial', [TutorialController::class, 'index'])->name('tutorial');
+Route::get('help', [HelpController::class, 'index'])->name('help');
+Route::get('term-condition', [TermConditionController::class, 'index'])->name('term-condition');
+Route::get('privacy-policy', [PolicyController::class, 'index'])->name('privacy-policy');
+
 Route::middleware('user')->group(callback: function () {
 
     Route::prefix('user')->group(function () {
@@ -64,6 +79,10 @@ Route::middleware('user')->group(callback: function () {
 
     //get sub category by category id
     Route::get('get-subCategories-by-category', [CategoryController::class, 'getSubCategoriesByCategory'])->name('get-subCategories-by-category');
+
+    Route::get('wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::get('wishlist/add', [WishlistController::class, 'addPostToWishlist'])->name('wishlist.add');
+    Route::get('wishlist/delete', [WishlistController::class, 'deleteFromWishlist'])->name('wishlist.delete');
 });
 
 

@@ -368,6 +368,9 @@
         // Stop the original submit.
         event.stopPropagation();
         event.preventDefault(event);
+
+        //disable submit button
+        $(':input[type="submit"]').prop('disabled', true);
         // Retrieve all form inputs.
         const inputs = this.querySelectorAll("input, textarea, select, button");
         // Create a form.
@@ -398,20 +401,24 @@
 
         // Create an request and post all data.
         var xhr = new XMLHttpRequest();
-        var title = "";
-        var text = "";
+        let title = '';
+        let text = '';
         // When the request has been successfully submitted, redirect to the
         // location of the form.
+        xhr.onloadstart = function (){
+            $(':input[type="submit"]').prop('disabled', true);
+        };
         xhr.onreadystatechange = function(e) {
 
           if (xhr.status == 200 && xhr.readyState === XMLHttpRequest.DONE) {
+              $(':input[type="submit"]').prop('disabled', false);
+
               let response = JSON.parse(xhr.response);
-              console.log(response)
 
               if (response.status == "success") {
+
                   if (response.method == "edit") {
                         title = "The post has been updated";
-                        text = "";
                   }
 
                   if (response.method == "add") {
@@ -426,6 +433,7 @@
                       allowOutsideClick: false,
                       showCancelButton: true,
                       confirmButtonText: "Go My Account",
+                      cancelButtonText: "Go Home",
                       customClass: {
                           confirmButton: 'btn btn-primary',
                           cancelButton: 'btn btn-outline-step'
@@ -434,7 +442,7 @@
                       if(result.isConfirmed) {
                           window.location.replace(response.url)
                       } else {
-                          window.location.replace(response.cancel_url)
+                          window.location.replace(response.home_url)
                       }
                   });
               }
@@ -458,6 +466,10 @@
 
         xhr.open("POST", $(this).attr("action"), true);
         xhr.send(formData);
+
+          xhr.onloadend = function (){
+              $(':input[type="submit"]').prop('disabled', false);
+          }
 
         return false;
       });
