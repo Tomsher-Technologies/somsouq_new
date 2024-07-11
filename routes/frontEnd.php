@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/home/{location}', [HomeController::class, 'setLocation'])->name('home.location');
 
-Route::controller(SocialiteAuthController::class)->group(function (){
+Route::controller(SocialiteAuthController::class)->group(function () {
     Route::get('auth/{provider}', 'redirectTo');
     Route::get('auth/{provider}/callback', 'handleCallback');
     Route::post('email/login', 'loginWithEmail');
@@ -41,6 +41,7 @@ Route::prefix('post')->group(function () {
     Route::get('/get-category-wise-search', [SearchController::class, 'getCategoryWiseSearch'])->name('get-category-wise-search');
     Route::get('/detail-category/{cat_id}', [SearchController::class, 'index'])->name('post.detail-category');
     Route::post('/data-filter', [SearchController::class, 'postDataFilter'])->name('post.data.filter');
+    Route::get('/social-share-link', [PostController::class, 'socialShareLink'])->name('social.share');
 });
 //view post
 Route::get('/public-view/{type}/{id}', [PostController::class, 'view'])->name('public.view');

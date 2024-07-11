@@ -232,3 +232,73 @@ function destroyPropertySlider() {
 }
 
 //end
+
+
+$(document).ready(function() {
+    function closeAllDropdowns() {
+        $('.dropdown-content').hide();
+        $('.dropbtn i').each(function() {
+            const defaultIcon = $(this).closest('.dropbtn').data('icon-default');
+            $(this).attr('class', defaultIcon);
+        });
+    }
+
+    $('.dropdown.click-toggle').each(function() {
+        const $dropdown = $(this);
+        const $dropbtn = $dropdown.find('.dropbtn');
+        const $dropdownContent = $dropdown.find('.dropdown-content');
+        const $icon = $dropbtn.find('i');
+        const defaultIcon = $icon.attr('class');
+        const upIcon = $dropbtn.data('icon-up');
+
+        $dropbtn.data('icon-default', defaultIcon);
+
+        $dropbtn.on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if ($dropdownContent.is(':visible')) {
+                $dropdownContent.hide();
+                $icon.attr('class', defaultIcon);
+            } else {
+                closeAllDropdowns();
+                $dropdownContent.show();
+                $icon.attr('class', upIcon);
+            }
+        });
+
+        $dropdownContent.on('click', function(e) {
+            e.stopPropagation();
+        });
+
+        $(document).on('click', function(e) {
+            if (!$dropdown.is(e.target) && $dropdown.has(e.target).length === 0) {
+                closeAllDropdowns();
+            }
+        });
+    });
+
+    $('.dropdown').not('.click-toggle').hover(
+        function() {
+            const $icon = $(this).find('.dropbtn i');
+            const upIcon = $(this).find('.dropbtn').data('icon-up');
+            const defaultIcon = $icon.attr('class');
+            $icon.data('icon-default', defaultIcon);
+
+            closeAllDropdowns();
+
+            $(this).find('.dropdown-content').show();
+            $icon.attr('class', upIcon);
+        },
+        function() {
+            const $icon = $(this).find('.dropbtn i');
+            const defaultIcon = $icon.data('icon-default');
+            $(this).find('.dropdown-content').hide();
+            $icon.attr('class', defaultIcon);
+        }
+    );
+
+    $('.dropdown .dropdown-content').on('click', function(e) {
+        e.stopPropagation();
+    });
+});

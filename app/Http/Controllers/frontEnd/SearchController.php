@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontEnd;
 
 use App\Http\Controllers\Controller;
+use App\Libraries\CommonFunction;
 use App\Models\Post;
 use App\Services\Front\CategoryNameService as CATEGORY_NAME;
 use App\Services\Front\CategoryWiseSearchBar;
@@ -15,12 +16,15 @@ final class SearchController extends Controller
     {
         try {
             $data['category_id'] = ($request->get('category_id')) ? $request->get('category_id') : $cat_id;
+            $data['category_name'] = CommonFunction::getCategoryName(category_id: $data['category_id']);
             $data['posts'] = $this->categoryWisePost($request->all(), $data['category_id']);
             $getBarHtml = CategoryWiseSearchBar::getSearchBar(categoryId: $data['category_id']);
 
             if (!in_array("", $getBarHtml)) {
                 $data['searchBarHtml'] = view($getBarHtml['file_path'], $getBarHtml['data'])->render();
             }
+
+            $data['category_wise_total_post'] = $this->categoryWiseTotalPost($data['category_id']);
 
             return view('frontEnd.search.search', $data);
         } catch (\Exception $e) {
@@ -33,8 +37,13 @@ final class SearchController extends Controller
         try {
             $getBarHtml = CategoryWiseSearchBar::getSearchBar(categoryId: $request->get('category_id'));
 
-            $getPostData = $this->categoryWisePost($request->all(), $request->get('category_id'));
-            $postHtml = view('frontEnd.search.search-post', ['posts' => $getPostData])->render();
+            $data['posts'] = $this->categoryWisePost($request->all(), $request->get('category_id'));
+
+            $data['category_id'] = $request->get('category_id');
+            $data['category_wise_total_post'] = $this->categoryWiseTotalPost($request->get('category_id'));
+            $data['category_name'] = CommonFunction::getCategoryName(category_id: $data['category_id']);
+
+            $postHtml = view('frontEnd.search.search-post', $data)->render();
 
             if (in_array("", $getBarHtml)) {
                 return response()->json([
@@ -75,6 +84,7 @@ final class SearchController extends Controller
                     'posts.category_id',
                     'posts.sub_category_id',
                     'posts.updated_at',
+                    'posts.created_by',
                     'property_details.number_of_room',
                     'property_details.number_of_washroom',
                     'states.name as state',
@@ -114,6 +124,7 @@ final class SearchController extends Controller
                         'posts.category_id',
                         'posts.sub_category_id',
                         'posts.updated_at',
+                        'posts.created_by',
                         'vehicle_details.model_year',
                         'vehicle_details.km',
                         'states.name as state',
@@ -147,14 +158,28 @@ final class SearchController extends Controller
             }
 
 
-            $posts = $query->whereIn('posts.status', ['approved'])
-                ->where('posts.category_id', $request->get('category_id'))
-                ->orderBy('posts.updated_at', 'DESC')
-                ->get();
+            $query->whereIn('posts.status', ['approved'])
+                ->where('posts.category_id', $request->get('category_id'));
+
+            if ($request->get('sorting_value')) {
+                if ($request->get('sorting_value') == 1) { // newest
+                    $query->orderBy('posts.updated_at', 'DESC');
+                } elseif ($request->get('sorting_value') == 2) { // low to height
+                    $query->orderBy('posts.price', 'ASC');
+                } elseif ($request->get('sorting_value') == 3) { // height to low
+                    $query->orderBy('posts.price', 'DESC');
+                }
+            }
+
+            $data['posts'] = $query->get();
+
+            $data['category_id'] = $request->get('category_id');
+            $data['category_wise_total_post'] = $query->get()->count();
+            $data['category_name'] = CommonFunction::getCategoryName(category_id: $data['category_id']);
 
             return response()->json([
                 'status' => true,
-                'postHtml' => view('frontEnd.search.search-post', ['posts' => $posts])->render(),
+                'postHtml' => view('frontEnd.search.search-post', $data)->render(),
             ]);
 
         } catch (\Exception $e) {
@@ -185,13 +210,14 @@ final class SearchController extends Controller
             $query->where('posts.state_id', Session::get('location'));
         }
 
-        return $query->orderBy('updated_at', 'DESC')->get([
+        return $query->get([
             'posts.id',
             'posts.price',
             'posts.title',
             'posts.category_id',
             'posts.sub_category_id',
             'posts.updated_at',
+            'posts.created_by',
             'states.name as state',
             'cities.name as city',
         ]);
@@ -213,6 +239,16 @@ final class SearchController extends Controller
                 break;
         }
         return $category_name;
+    }
+
+    public function categoryWiseTotalPost(int $categoryId): int|null
+    {
+        $query = Post::query()->where('category_id', $categoryId)->whereIn('posts.status', ['approved']);
+        if (Session::get('location')) {
+            $query->where('posts.state_id', Session::get('location'));
+        }
+
+        return $query->count();
     }
 
 }

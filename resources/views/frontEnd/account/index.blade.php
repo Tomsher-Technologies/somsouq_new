@@ -82,13 +82,24 @@
                                                 </div>
 
                                                 <div class="button-flex">
-                                                    @if($post->status == 'approved')
-                                                        <a href="{{ route('post.sold', ['id' => $post->id]) }}" class="btn btn-outline bg-info border-0 text-white"><i class="bi bi-building-check"></i>Sold</a>
-                                                    @endif
+                                                    <div class="dropdown">
+                                                        <a class="btn bg_primary dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            Action
+                                                        </a>
 
-                                                    <a href="{{ route('post.view', ['type' => 'user','id' => $post->id]) }}" class="btn btn-outline bg_primary border-0 text-white"><i class="bi bi-eye"></i>View</a>
-                                                    <a href="{{ route('post.edit', ['id' => $post->id]) }}" class="btn btn-outline"><i class="bi bi-pencil-fill"></i>Edit</a>
-                                                    <a href="{{ route('post.delete', ['id' => $post->id]) }}" class="btn btn-outline bg-danger text-white border-0"><i class="bi bi-trash3"></i>Withdraw</a>
+                                                        <ul class="dropdown-menu dropdown-menu-end" style="">
+                                                            @if($post->status == 'approved')
+                                                                <a href="{{ route('post.sold', ['id' => $post->id]) }}" class="btn btn-outline bg-info border-0 text-white"><i class="bi bi-building-check"></i>Sold</a>
+                                                            @endif
+                                                                <a href="{{ route('post.view', ['type' => 'user','id' => $post->id]) }}" class="btn btn-outline bg_primary border-0 text-white"><i class="bi bi-eye"></i>View</a>
+                                                                <a href="{{ route('post.edit', ['id' => $post->id]) }}" class="btn btn-outline"><i class="bi bi-pencil-fill"></i>Edit</a>
+                                                                <a href="{{ route('post.delete', ['id' => $post->id]) }}" class="btn btn-outline bg-danger text-white border-0"><i class="bi bi-trash3"></i>Withdraw</a>
+
+                                                            @if($post->status == 'approved')
+                                                                <a href="#" data-id="{{ $post->id  }}" class="btn btn-share border-0 text-white" data-bs-toggle="modal" data-bs-target="#shareModal"><i class="bi bi-share"></i>Share</a>
+                                                            @endif
+                                                        </ul>
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -126,15 +137,18 @@
                             </div>
                         </div>
 
-
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    @include('frontEnd.modals.social-link-modal')
+
 @endsection
 
 @section('script')
+    <script src="{{ asset('js/share.js') }}"></script>
     <script>
         function deleteFromList(wishlistId)
         {
@@ -169,6 +183,48 @@
                 });
             }
         }
+
+
+        $('#shareModal').on('shown.bs.modal', function (e) {
+           let postId = e.relatedTarget.getAttribute('data-id');
+
+            $.ajax({
+                url: "{{ route('social.share') }}",
+                type: 'get',
+                data: {
+                    post_id: postId,
+                },
+                beforeSend: function() {
+                    $('#whatsapp_id').css('pointer-events', 'none');
+                    $('#facebook_id').css('pointer-events', 'none');
+                    $('#btn_copy').css('pointer-events', 'none');
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if(response.status == "success") {
+                        $('#whatsapp_id').attr("href", response.data.whatsapp);
+                        $('#facebook_id').attr("href", response.data.facebook);
+                        $('#textbox').val(response.url);
+                    }
+                },
+                complete: function() {
+                    $('#whatsapp_id').css('pointer-events', 'unset');
+                    $('#facebook_id').css('pointer-events', 'unset');
+                    $('#btn_copy').css('pointer-events', 'unset');
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr, status, error)
+                }
+            });
+        })
+
+        $('#btn_copy').click( function() {
+            clipboardText = $('#textbox').val();
+            navigator.clipboard.writeText(clipboardText);
+            toastr.success('Copied clipboard');
+        });
     </script>
 @endsection
 

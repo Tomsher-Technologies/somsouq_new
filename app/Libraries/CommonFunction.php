@@ -45,6 +45,14 @@ class CommonFunction
             ]);
     }
 
+    public static function getCategoryName(int $category_id): string
+    {
+        return Category::where('id', $category_id)->where('parent_id', 0)->where('is_active', 1)
+            ->value('en_name');
+    }
+
+
+
     public static function getState()
     {
         return State::where('status', 1)->pluck('name', 'id');
