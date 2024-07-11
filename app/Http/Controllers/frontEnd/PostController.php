@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\frontEnd;
 
 use App\Http\Controllers\Controller;
+use App\Libraries\LaravelShare;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\State;
@@ -255,6 +256,29 @@ final class PostController extends Controller
                              where table2.category_id ='$category_it' and table2.id!='$postId' and table2.tracking_number like '$trackingPrefix%'
                         )
                       where posts.id='$postId' and table2.id='$postId'");
+    }
+
+
+    public function socialShareLink(Request $request)
+    {
+        try {
+            $route = route('public.view', ['type' => 'public', 'id' => $request->get('post_id')]);
+            $social_links = new LaravelShare($route);
+            $all_links = $social_links->facebook()
+                ->whatsapp()
+                ->getLinks();
+
+            return response()->json([
+                'status' => 'success',
+                'data' => $all_links,
+                'url' => $route
+            ]);
+        }catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'data' => $e->getMessage()
+            ]);
+        }
     }
 
 }

@@ -4,21 +4,28 @@
             <div class="col-8 col-md-5 order-2 order-md-1">
                 <div class="header-start">
                     <div class="select-location d-none d-md-block">
-                        <div class="dropdown location-down">
-                            <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="dropdown left">
+                            <button href="#" class="dropdown-toggle dropbtn" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="bi bi-geo-alt"></i>
                                 @session('location')
                                     {{ CommonFunction::getStateName(session('location')) }}
                                 @else
                                     Location
                                 @endsession
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('home.location', ['location' => 0]) }}">All Location</a></li>
-                                @foreach(CommonFunction::getState() as $key => $state)
-                                    <li class="@if($loop->last) {{ "border-0" }}@endif"><a class="dropdown-item" href="{{ route('home.location', ['location' => $key]) }}">{{ $state }}</a></li>
-                                @endforeach
-                            </ul>
+                            </button>
+                            <div class="dropdown-content">
+                                <ul>
+                                    <li><a class="dropdown-item" href="{{ route('home.location', ['location' => 0]) }}">All Location</a></li>
+                                    @foreach(CommonFunction::getState() as $key => $state)
+                                        <li class="@if($loop->last) {{ "border-0" }}@endif">
+                                            <a class="dropdown-item" href="{{ route('home.location', ['location' => $key]) }}"><span>{{ $state }}</span>
+                                                @if($key == session('location')) <i class="bi bi-check-lg"></i> @endif
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+
                         </div>
                     </div>
                     <div class="select-language">

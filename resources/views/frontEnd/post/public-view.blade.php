@@ -1,5 +1,13 @@
 @extends('frontEnd.layouts.layout')
 
+@section('meta-tag')
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:title" content="{{ $post->title ?? "" }}" />
+    <meta property="og:description" content="{{ $post->description ? substr($post->description, 0, 185) : "" }}" />
+    <meta property="og:image" content="{{ CommonFunction::showPostImage($post->id) }}" />
+    <meta property="og:type" content="website" />
+@endsection
+
 @section('stylesheet')
     <style>
         .owl-item {height: 0;}
@@ -7,6 +15,9 @@
     </style>
 @endsection
 @section('content')
+
+
+
     <section class="breadcrumb-section">
         <div class="container">
             <div class="row">
@@ -25,19 +36,30 @@
 
     <section class="product-detail-section">
         <div class="container">
+            <div class="detail-title-flex">
+                <div class="product-detail-title">
+                    <h3>{{ $post->title ?? "" }}</h3>
+                    <div class="detail-sub-title">
+                        <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $post->state }}, {{ $post->city }}</span>
+                        <span>Posted {{ \Carbon\Carbon::parse($post->updated_at)->diffForHumans() }}</span>
+                    </div>
+                    {{--                        <h5>Posted {{ \Carbon\Carbon::parse($post->updated_at)->diffForHumans() }}</h5>--}}
+                    {{--                        <span class="card-location"><i class="bi bi-geo-alt"></i> Abuja, Asokoro</span>| <span>Posted {{ \Carbon\Carbon::parse($post->updated_at)->diffForHumans() }}</span>--}}
+                </div>
+                <div class="product-price-warpper">
+                    <h3>USD {{ $post->price ?? "" }}</h3>
+                    {{--                            <span class="badge">40% OFF</span>--}}
+                    {{--                            <h5>SOS 6440</h5>--}}
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-9">
 
-                    <div class="product-detail-title">
-                        <h3>{{ $post->title ?? "" }}</h3>
-{{--                        <h5>Posted {{ \Carbon\Carbon::parse($post->updated_at)->diffForHumans() }}</h5>--}}
-                        <span class="card-location"><i class="bi bi-geo-alt"></i> Abuja, Asokoro</span>| <span>Posted {{ \Carbon\Carbon::parse($post->updated_at)->diffForHumans() }}</span>
-                    </div>
                     <div class="card border-0 rounded-4">
                         <div class="card-body p-0">
                             <div class="product_action-btn">
                                 <button class="btn btn-wishlist me-2" @guest data-bs-toggle="modal" data-bs-target="#loginModal" @else onclick="addToWishlist('{{ $post->id }}')" @endguest><i class="bi bi-heart"></i></button>
-                                <button class="btn btn-wishlist"><i class="bi bi-share"></i></button>
+                                <button class="btn btn-wishlist" data-id="{{ $post->id  }}" data-bs-toggle="modal" data-bs-target="#shareModal"><i class="bi bi-share"></i></button>
                             </div>
                             <div id="sync1" class="owl-carousel owl-theme">
                                 @forelse($images as $image)
@@ -81,11 +103,7 @@
                 <div class="col-md-3">
                     <div class="price-seller-info">
 
-                        <div class="product-price-warpper">
-                            <h3>USD {{ $post->price ?? "" }}</h3>
-                            {{--                            <span class="badge">40% OFF</span>--}}
-                            {{--                            <h5>SOS 6440</h5>--}}
-                        </div>
+
                         <div class="product-seller-info">
                             <div class="seller-warpper">
                                 <div class="seller-thumb">
@@ -137,6 +155,7 @@
     </section>
 
     @include('frontEnd.modals.login-modal')
+    @include('frontEnd.modals.social-link-modal')
 @endsection
 
 @section('script')
@@ -176,6 +195,47 @@
                 });
             }
         }
+
+        $('#shareModal').on('shown.bs.modal', function (e) {
+            let postId = e.relatedTarget.getAttribute('data-id');
+
+            $.ajax({
+                url: "{{ route('social.share') }}",
+                type: 'get',
+                data: {
+                    post_id: postId,
+                },
+                beforeSend: function() {
+                    $('#whatsapp_id').css('pointer-events', 'none');
+                    $('#facebook_id').css('pointer-events', 'none');
+                    $('#btn_copy').css('pointer-events', 'none');
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if(response.status == "success") {
+                        $('#whatsapp_id').attr("href", response.data.whatsapp);
+                        $('#facebook_id').attr("href", response.data.facebook);
+                        $('#textbox').val(response.url);
+                    }
+                },
+                complete: function() {
+                    $('#whatsapp_id').css('pointer-events', 'unset');
+                    $('#facebook_id').css('pointer-events', 'unset');
+                    $('#btn_copy').css('pointer-events', 'unset');
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr, status, error)
+                }
+            });
+        })
+
+        $('#btn_copy').click( function() {
+            clipboardText = $('#textbox').val();
+            navigator.clipboard.writeText(clipboardText);
+            toastr.success('Copied clipboard');
+        });
     </script>
 @endsection
 
