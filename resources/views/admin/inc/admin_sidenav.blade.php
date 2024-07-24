@@ -94,7 +94,7 @@
                         </a>
                         <ul class="aiz-side-nav-list level-2">
                             <li class="aiz-side-nav-item">
-                                <a href="{{ route('post.list') }}" class="aiz-side-nav-link {{ areActiveRoutes(['post.list']) }}">
+                                <a href="{{ route('post.list') }}" class="aiz-side-nav-link {{ areActiveRoutes(['post.list', 'post.preview']) }}">
                                     <span class="aiz-side-nav-text">Ad Lists</span>
                                 </a>
                             </li>

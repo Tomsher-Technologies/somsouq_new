@@ -29,6 +29,7 @@ final class MyAccountController extends Controller
                     'posts.title',
                     'posts.description',
                     'posts.status',
+                    'posts.comment',
                     'states.name as state',
                     'cities.name as city',
                 ]);

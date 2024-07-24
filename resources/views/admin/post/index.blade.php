@@ -53,19 +53,20 @@
                 <thead>
                 <tr>
                     <th >#</th>
-                    <th>Title</th>
+{{--                    <th>Title</th>--}}
                     <th>Reference no.</th>
                     <th >Category</th>
                     <th >Sub Category</th>
                     <th class="text-center">Is Popular</th>
                     <th class="text-center">Status</th>
+                    <th class="text-center">Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach ($posts as $key => $post)
                     <tr>
                         <td>{{ $key + 1 + ($posts->currentPage() - 1) * $posts->perPage() }}</td>
-                        <td>{{ $post->getTranslation('title', 'en') }}</td>
+{{--                        <td>{{ $post->getTranslation('title', 'en') }}</td>--}}
                         <td>{{ $post->tracking_number }}</td>
                         <td>{{ $post->category_name }}</td>
                         <td>{{ $post->sub_category_name }}</td>
@@ -78,12 +79,18 @@
 
                         <td class="text-center">
                             <label class="aiz-switch aiz-switch-success mb-0">
-                                <select class="form-control" name="status" value="{{ $post->id }}" onchange="updatePostStatus(this, '{{ $post->id }}')">
+                                <select class="form-control" name="status" value="{{ $post->id }}" onchange="getStatus(this, '{{ $post->id }}')">
                                     <option value="pending" {{ ($post->status == 'pending') ? 'selected' : '' }}>Pending</option>
                                     <option value="approved" {{ ($post->status == 'approved') ? 'selected' : '' }}>Approved</option>
                                     <option value="rejected" {{ ($post->status == 'rejected') ? 'selected' : '' }}>Rejected</option>
                                 </select>
                             </label>
+                        </td>
+                        <td class="text-center">
+                            <a class="btn btn-soft-primary btn-icon btn-circle btn-sm"
+                               href="{{ route('post.preview', ['post_id' => $post->id]) }}" title="View">
+                                <i class="las la-eye"></i>
+                            </a>
                         </td>
                     </tr>
                 @endforeach
@@ -92,6 +99,32 @@
             <div class="aiz-pagination">
                 {{ $posts->appends(request()->input())->links('pagination::bootstrap-5') }}
             </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+            <form action="{{ route('post.reject-status') }}" method="post" id="commentForm">
+                @csrf
+                <input type="hidden" name="post_id" id="post_id" value="">
+                <input type="hidden" name="status" id="status" value="">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Reason of rejection</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea class="form-control" rows="4" name="comment" id="comment"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 @endsection
@@ -104,6 +137,7 @@
 
 @section('script')
     <script type="text/javascript">
+        let modal = $('#commentModal');
         function updateIsPopularOption(checkbox) {
             let isPopular;
             if($(checkbox).is(":checked")) {
@@ -138,14 +172,30 @@
             });
         }
 
-        function updatePostStatus(selected, postId)
+        function getStatus(selected, postId)
+        {
+            let status = selected.value;
+            if(status === 'rejected') {
+                modal.modal('show', {status: status, id:postId});
+
+            } else {
+                updatePostStatus(status, postId);
+            }
+        }
+
+        modal.on('show.bs.modal', function (e) {
+            $('#post_id').val(e.relatedTarget.id);
+            $('#status').val(e.relatedTarget.status);
+        });
+
+        function updatePostStatus(status, postId)
         {
             $.ajax({
                 url: "{{ route('post.update-status') }}",
                 type: 'get',
                 data: {
                     post_id: postId,
-                    status: selected.value
+                    status: status
                 },
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -164,5 +214,10 @@
                 }
             });
         }
+
+        modal.on('hidden.bs.modal', function () {
+            location.reload();
+        })
+
     </script>
 @endsection

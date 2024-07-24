@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Post;
+use App\Models\SafetyTip;
+use App\Services\Front\CategoryWiseDetailViewService;
+use App\Services\Front\ImageUploadService;
 use Illuminate\Http\Request;
 use App\Models\State;
 use App\Models\StateTranslation;
@@ -100,6 +103,58 @@ class PostController extends Controller
                 'status' => false,
                 'error' => 'Something went wrong'
             ]);
+        }
+    }
+
+    public function rejectStatusUpdate(Request $request)
+    {
+        try {
+            $update = self::updatePostData(postId: $request->get('post_id'), data: array('status' => $request->get('status'), 'comment' => $request->get('comment')));
+            if ($update) {
+                flash('Updated successfully')->success();
+                return redirect()->back();
+            }
+        }catch (\Exception $e) {
+            flash('Something went wrong')->error();
+            return redirect()->back();
+        }
+    }
+
+    public function view(int $postId)
+    {
+        try {
+            $data['post'] = Post::leftJoin('states', 'states.id', '=', 'posts.state_id')
+                ->leftJoin('cities', 'cities.id', '=', 'posts.city_id')
+                ->leftJoin('categories', 'categories.id', '=', 'posts.category_id')
+                ->where('posts.id', $postId)
+                ->first([
+                    'posts.id',
+                    'posts.title',
+                    'posts.price',
+                    'posts.tracking_number',
+                    'posts.category_id',
+                    'posts.sub_category_id',
+                    'posts.updated_at',
+                    'posts.created_by',
+                    'posts.created_at',
+                    'posts.description',
+                    'posts.status',
+                    'states.name as state',
+                    'cities.name as city',
+                    'categories.id as category_id',
+                ]);
+
+            $data['images'] = ImageUploadService::getPostImage(postId: $postId);
+
+            $getPostDetail = CategoryWiseDetailViewService::getView(categoryId: $data['post']->category_id, subCategoryId: $data['post']->sub_category_id,postId: $postId, viewType: 'user');
+
+            $data['postDetailHtml'] = view($getPostDetail['file_path'], $getPostDetail['data'])->render();
+
+
+            return view('admin.post.view', $data);
+
+        }catch (\Exception $exception){
+            return redirect()->back()->with('error', 'Something went wrong at line number'. $exception->getLine());
         }
     }
 

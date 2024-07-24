@@ -55,5 +55,6 @@ return [
     'contact_description' => 'Accurately selecting your specific issue from the drop-down lists below will enable us to direct your message to the right deparment. Once you select your issue, you will be able to contact us.',
     'Subject' => 'subject',
     'whats_app_number' => 'WhatsApp number',
+    're_submit' => 'Resubmit',
 
 ];

@@ -91,6 +91,8 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('/post/list', [PostController::class, 'index'])->name('post.list');
     Route::get('/post/is-popular', [PostController::class, 'updateIsPopular'])->name('post.is-popular');
     Route::get('/post/update-status', [PostController::class, 'updateUpdateStatus'])->name('post.update-status');
+    Route::post('/post/reject-status', [PostController::class, 'rejectStatusUpdate'])->name('post.reject-status');
+    Route::get('/post/preview/{post_id}', [PostController::class, 'view'])->name('post.preview');
 
     //Mange User
     Route::get('/user/list', [UserController::class, 'index'])->name('user.list');

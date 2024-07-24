@@ -79,6 +79,9 @@
                                                     <h5>{{ $post->getTranslation('title', App::getLocale() ?? "en") }}</h5>
                                                     <p>{{ $post->description ? substr($post->getTranslation('description', App::getLocale() ?? "en"), 0, 185) : "" }}</p>
                                                     <span><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($post->state) }}, {{ CommonFunction::getCityName($post->city) }}</span>
+                                                    @if($post->status === 'rejected')
+                                                        <span class="text-danger">{{ $post->comment ?? "" }}</span>
+                                                    @endif
                                                 </div>
 
                                                 <div class="button-flex">
@@ -92,7 +95,13 @@
                                                                 <a href="{{ route('post.sold', ['id' => $post->id]) }}" class="btn btn-outline bg-info border-0 text-white"><i class="bi bi-building-check"></i>{{ __('user.sold') }}</a>
                                                             @endif
                                                                 <a href="{{ route('post.view', ['type' => 'user','id' => $post->id]) }}" class="btn btn-outline bg_primary border-0 text-white"><i class="bi bi-eye"></i>{{ __('user.view') }}</a>
-                                                                <a href="{{ route('post.edit', ['id' => $post->id]) }}" class="btn btn-outline"><i class="bi bi-pencil-fill"></i>{{ __('user.edit') }}</a>
+                                                                <a href="{{ route('post.edit', ['id' => $post->id]) }}" class="btn btn-outline"><i class="bi bi-pencil-fill"></i>
+                                                                    @if($post->status === 'rejected')
+                                                                        {{ __('user.re_submit') }}
+                                                                    @else
+                                                                        {{ __('user.edit') }}
+                                                                    @endif
+                                                                </a>
                                                                 <a href="{{ route('post.delete', ['id' => $post->id]) }}" class="btn btn-outline bg-danger text-white border-0"><i class="bi bi-trash3"></i>{{ __('user.withdraw') }}</a>
 
                                                             @if($post->status == 'approved')

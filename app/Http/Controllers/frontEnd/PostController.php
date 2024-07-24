@@ -60,7 +60,7 @@ final class PostController extends Controller
                 'so' => $request->get('description_so'),
             ]);
 
-            if ($request->get('input_type') == "add") {
+            if ($request->get('input_type') == "add" || $post->status === 'rejected') {
                 $post->status = 'pending';
             }
 

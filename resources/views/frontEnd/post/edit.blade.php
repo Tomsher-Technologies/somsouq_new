@@ -202,7 +202,14 @@
 
                             <div class="d-flex align-content-center justify-content-end gap-3">
                                 <button type="button" class="btn btn-outline-step prev-step ps-3"><i class="bi bi-chevron-left me-2"></i> {{ __('post.previous') }}</button>
-                                <button type="button" class="btn btn-primary next-step">{{ __('post.submit') }}</button>
+                                <button type="button" class="btn btn-primary next-step">
+                                    @if($post->status === 'rejected')
+                                        {{ __('user.re_submit') }}
+                                    @else
+                                        {{ __('post.submit') }}
+                                    @endif
+
+                                </button>
                             </div>
 
                         </div>
