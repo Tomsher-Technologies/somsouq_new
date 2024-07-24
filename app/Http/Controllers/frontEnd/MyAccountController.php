@@ -90,6 +90,7 @@ final class MyAccountController extends Controller
 
             return redirect()->back()->with('success', trans('messages.profile_updated'));
         }catch (\Exception $e) {
+            dd($e->getMessage());
             return redirect()->back()->with('error', trans('messages.wrong'));
         }
     }

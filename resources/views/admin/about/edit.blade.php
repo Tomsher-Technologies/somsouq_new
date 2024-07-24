@@ -91,36 +91,6 @@
                                         </div>
                                     </div>
                                 @endif
-
-                                <div class="form-group row">
-                                    <div class="col-md-8">
-                                        <label class="col-form-label">Image</label>
-                                        <div class="input-group" data-toggle="aizuploader" data-type="image">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text bg-soft-secondary font-weight-medium">
-                                                    Browse</div>
-                                            </div>
-                                            <div class="form-control file-amount">Choose File</div>
-                                            <input type="hidden" name="image" class="selected-files" value="{{ $about->image ?? "" }}">
-                                        </div>
-                                        <div class="file-preview box sm">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <label class="col-form-label">Status</label>
-                                        <select class="form-control" name="status">
-                                            <option value="1" {{ ($about->is_active == 1) ? 'selected': "" }}>Active</option>
-                                            <option value="0" {{ ($about->is_active == 0) ? 'selected': "" }}>Inactive</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group mb-0 text-right">
-                                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
-                                    <a href="{{ route('about.index') }}" class="btn btn-sm btn-warning">{{translate('Cancel')}}</a>
-                                </div>
                             </div>
                             {{--                        english--}}
 
@@ -189,36 +159,6 @@
                                         </div>
                                     </div>
                                 @endif
-
-                                <div class="form-group row">
-                                    <div class="col-md-8">
-                                        <label class="col-form-label">Image</label>
-                                        <div class="input-group" data-toggle="aizuploader" data-type="image">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text bg-soft-secondary font-weight-medium">
-                                                    Browse</div>
-                                            </div>
-                                            <div class="form-control file-amount">Choose File</div>
-                                            <input type="hidden" name="image" class="selected-files" value="{{ $about->image ?? "" }}">
-                                        </div>
-                                        <div class="file-preview box sm">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <label class="col-form-label">Status</label>
-                                        <select class="form-control" name="status">
-                                            <option value="1" {{ ($about->is_active == 1) ? 'selected': "" }}>Active</option>
-                                            <option value="0" {{ ($about->is_active == 0) ? 'selected': "" }}>Inactive</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-
-                                <div class="form-group mb-0 text-right">
-                                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
-                                    <a href="{{ route('about.index') }}" class="btn btn-sm btn-warning">{{translate('Cancel')}}</a>
-                                </div>
                             </div>
                             {{--                        arabic--}}
 
@@ -288,36 +228,34 @@
                                         </div>
                                     </div>
                                 @endif
-
-                                <div class="form-group row">
-                                    <div class="col-md-8">
-                                        <label class="col-form-label">Image</label>
-                                        <div class="input-group" data-toggle="aizuploader" data-type="image">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text bg-soft-secondary font-weight-medium">
-                                                    Browse</div>
-                                            </div>
-                                            <div class="form-control file-amount">Choose File</div>
-                                            <input type="hidden" name="image" class="selected-files" value="{{ $about->image ?? "" }}">
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-8">
+                                    <label class="col-form-label">Image</label>
+                                    <div class="input-group" data-toggle="aizuploader" data-type="image">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text bg-soft-secondary font-weight-medium">
+                                                Browse</div>
                                         </div>
-                                        <div class="file-preview box sm">
-                                        </div>
+                                        <div class="form-control file-amount">Choose File</div>
+                                        <input type="hidden" name="image" class="selected-files" value="{{ $about->image ?? "" }}">
                                     </div>
-
-                                    <div class="col-md-4">
-                                        <label class="col-form-label">Status</label>
-                                        <select class="form-control" name="status">
-                                            <option value="1" {{ ($about->is_active == 1) ? 'selected': "" }}>Active</option>
-                                            <option value="0" {{ ($about->is_active == 0) ? 'selected': "" }}>Inactive</option>
-                                        </select>
+                                    <div class="file-preview box sm">
                                     </div>
                                 </div>
 
-
-                                <div class="form-group mb-0 text-right">
-                                    <button type="submit" class="btn btn-sm btn-primary">Save</button>
-                                    <a href="{{ route('about.index') }}" class="btn btn-sm btn-warning">{{translate('Cancel')}}</a>
+                                <div class="col-md-4">
+                                    <label class="col-form-label">Status</label>
+                                    <select class="form-control" name="status">
+                                        <option value="1" {{ ($about->is_active == 1) ? 'selected': "" }}>Active</option>
+                                        <option value="0" {{ ($about->is_active == 0) ? 'selected': "" }}>Inactive</option>
+                                    </select>
                                 </div>
+                            </div>
+
+                            <div class="form-group mb-0 text-right">
+                                <button type="submit" class="btn btn-sm btn-primary">Save</button>
+                                <a href="{{ route('about.index') }}" class="btn btn-sm btn-warning">{{translate('Cancel')}}</a>
                             </div>
                             {{--                        somali--}}
 

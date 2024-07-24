@@ -39,6 +39,7 @@ class AboutController extends Controller
 
     public function update(Request $request)
     {
+
         try {
             $about = About::find($request->get('id'));
 

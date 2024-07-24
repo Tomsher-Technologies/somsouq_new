@@ -107,7 +107,7 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label class="form-label">{{ __('user.name') }}</label>
-                                    <input type="text" class="form-control" id="formGroupExampleInput" name="name" placeholder="John Doe" value="{{ webUser()->name ?? ""  }}">
+                                    <input type="text" class="form-control" id="formGroupExampleInput" name="name" placeholder="John Doe" value="{{ webUser()->name ?? ""  }}" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">{{ __('user.email') }}</label>
@@ -115,7 +115,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">{{ __('user.mobile') }}</label>
-                                    <input type="text" class="form-control" id="formGroupExampleInput" name="phone_number" placeholder="+234 364 937 203" value="{{ webUser()->phone_number ?? "" }}">
+                                    <input type="text" class="form-control" id="formGroupExampleInput" name="phone_number" placeholder="+234 364 937 203" value="{{ webUser()->phone_number ?? "" }}" required>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">{{ __('user.whats_app_number') }}</label>
@@ -124,7 +124,7 @@
 
                                 <div class="col-md-6">
                                     <label class="form-label">{{ __('post.state') }}</label>
-                                    <select class="form-control" id="state_id" name="state_id" onChange="getCityByStateId(this.value, 'city_id', '{{ route('get-city-by-state-id') }}', '{{ webUser()->city_id }}')">
+                                    <select class="form-control" id="state_id" name="state_id" onChange="getCityByStateId(this.value, 'city_id', '{{ route('get-city-by-state-id') }}', '{{ webUser()->city_id }}')" required>
                                         <option value="">-{{ __('post.select') }}-</option>
                                         @foreach(CommonFunction::getState() as $state)
                                             <option value="{{ $state->id }}" @selected($state->id == webUser()->state_id ?? "")>{{ $state->getTranslation('name', App::getLocale() ?? 'en') }}</option>
@@ -133,7 +133,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">{{ __('post.city') }}</label>
-                                    <select class="form-control" name="city_id" id="city_id">
+                                    <select class="form-control" name="city_id" id="city_id" required>
                                         <option value="">-{{ __('post.select') }}-</option>
 
                                     </select>
@@ -160,6 +160,7 @@
 
 @section('script')
     <script src="{{ asset('assets/custom-js/getCityByStateId.js') }}"></script>
+    <script src="{{ asset('assets/frontEnd/js/jquery-validation/jquery.validate.js') }}"></script>
     <script>
         $(document).ready(function () {
             $('#state_id').trigger('change');
@@ -177,6 +178,16 @@
         }
         $("#imageUpload").change(function() {
             readURL(this);
+        });
+
+        $('#edit_profile_id').validate({
+            highlight: function (element) {
+                $(element).css('border-color', 'red');
+            },
+            unhighlight: function(element) {
+                $(element).css('border-color', '#dee2e6');
+            },
+            errorPlacement: function(error, element) {},
         });
 
     </script>
