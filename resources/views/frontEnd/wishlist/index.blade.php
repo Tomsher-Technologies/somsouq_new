@@ -4,7 +4,7 @@
     <section class="popular-ads-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3>Wishlist</h3>
+                <h3>{{ __('user.wishlist') }}</h3>
             </div>
             <div class="row g-3">
                 @forelse($posts as $post)
@@ -14,12 +14,12 @@
                             <a href="{{ route('public.view', ['type' => 'public', 'id' => $post->id]) }}">
                                 <div class="card-img-warpper">
                                     <img src="{{ CommonFunction::showPostImage($post->id) }}" class="card-img-top" alt="{{ CommonFunction::getPostImageName($post->id) }}" style="height: 234px; object-fit: cover">
-                                    <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $post->state ?? "" }}, {{ $post->city ?? "" }}</span>
-                                    <span class="property-category">{{ $post->category_name ?? "" }}</span>
+                                    <span class="card-location"><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($post->state) }}, {{ CommonFunction::getCityName($post->city) }}</span>
+                                    <span class="property-category">{{ CommonFunction::getCategoryName($post->category_id)->getTranslation('name', App::getLocale() ?? 'en') }}</span>
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-price">USD {{ $post->price ?? "" }} </h5>
-                                    <h4 class="card-title">{{ $post->title ? substr($post->title, 0, 80) : "" }}</h4>
+                                    <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', App::getLocale() ?? 'en'), 0, 80) : "" }}</h4>
                                 </div>
                             </a>
                         </div>

@@ -24,7 +24,7 @@
                                 <option value="">{{ translate('Select State') }}</option>
                                 @foreach ($states as $state)
                                     <option value="{{ $state->id }}" @if ($sort_state == $state->id) selected @endif {{$sort_state}}>
-                                        {{ $state->name }}
+                                        {{ $state->getTranslation('name', 'en') }}
                                     </option>
                                 @endforeach
                             </select>
@@ -58,8 +58,8 @@
                             @foreach($cities as $key => $city)
                                 <tr>
                                     <td>{{ ($key+1) + ($cities->currentPage() - 1)*$cities->perPage() }}</td>
-                                    <td>{{ $city->name }}</td>
-                                    <td>{{ $city->state->name }}</td>
+                                    <td>{{ $city->getTranslation('name', 'en') }}</td>
+                                    <td>{{ $city->state->getTranslation('name', 'en') }}</td>
                                     <td>
                                         <label class="aiz-switch aiz-switch-success mb-0">
                                           <input onchange="update_status(this)" value="{{ $city->id }}" type="checkbox" <?php if($city->status == 1) echo "checked";?> >
@@ -94,10 +94,10 @@
     					@csrf
     					<div class="form-group mb-3">
     						<label for="name">{{translate('Name')}}</label>
-    						<input type="text" placeholder="{{translate('Name')}}" name="name" class="form-control">
+    						<input type="text" placeholder="{{translate('Name')}}" name="name_en" class="form-control">
 
-                            @if($errors->has('name'))
-                                <span class="text-danger">{{ $errors->first('name') }}</span>
+                            @if($errors->has('name_en'))
+                                <span class="text-danger">{{ $errors->first('name_en') }}</span>
                             @endif
     					</div>
 
@@ -105,7 +105,7 @@
                             <label for="country">{{translate('State')}}</label>
                             <select class="select2 form-control aiz-selectpicker" name="state_id" data-toggle="select2" data-placeholder="Choose ..." data-live-search="true">
                                 @foreach ($states as $state)
-                                    <option value="{{ $state->id }}">{{ $state->name }}</option>
+                                    <option value="{{ $state->id }}">{{ $state->getTranslation('name', 'en') }}</option>
                                 @endforeach
                             </select>
                         </div>

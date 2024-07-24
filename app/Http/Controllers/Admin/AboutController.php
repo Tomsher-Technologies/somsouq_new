@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\About;
+use App\Models\AboutDescription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -22,13 +23,15 @@ class AboutController extends Controller
         ]);
     }
 
-    public function edit(About $about)
+    public function edit(Request $request, About $about)
     {
         $data['about'] = $about;
         $data['section'] = $this->getSectionList();
+        $data['languages'] = \App\Models\Language::all();
+        $data['lang'] = $request->lang;
 
         if ($about->description_type == 2) {
-            $data['descriptions'] = DB::table('about_descriptions')->where('about_id', $about->id)->get();
+            $data['descriptions'] = AboutDescription::where('about_id', $about->id)->get();
         }
 
         return view('admin.about.edit', $data);
@@ -36,23 +39,42 @@ class AboutController extends Controller
 
     public function update(Request $request)
     {
+
         try {
             $about = About::find($request->get('id'));
-            $about->title = $request->get('title') ?? "";
-            $about->description = $request->get('description') ?? "";
+
+            $about->title = [
+                'en' => $request->get('title_en'),
+                'ar' => $request->get('title_ar'),
+                'so' => $request->get('title_so'),
+            ];
+
+            $about->description = [
+                'en' => $request->get('description_en'),
+                'ar' => $request->get('description_ar'),
+                'so' => $request->get('description_so'),
+            ];
+
             $about->image = $request->get('image') ?? "";
             $about->is_active = $request->get('status') ?? "";
             $about->save();
 
             if ($about->description_type == 2) {
-                foreach ($request->get('multi_title') as $key => $value)
+                foreach (array_unique($request->get('ids')) as $key => $value)
                 {
-                    $ids = $request->get('ids')[$key];
-                    DB::table('about_descriptions')->where('id', $ids)->update([
-                        'title' => $value,
+                    DB::table('about_descriptions')->where('id', $value)->update([
+                        'title' => [
+                            'en' => $request->get('multi_title_en')[$key],
+                            'ar' => $request->get('multi_title_ar')[$key],
+                            'so' => $request->get('multi_title_so')[$key],
+                        ],
                         'about_id' => $about->id,
-                        'description' => $request->get('multi_description')[$key],
-                        'is_active' => $request->get('multi_status')[$key],
+                        'description' => [
+                            'en' => $request->get('multi_description_en')[$key],
+                            'ar' => $request->get('multi_description_ar')[$key],
+                            'so' => $request->get('multi_description_so')[$key],
+                        ],
+                        'is_active' => $request->get('multi_status_' . $request->get('lang'))[$key],
                     ]);
                 }
             }
@@ -60,7 +82,6 @@ class AboutController extends Controller
             flash('Updated successfully')->success();
             return redirect()->back();
         }catch (\Exception $e){
-            dd($e->getMessage());
             flash('Something went wrong')->error();
             return redirect()->back();
         }
@@ -74,5 +95,16 @@ class AboutController extends Controller
             '3' => 'Third Section',
             '4' => 'Fourth Section',
         ];
+    }
+
+    public function getTranslateField($field_name, $lang)
+    {
+        if ($lang == 'en') {
+            return $field_name .'_'. $lang;
+        } elseif ($lang == 'ar') {
+            return $field_name .'_'. $lang;
+        } elseif ($lang == 'so') {
+            return $field_name .'_'. $lang;
+        }
     }
 }

@@ -7,20 +7,24 @@
     </style>
 @endsection
 @section('content')
+
     <section class="breadcrumb-section">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Post Detail</li>
+                            <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('post.home') }}</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('my-account.index') }}">{{ __('user.account') }}</a></li>
+                            <li class="breadcrumb-item" aria-current="page">{{ __('user.view') }}</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $post->tracking_number }}</li>
                         </ol>
                     </nav>
                 </div>
             </div>
         </div>
     </section>
+
 
     <section class=" ad-details">
         <div class="container">
@@ -39,9 +43,9 @@
                             </div>
 
                             <div class="product-detail-title m-0">
-                                <h3>{{ $post->title ?? "" }}</h3>
+                                <h3>{{ $post->getTranslation('title', App::getLocale() ?? "en") }}</h3>
                             </div>
-                            <h5 class="pt-2"><i class="bi bi-geo-alt me-1"></i>{{ $post->state }}, {{ $post->city }}</h5>
+                            <h5 class="pt-2"><i class="bi bi-geo-alt me-1"></i>{{ CommonFunction::getStateName($post->state) }}, {{ CommonFunction::getCityName($post->city) }}</h5>
                         </div>
                     </div>
 
@@ -81,10 +85,21 @@
 
             <div class="row mt-3">
                 <div class="col-md-8 m-auto">
-                    <h4 class="mb-2">Specifications</h4>
+                    <h4 class="mb-2">{{ __('post.specifications') }}</h4>
                     <div class="card p-3 border-0">
                         <div class="card-body">
                             {!! $postDetailHtml !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-8 m-auto">
+                    <h4 class="mb-2">{{ __('post.description') }}</h4>
+                    <div class="card p-3 border-0">
+                        <div class="card-body">
+                            {{ $post->getTranslation('description', App::getLocale() ?? "en") }}
                         </div>
                     </div>
                 </div>

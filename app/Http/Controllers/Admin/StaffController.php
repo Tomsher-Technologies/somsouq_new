@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -17,13 +18,13 @@ class StaffController extends Controller
 {
     function __construct()
     {
-         $this->middleware('permission:staffs', ['only' => ['index','store','create','edit','update','destroy']]);
+//         $this->middleware('permission:staffs', ['only' => ['index','store','create','edit','update','destroy']]);
     }
 
     public function index(Request $request)
     {
         $request->session()->put('staffs_last_url', url()->full());
-        $staffs = User::where('user_type','staff')->orderBy('id', 'DESC')->paginate(20);
+        $staffs = Admin::where('user_type','staff')->orderBy('id', 'DESC')->paginate(20);
         return view('admin.staffs.index', compact('staffs'));
     }
 
@@ -46,8 +47,8 @@ class StaffController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-        
-        $user = User::create([
+
+        $user = Admin::create([
             'name' => $request->name,
             'user_type' => "staff",
             'email' => $request->email,
@@ -61,14 +62,14 @@ class StaffController extends Controller
         return redirect()->route('staffs.index');
     }
 
-    public function edit(User $staff)
+    public function edit(Admin $staff)
     {
         $roles = Role::where('is_active', 1)->orderBy('name', 'ASC')->get()->toArray();
         $userRole = $staff->roles->pluck('id')->all();
         return view('admin.staffs.edit', compact('userRole', 'roles', 'staff'));
     }
 
-    public function update(Request $request,  User $staff)
+    public function update(Request $request,  Admin $staff)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -80,7 +81,7 @@ class StaffController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-       
+
         $staff->update([
             'name' => $request->name,
             'email' => $request->email,
@@ -106,7 +107,7 @@ class StaffController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(Admin $user)
     {
         DB::table('model_has_roles')->where('model_id', $user->id)->delete();
         $user->delete();

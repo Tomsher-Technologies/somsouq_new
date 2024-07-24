@@ -47,7 +47,7 @@
                             @foreach($states as $key => $state)
                                 <tr>
                                     <td>{{ ($key+1) + ($states->currentPage() - 1)*$states->perPage() }}</td>
-                                    <td>{{ $state->name }}</td>
+                                    <td>{{ $state->getTranslation('name', 'en') }}</td>
 
                                     <td>
                                         <label class="aiz-switch aiz-switch-success mb-0">
@@ -56,7 +56,7 @@
                                         </label>
                                     </td>
                                     <td class="text-right">
-                                        <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{ route('states.edit', ['id'=>$state->id, 'lang'=>env('DEFAULT_LANGUAGE')]) }}" title="{{ translate('Edit') }}">
+                                        <a class="btn btn-soft-primary btn-icon btn-circle btn-sm" href="{{ route('states.edit', ['id'=>$state->id]) }}" title="{{ translate('Edit') }}">
                                             <i class="las la-edit"></i>
                                         </a>
 
@@ -81,10 +81,10 @@
     					@csrf
     					<div class="form-group mb-3">
     						<label for="name">{{translate('Name')}}</label>
-    						<input type="text" placeholder="{{translate('Name')}}" name="name" class="form-control" required>
+    						<input type="text" placeholder="{{translate('Name')}}" name="name_en" class="form-control" required>
 
-                            @if($errors->has('name'))
-                                <span class="text-danger">{{ $errors->first('name') }}</span>
+                            @if($errors->has('name_en'))
+                                <span class="text-danger">{{ $errors->first('name_en') }}</span>
                             @endif
 
     					</div>

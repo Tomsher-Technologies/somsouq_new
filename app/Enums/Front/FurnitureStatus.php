@@ -16,9 +16,9 @@ class FurnitureStatus
     public static function getFurnitureStatus() : array
     {
         return [
-            static::FURNISHED => 'Furnished',
-            static::SEMI_FURNISHED => 'Semi Furnished',
-            static::NOT_FURNISHED => 'Not Furnished',
+            static::FURNISHED => trans('post.furnished'),
+            static::SEMI_FURNISHED => trans('post.semi_furnished'),
+            static::NOT_FURNISHED => trans('post.not_furnished'),
         ];
     }
 

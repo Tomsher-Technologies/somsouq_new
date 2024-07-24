@@ -6,11 +6,11 @@
                     <div class="carousel-inner">
                         <div class="carousel-caption z-3">
                             <div class="search-box">
-                                <h3 class="mb-3">What are you looking for?</h3>
+                                <h3 class="mb-3">{{ __('home.what_are_you_looking_for') }}</h3>
                                 <div class="form-inputs d-none d-md-block">
                                     <form action="{{ route('post.search') }}" method="get" id="searchFormId">
                                         @csrf
-                                        <input type="search" class="form-control" placeholder="Search for items" name="search">
+                                        <input type="search" class="form-control" placeholder="{{ __('home.search_for_items') }}" name="search">
                                         <svg class="search_icon" width="25px" height="25px" viewBox="0 0 32 32"
                                              version="1.1" xmlns="http://www.w3.org/2000/svg"
                                              xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -30,13 +30,13 @@
                                         </svg>
 
                                         <select class="form-select" aria-label="Default select example" name="category_id" required>
-                                            <option value="">- Select Categories -</option>
-                                            @foreach($categories as $key => $value)
-                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            <option value="">- {{ __('home.select_categories') }} -</option>
+                                            @foreach(CommonFunction::getCategory() as $category)
+                                                <option value="{{ $category->id }}">{{ $category->getTranslation('name', \Illuminate\Support\Facades\App::getLocale()) ?? $category->en_name }}</option>
                                             @endforeach
                                         </select>
 
-                                        <button type="submit" class="btn btn-search">Search</button>
+                                        <button type="submit" class="btn btn-search">{{ __('home.search') }}</button>
                                     </form>
                                 </div>
                                 <div class="mob-seaarch d-block d-md-none">
@@ -44,14 +44,14 @@
                                         <div class="row g-0">
                                             <div class="col-4">
                                                 <select class="form-select" aria-label="Default select example" fdprocessedid="qsjqsg" name="category_id" required>
-                                                    <option value="">- Select Categories -</option>
-                                                    @foreach($categories as $key => $value)
-                                                        <option value="{{ $key }}">{{ $value }}</option>
+                                                    <option value="">- {{ __('home.select_categories') }} -</option>
+                                                    @foreach(CommonFunction::getCategory() as $category)
+                                                        <option value="{{ $category->id }}">{{ $category->getTranslation('name', \Illuminate\Support\Facades\App::getLocale()) ?? $category->en_name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <div class="col-8">
-                                                <input type="search" class="form-control" placeholder="Search for items" name="search">
+                                                <input type="search" class="form-control" placeholder="{{ __('home.search_for_items') }}" name="search">
                                                 <button type="submit" class="search_icon">
                                                     <svg width="25px" height="25px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
 

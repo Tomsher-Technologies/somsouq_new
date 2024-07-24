@@ -18,7 +18,7 @@ final class WishlistController extends Controller
             ->leftJoin('states', 'states.id', '=', 'posts.state_id')
             ->leftJoin('cities', 'cities.id', '=', 'posts.city_id')
             ->where('posts.status', 'approved')
-            ->where('wishlists.user_id', Auth::id())
+            ->where('wishlists.user_id', Auth::guard('web')->id())
             ->orderBy('wishlists.id', 'DESC')
             ->get([
                 'posts.id',
@@ -28,17 +28,20 @@ final class WishlistController extends Controller
                 'posts.status',
                 'wishlists.id as list_id',
                 'states.name as state',
-                'cities.name as city',
-                'categories.en_name as category_name',
+                'cities.name as city'
             ]);
 
         return view('frontEnd.wishlist.index', compact('posts'));
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addPostToWishlist(Request $request)
     {
         try {
-            $getList = Wishlist::where('user_id', Auth::id())->where('post_id', $request->get('post_id'))->count();
+            $getList = Wishlist::where('user_id', Auth::guard('web')->id())->where('post_id', $request->get('post_id'))->count();
             if ($getList > 0) {
                 return response()->json([
                     'status' => 'success',
@@ -48,7 +51,7 @@ final class WishlistController extends Controller
             }
 
             $wishlist = new Wishlist();
-            $wishlist->user_id = Auth::id();
+            $wishlist->user_id = Auth::guard('web')->id();
             $wishlist->post_id = $request->get('post_id');
             $wishlist->save();
 
@@ -94,5 +97,7 @@ final class WishlistController extends Controller
                 'http_status' => Response::HTTP_INTERNAL_SERVER_ERROR,
             ]);
         }
+
+
     }
 }

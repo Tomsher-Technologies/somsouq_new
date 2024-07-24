@@ -7,7 +7,7 @@ use App;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 class About extends Model
 {
-   protected $table = 'abouts';
+    protected $table = 'abouts';
 
     /**
      * Get the comments for the blog post.
@@ -15,5 +15,10 @@ class About extends Model
     public function AboutDescription(): HasMany
     {
         return $this->hasMany(AboutDescription::class);
+    }
+
+    public function getTranslation($field, $lang)
+    {
+        return collect($this->getArrayAttributeByKey($field))[$lang] ?? null;
     }
 }

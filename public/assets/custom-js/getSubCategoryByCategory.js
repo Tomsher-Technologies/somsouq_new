@@ -18,9 +18,9 @@ function getSubCategoryByCategory(category_id, sub_category_id, url, old_data){
                 if (response.status) {
                     $.each(response.data, function (id, value) {
                         if (value.id == old_data) {
-                            option += '<option value="' + value.id + '" selected>' + value.en_name + '</option>';
+                            option += '<option value="' + value.id + '" selected>' + value.name + '</option>';
                         } else {
-                            option += '<option value="' + value.id + '">' + value.en_name + '</option>';
+                            option += '<option value="' + value.id + '">' + value.name + '</option>';
                         }
                     });
                 }

@@ -26,9 +26,9 @@ final class ContactController extends Controller
             $contact->description = $request->input('description') ?? "";
             $contact->save();
 
-            return redirect()->back()->with('success', 'Your request has been submitted successfully.');
+            return redirect()->back()->with('success', trans('messages.contact_success'));
         }catch (\Exception $e){
-            return redirect()->back()->with('error', 'something went wrong.');
+            return redirect()->back()->with('error', trans('messages.wrong'));
         }
     }
 }

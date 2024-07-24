@@ -1,20 +1,20 @@
 <div class="ad-detail-spec">
     <ul>
-        <li><span>Parts Type</span> <span>{{ $postDetail->auto_part_name ?? "" }} </li>
-        <li><span>Brand/ Make Name</span> <span>{{ $postDetail->brand_name ?? "" }} </li>
+        <li><span>{{ __('post.parts_type') }}</span> <span>{{ getTranslation($postDetail->auto_part_name) }} </li>
+        <li><span>{{ __('post.brand_make_name') }}</span> <span>{{ getTranslation($postDetail->brand_name) }} </li>
     </ul>
 
     <ul>
-        <li><span>Model Year</span> <span>{{ $postDetail->model_year ?? "" }} </li>
-        <li><span>Model</span> <span>{{ $postDetail->model_number ?? "" }} </li>
+        <li><span>{{ __('post.model_year') }}</span> <span>{{ $postDetail->model_year ?? "" }} </li>
+        <li><span>{{ __('post.model') }}</span> <span>{{ $postDetail->model_number ?? "" }} </li>
     </ul>
 
     <ul>
-        <li><span>Color</span> <span>{{ $postDetail->color_name ?? "" }} </li>
-        <li><span>Exchangeable</span> <span>{{ $postDetail->exchangeable ?? "" }} </li>
+        <li><span>{{ __('post.color') }}</span> <span>{{ getTranslation($postDetail->color_name) }} </li>
+        <li><span>{{ __('post.transmission') }}</span> <span>{{ $postDetail->exchangeable ?? "" }} </li>
     </ul>
 
     <ul>
-        <li><span>Condition</span> <span>{{ $postDetail->usage_condition ? ucwords($postDetail->usage_condition) : "" }} </li>
+        <li><span>{{ __('post.condition') }}</span> <span>{{ $postDetail->usage_condition ? ucwords($postDetail->usage_condition) : "" }} </li>
     </ul>
 </div>

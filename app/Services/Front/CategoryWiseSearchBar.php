@@ -23,10 +23,12 @@ class CategoryWiseSearchBar {
             case CategoryNameService::PROPERTY_FOR_SALE:
                 static::$htmlFormData['subCategories'] = Category::where('parent_id', '=', $categoryId)->where('is_active', 1)->get([
                     'id',
-                    'en_name'
+                    'en_name',
+                    'ar_name',
+                    'so_name'
                 ]);
 
-                static::$htmlFormData['states'] = State::where('status', 1)->pluck('name', 'id');
+                static::$htmlFormData['states'] = State::where('status', 1)->get(['name', 'id']);
                 static::$htmlFormData['price_ranges'] = self::generatePriceRange(categoryId: $categoryId);
                 static::$htmlFormData['size_range'] = self::generateSizeRange(categoryId: $categoryId);
 
@@ -37,13 +39,15 @@ class CategoryWiseSearchBar {
             case CategoryNameService::VEHICLE_FOR_SALE:
                 static::$htmlFormData['subCategories'] = Category::where('parent_id', '=', $categoryId)->where('is_active', 1)->get([
                     'id',
-                    'en_name'
+                    'en_name',
+                    'ar_name',
+                    'so_name'
                 ]);
 
                 static::$htmlFormData['brands'] = Brand::whereIn('category_id', [CategoryNameService::VEHICLE_FOR_RENT, CategoryNameService::VEHICLE_FOR_SALE])
-                ->where('is_active', true)->pluck('en_name', 'id');
+                ->where('is_active', true)->get(['name', 'id']);
                 static::$htmlFormData['price_ranges'] = self::generatePriceRange(categoryId: $categoryId);
-                static::$htmlFormData['states'] = State::where('status', 1)->pluck('name', 'id');
+                static::$htmlFormData['states'] = State::where('status', 1)->get(['name', 'id']);
                 static::$htmlFormData['years'] = VehicleDetail::whereNotNull('model_year')->distinct()->orderBy('model_year', 'DESC')->pluck('model_year');
                 static::$htmlFormData['km'] = VehicleDetail::whereNotNull('km')->distinct()->orderBy('km', 'ASC')->pluck('km');
 

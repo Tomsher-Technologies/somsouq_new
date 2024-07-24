@@ -21,7 +21,7 @@ class ImageUploadService
         $upload->extension = $file->getClientOriginalExtension();
         $upload->file_original_name = explode('.', $file->getClientOriginalName())[0];
         $upload->file_name = $file->store('uploads/all', 'public');
-        $upload->user_id = Auth::user()->id;
+        $upload->user_id = Auth::guard('web')->user()->id;
         $upload->type = explode('/', $file->getClientMimeType())[0];
         $upload->file_size = $file->getSize();
         $upload->post_id = $postId ?? null;

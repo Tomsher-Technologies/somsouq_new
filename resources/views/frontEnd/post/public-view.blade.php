@@ -2,8 +2,8 @@
 
 @section('meta-tag')
     <meta property="og:url" content="{{ url()->current() }}" />
-    <meta property="og:title" content="{{ $post->title ?? "" }}" />
-    <meta property="og:description" content="{{ $post->description ? substr($post->description, 0, 185) : "" }}" />
+    <meta property="og:title" content="{{ $post->getTranslation('title', App::getLocale() ?? "en") }}" />
+    <meta property="og:description" content="{{ $post->description ? substr($post->getTranslation('description', App::getLocale() ?? "en"), 0, 185) : "" }}" />
     <meta property="og:image" content="{{ CommonFunction::showPostImage($post->id) }}" />
     <meta property="og:type" content="website" />
 @endsection
@@ -15,9 +15,6 @@
     </style>
 @endsection
 @section('content')
-
-
-
     <section class="breadcrumb-section">
         <div class="container">
             <div class="row">
@@ -25,7 +22,8 @@
                     <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="bi bi-house-door-fill"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('post.detail-category', ['cat_id' => $post->category_id]) }}">{{ $post->category_name }}</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('post.detail-category', ['cat_id' => $post->category_id]) }}">{{ CommonFunction::getCategoryName($post->category_id)->getTranslation('name', App::getLocale() ?? 'en') }}</a></li>
+                            <li class="breadcrumb-item">{{ CommonFunction::getSubCategoryName($post->sub_category_id)->getTranslation('name', App::getLocale() ?? 'en') }}</li>
                             <li class="breadcrumb-item active" aria-current="page">{{ $post->tracking_number }}</li>
                         </ol>
                     </nav>
@@ -38,9 +36,10 @@
         <div class="container">
             <div class="detail-title-flex">
                 <div class="product-detail-title">
-                    <h3>{{ $post->title ?? "" }}</h3>
+                    <h3>{{ $post->getTranslation('title', App::getLocale() ?? "en") }}</h3>
                     <div class="detail-sub-title">
-                        <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $post->state }}, {{ $post->city }}</span>
+                        <span class="card-location"><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($post->state) }}, {{ CommonFunction::getCityName($post->city) }}
+                        </span>
                         <span>Posted {{ \Carbon\Carbon::parse($post->updated_at)->diffForHumans() }}</span>
                     </div>
                     {{--                        <h5>Posted {{ \Carbon\Carbon::parse($post->updated_at)->diffForHumans() }}</h5>--}}
@@ -87,11 +86,11 @@
 
                     <div class="row mt-5 mb-5">
                         <div class="col-md-12">
-                            <h4 class="mb-3">Description</h4>
+                            <h4 class="mb-3">{{ __('post.description') }}</h4>
                             <div class="additional-details">
                                 <div class="card product-card">
                                     <div class="card-body p-0">
-                                        {{ $post->description ?? "" }}
+                                        {{ $post->getTranslation('description', App::getLocale() ?? "en") }}
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +102,6 @@
                 <div class="col-md-3">
                     <div class="price-seller-info">
 
-
                         <div class="product-seller-info">
                             <div class="seller-warpper">
                                 <div class="seller-thumb">
@@ -114,41 +112,43 @@
                                 <div class="seller-info">
                                     <h3>{{ CommonFunction::getPostOwnerName($post->created_by) }}</h3>
 {{--                                    <h5>Active Now</h5>--}}
-                                    <span class="join-date">Joined on {{ \App\Libraries\CommonFunction::getPostUserJoinDate($post->created_by) }}</span>
+                                    <span class="join-date">{{ __('post.joined_on') }} {{ \App\Libraries\CommonFunction::getPostUserJoinDate($post->created_by) }}</span>
                                 </div>
                             </div>
+
                             @if(!empty(CommonFunction::getPostOwnerPhoneNumber($post->created_by)))
                                 <a href="#" class="btn btn-callnow mb-2"><i class="bi bi-telephone m-2"></i> {{ CommonFunction::getPostOwnerPhoneNumber($post->created_by) }}</a>
+                            @endif
 
-                                <a href="https://wa.me/{{ CommonFunction::getPostOwnerPhoneNumber($post->created_by) }}?text=Hi There.." target="_blank" class="btn btn-whatsapp"><i class="bi bi-whatsapp me-2"></i>
+                            @if(!empty(CommonFunction::getPostOwnerPhoneNumber($post->created_by)) || !empty(CommonFunction::getPostOwnerWhatsApp($post->created_by)))
+                                @php
+                                $whatsApp = !empty(CommonFunction::getPostOwnerWhatsApp($post->created_by)) ? CommonFunction::getPostOwnerWhatsApp($post->created_by) : CommonFunction::getPostOwnerPhoneNumber($post->created_by);
+                                @endphp
+
+                                <a href="https://wa.me/{{ $whatsApp }}?text=Hi There.." target="_blank" class="btn btn-whatsapp"><i class="bi bi-whatsapp me-2"></i>
                                     WhatsApp
                                 </a>
                             @endif
+
                         </div>
                     </div>
 
                     <div class="property-safety-tips mt-3">
-                        <h3>Safety tips <i class="bi bi-lightbulb"></i></h3>
+                        <h3>{{ __('post.safety_tips') }} <i class="bi bi-lightbulb"></i></h3>
                         <ul>
-                            <li>
-                                Avoid sending any prepayments
-                            </li>
-                            <li>
-                                Meet with the seller at a safe public place
-                            </li>
-                            <li>
-                                Inspect what you're going to buy to make sure it's what you need
-                            </li>
-                            <li>
-                                Check all the docs and only pay if you're satisfied
-                            </li>
+                            @forelse($safetyTips as $tip)
+                                <li>
+                                    {{ $tip->getTranslation('name', \Illuminate\Support\Facades\App::getLocale() ?? "en") }}
+                                </li>
+                            @empty
+                            @endforelse
                         </ul>
-                        <a href="#safedeals">Show full safety tips </a>
                     </div>
-
+                    <p class="py-3">Is there an issue? <a href="#" @guest data-bs-toggle="modal" data-bs-target="#loginModal" @else data-bs-toggle="modal" data-bs-target="#reportModal" @endguest>Report this ad</a></p>
                     <div class="google-ad mt-3">
                         <img src="{{ asset('assets/frontEnd/images/ad-md-img.jpg') }}" class="img-fluid rounded-2" alt="">
                     </div>
+
                 </div>
             </div>
         </div>
@@ -156,6 +156,7 @@
 
     @include('frontEnd.modals.login-modal')
     @include('frontEnd.modals.social-link-modal')
+    @include('frontEnd.modals.report-modal')
 @endsection
 
 @section('script')
@@ -235,6 +236,36 @@
             clipboardText = $('#textbox').val();
             navigator.clipboard.writeText(clipboardText);
             toastr.success('Copied clipboard');
+        });
+
+        $('#reportFormId').validate({
+            highlight: function (element) {
+                $(element).css('border-color', 'red');
+            },
+            unhighlight: function(element) {
+                $(element).css('border-color', '#dee2e6');
+            },
+            errorPlacement: function(error, element) {},
+
+            submitHandler: function(form) {
+                $.ajax({
+                    url: form.action,
+                    type: 'POST',
+                    data: $(form).serialize(),
+                    success: function(response) {
+                        if(response.status) {
+                            toastr.success(response.message);
+                        } else {
+                            toastr.error(response.message);
+                        }
+
+                        $('#reportModal').modal('hide');
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr, status, error)
+                    }
+                });
+            }
         });
     </script>
 @endsection

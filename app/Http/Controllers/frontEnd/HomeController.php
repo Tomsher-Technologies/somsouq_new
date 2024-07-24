@@ -3,18 +3,23 @@
 namespace App\Http\Controllers\frontEnd;
 
 use App\Http\Controllers\Controller;
+use App\Libraries\CommonFunction;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\State;
 use Artisan;
 use Cache;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 final class HomeController extends Controller
 {
     public function index()
     {
         try {
-            $data['categories'] = Category::where('parent_id', 0)->where('is_active', 1)->pluck('en_name', 'id');
+            //$data['categories'] = Category::where('parent_id', 0)->where('is_active', 1)->pluck('en_name', 'id');
 
              $query = Post::query();
                 $query->leftJoin('states', 'states.id', '=', 'posts.state_id')
@@ -37,7 +42,7 @@ final class HomeController extends Controller
                     'posts.status',
                     'states.name as state',
                     'cities.name as city',
-                    'categories.en_name as category_name',
+                    'categories.id as category_id',
                 ]);
 
 //        $getPost = Post::leftJoin('states', 'states.id', '=', 'posts.state_id')
@@ -82,8 +87,8 @@ final class HomeController extends Controller
             foreach ($getPost as $key => $value) {
                 $posts[$value->category_id][] = $value;
             }
-
             $data['posts'] = $posts;
+
             return view('frontEnd.home.home', $data);
         }catch (\Exception $e){
             dd($e->getMessage());
@@ -100,5 +105,15 @@ final class HomeController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function setLanguage(string $language)
+    {
+        App::setLocale($language);
+        LaravelLocalization::setLocale($language);
+        Session::put("locale", $language);
+
+        $url = \LaravelLocalization::getLocalizedURL(App::getLocale(), \URL::previous());
+        return Redirect::to($url);
     }
 }

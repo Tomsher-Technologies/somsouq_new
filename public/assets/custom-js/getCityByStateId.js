@@ -18,10 +18,12 @@ function getCityByStateId(state_id, city_id, url, old_data){
 
                 if (response.status) {
                     $.each(response.data, function (id, value) {
+                        let data = JSON.parse(value);
+
                         if (id == old_data) {
-                            option += '<option value="' + id + '" selected>' + value + '</option>';
+                            option += '<option value="' + id + '" selected>' + data[setLocalLang] + '</option>';
                         } else {
-                            option += '<option value="' + id + '">' + value + '</option>';
+                            option += '<option value="' + id + '">' + data[setLocalLang] + '</option>';
                         }
 
                     });

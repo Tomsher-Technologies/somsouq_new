@@ -31,8 +31,8 @@
                     <div class="col-md-2">
                        <select class="form-control" name="state_id">
                            <option value="">Select</option>
-                           @foreach(CommonFunction::getState() as $key => $state)
-                               <option value="{{$key}}" @selected($key == $state_id ?? "")>{{$state}}</option>
+                           @foreach(CommonFunction::getState() as $state)
+                               <option value="{{$state->id}}" @selected($state->id == $state_id ?? "")>{{$state->getTranslation('name', App::getLocale() ?? 'en')}}</option>
                            @endforeach
                        </select>
                     </div>
@@ -70,7 +70,7 @@
                         <td>
                             {{ $user->username ?? '-' }}
                         </td>
-                        <td>{{ $user->location ?? "-" }}</td>
+                        <td>{{ CommonFunction::getStateName($user->state) }}, {{ CommonFunction::getCityName($user->city) }}</td>
                         <td></td>
 
                     </tr>

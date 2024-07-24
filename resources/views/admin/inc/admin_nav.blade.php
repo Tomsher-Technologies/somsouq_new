@@ -17,7 +17,7 @@
                     </div>
                 </div>
             </div>
-           
+
             <div class="d-flex justify-content-around align-items-center align-items-stretch ml-3">
                 <div class="aiz-topbar-item">
                     <div class="d-flex align-items-center">
@@ -37,13 +37,13 @@
                         <span class="d-flex align-items-center">
                             <span class="avatar avatar-sm mr-md-2">
                                 <img
-                                    src="{{ uploaded_asset(Auth::user()->image) }}"
+                                    src="{{ uploaded_asset(Auth::guard('admin')->user()->image) }}"
                                     onerror="this.onerror=null;this.src='{{ static_asset('assets/img/avatar-place.png') }}';"
                                 >
                             </span>
                             <span class="d-none d-md-block">
-                                <span class="d-block fw-500">{{Auth::user()->name}}</span>
-                                <span class="d-block small opacity-60">{{Auth::user()->user_type}}</span>
+                                <span class="d-block fw-500">{{Auth::guard('admin')->user()->name}}</span>
+                                <span class="d-block small opacity-60">{{Auth::guard('admin')->user()->user_type}}</span>
                             </span>
                         </span>
                     </a>

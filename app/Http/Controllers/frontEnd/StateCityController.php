@@ -16,7 +16,7 @@ final class StateCityController extends Controller
 
             return response()->json([
                 'status' => true,
-                'data' => $getCities
+                'data' => $getCities,
             ]);
 
         }catch (\Exception $exception){

@@ -9,7 +9,7 @@
     <section class="popular-ads-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3>Popular Ads</h3>
+                <h3>{{ __('home.popular_ads') }}</h3>
 {{--                <a href="#" class="page-link">See all <i class="bi bi-chevron-right"></i></a>--}}
             </div>
             <div class="row">
@@ -21,17 +21,17 @@
                             <a href="{{ route('public.view', ['type' => 'public', 'id' => $ad->id]) }}">
                                 <div class="card-img-warpper">
                                     <img src="{{ CommonFunction::showPostImage($ad->id) }}" class="card-img-top img-fluid" alt="{{ CommonFunction::getPostImageName($ad->id) }}" style="height: 234px; object-fit: cover">
-                                    <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $ad->state }}, {{ $ad->city }}</span>
-                                    <span class="property-category">{{ $ad->category_name ?? "" }}</span>
+                                    <span class="card-location"><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($ad->state) }}, {{ CommonFunction::getCityName($ad->city) }}</span>
+                                    <span class="property-category">{{ CommonFunction::getCategoryName($ad->category_id)->getTranslation('name', App::getLocale() ?? 'en') }}</span>
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-price">USD {{ $ad->price ?? "" }}</h5>
-                                    <h4 class="card-title">{{ $ad->title ? substr($ad->title, 0, 80) : "" }}</h4>
+                                    <h4 class="card-title">{{ $ad->title ? substr($ad->getTranslation('title', App::getLocale() ?? "en"), 0, 80) : "" }}</h4>
                                 </div>
                             </a>
                         </div>
                         @empty
-                            <span class="text-center">Ad not found!</span>
+                            <span class="text-center">{{ __('home.ad_not_found') }}</span>
                         @endforelse
 
                     </div>
@@ -44,8 +44,8 @@
     <section class="popular-properties-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3>Popular Properties for Rent</h3>
-                <a href="{{ route('post.detail-category', ['cat_id' => 1]) }}" class="page-link d-none d-md-block">See all <i class="bi bi-chevron-right"></i></a>
+                <h3> {{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 1)->getTranslation('name', App::getLocale() ?? 'en') }}</h3>
+                <a href="{{ route('post.detail-category', ['cat_id' => 1]) }}" class="page-link d-none d-md-block">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
             <div class="row g-3">
                 @if(!empty($posts[1]))
@@ -56,11 +56,11 @@
                                 <a href="{{ route('public.view', ['type' => 'public', 'id' => $post->id]) }}">
                                     <div class="card-img-warpper">
                                         <img src="{{ CommonFunction::showPostImage($post->id) }}" class="card-img-top img-fluid" alt="{{ CommonFunction::getPostImageName($post->id) }}" style="height: 234px; object-fit: cover">
-                                        <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $post->state }}, {{ $post->city }}</span>
+                                        <span class="card-location"><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($post->state) }}, {{ CommonFunction::getCityName($post->city) }}</span>
                                     </div>
                                     <div class="card-body">
                                         <h5 class="card-price">USD {{ $post->price ?? "" }}</h5>
-                                        <h4 class="card-title">{{ $post->title ? substr($post->title, 0, 80) : "" }}</h4>
+                                        <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', App::getLocale() ?? "en"), 0, 80) : "" }}</h4>
                                     </div>
                                 </a>
                             </div>
@@ -76,8 +76,8 @@
     <section class="popular-properties-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3>Popular Properties for Sale</h3>
-                <a href="{{ route('post.detail-category', ['cat_id' => 2]) }}" class="page-link">See all <i class="bi bi-chevron-right"></i></a>
+                <h3> {{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 2)->getTranslation('name', App::getLocale() ?? 'en') }}</h3>
+                <a href="{{ route('post.detail-category', ['cat_id' => 2]) }}" class="page-link">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
             <div class="row g-3">
                 @if(!empty($posts[2]))
@@ -88,12 +88,12 @@
                             <a href="{{ route('public.view', ['type' => 'public', 'id' => $post->id]) }}">
                                 <div class="card-img-warpper">
                                     <img src="{{ CommonFunction::showPostImage($post->id) }}" class="card-img-top img-fluid" alt="{{ CommonFunction::getPostImageName($post->id) }}" style="height: 234px; object-fit: cover">
-                                    <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $post->state }}, {{ $post->city }}</span>
+                                    <span class="card-location"><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($post->state) }}, {{ CommonFunction::getCityName($post->city) }}</span>
 
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-price">USD {{ $post->price ?? "" }}</h5>
-                                    <h4 class="card-title">{{ $post->title ? substr($post->title, 0, 80) : "" }}</h4>
+                                    <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', App::getLocale() ?? "en"), 0, 80) : "" }}</h4>
                                 </div>
                             </a>
                         </div>
@@ -109,8 +109,8 @@
     <section class="popular-cars-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3>Popular Vehicles for Rent</h3>
-                <a href="{{ route('post.detail-category', ['cat_id' => 3]) }}" class="page-link">See all <i class="bi bi-chevron-right"></i></a>
+                <h3> {{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 3)->getTranslation('name', App::getLocale() ?? 'en') }}</h3>
+                <a href="{{ route('post.detail-category', ['cat_id' => 3]) }}" class="page-link">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
             <div class="row g-3">
                 @if(!empty($posts[3]))
@@ -121,12 +121,12 @@
                             <a href="{{ route('public.view', ['type' => 'public', 'id' => $post->id]) }}">
                                 <div class="card-img-warpper">
                                     <img src="{{ CommonFunction::showPostImage($post->id) }}" class="card-img-top img-fluid" alt="{{ CommonFunction::getPostImageName($post->id) }}" style="height: 234px; object-fit: cover">
-                                    <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $post->state }}, {{ $post->city }}</span>
+                                    <span class="card-location"><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($post->state) }}, {{ CommonFunction::getCityName($post->city) }}</span>
 
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-price">USD {{ $post->price ?? "" }}</h5>
-                                    <h4 class="card-title">{{ $post->title ? substr($post->title, 0, 80) : "" }}</h4>
+                                    <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', App::getLocale() ?? "en"), 0, 80) : "" }}</h4>
                                 </div>
                             </a>
                         </div>
@@ -142,8 +142,8 @@
     <section class="popular-cars-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3>Popular Vehicles for Sale</h3>
-                <a href="{{ route('post.detail-category', ['cat_id' => 4]) }}" class="page-link">See all <i class="bi bi-chevron-right"></i></a>
+                <h3>{{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 4)->getTranslation('name', App::getLocale() ?? 'en') }}</h3>
+                <a href="{{ route('post.detail-category', ['cat_id' => 4]) }}" class="page-link">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
             <div class="row g-3">
                 @if(!empty($posts[4]))
@@ -154,12 +154,12 @@
                             <a href="{{ route('public.view', ['type' => 'public', 'id' => $post->id]) }}">
                                 <div class="card-img-warpper">
                                     <img src="{{ CommonFunction::showPostImage($post->id) }}" class="card-img-top img-fluid" alt="{{ CommonFunction::getPostImageName($post->id) }}" style="height: 234px; object-fit: cover">
-                                    <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $post->state }}, {{ $post->city }}</span>
+                                    <span class="card-location"><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($post->state) }}, {{ CommonFunction::getCityName($post->city) }}</span>
 
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-price">USD {{ $post->price ?? "" }}</h5>
-                                    <h4 class="card-title">{{ $post->title ? substr($post->title, 0, 80) : "" }}</h4>
+                                    <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', App::getLocale() ?? "en"), 0, 80) : "" }}</h4>
                                 </div>
                             </a>
                         </div>
@@ -176,7 +176,7 @@
         <div class="container">
             <div class="section-title title-flex">
                 <h3>Popular Fashion Items</h3>
-                <a href="#" class="page-link">See all <i class="bi bi-chevron-right"></i></a>
+                <a href="#" class="page-link">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
 
         </div>
@@ -186,7 +186,7 @@
         <div class="container">
             <div class="section-title title-flex">
                 <h3>Popular Electronics</h3>
-                <a href="#" class="page-link">See all <i class="bi bi-chevron-right"></i></a>
+                <a href="#" class="page-link">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
         </div>
     </section>
@@ -197,7 +197,7 @@
         <div class="container">
             <div class="section-title title-flex">
                 <h3>Popular Health & Beauty Items</h3>
-                <a href="#" class="page-link">See all <i class="bi bi-chevron-right"></i></a>
+                <a href="#" class="page-link">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
 
         </div>

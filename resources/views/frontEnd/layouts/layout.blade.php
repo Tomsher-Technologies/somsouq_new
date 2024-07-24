@@ -33,8 +33,10 @@
 <script src="{{ asset('assets/frontEnd/js/custom.js') }}"></script>
 <script src="{{ asset('assets/frontEnd/js/jquery-validation/jquery.validate.js') }}"></script>
 <script src="{{ asset('assets/frontEnd/vendor/toastr/toastr.min.js') }}"></script>
+<script src="{{ asset('assets/frontEnd/js/sweetalert.min.js') }}"></script>
 <script>
     let BASE_URL = "{{ route('home') }}";
+    let setLocalLang = "{{ \Illuminate\Support\Facades\App::getLocale() ?? 'en' }}";
     $(".btn-custom-close").on('click', function (e){
         $(e.target).parent().remove();
     });
@@ -65,14 +67,56 @@
         "positionClass": "toast-top-right",
         "preventDuplicates": false,
         "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "1000",
-        "extendedTimeOut": "1000",
+        "showDuration": "500",
+        "hideDuration": "2000",
+        "timeOut": "2000",
+        "extendedTimeOut": "2000",
         "showEasing": "swing",
         "hideEasing": "linear",
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
+    }
+
+    function isProfileUpdated()
+    {
+        $.ajax({
+            url: "{{ route('profile.check') }}",
+            type: 'get',
+            data: {},
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                if(response.success) {
+                    if(!response.profile_status) {
+                        Swal.fire({
+                            title: response.message,
+                            icon: 'warning',
+                            allowOutsideClick: true,
+                            showCancelButton: true,
+                            confirmButtonText: 'Go to profile',
+                            cancelButtonText: 'Cancel',
+                            customClass: {
+                                confirmButton: 'btn btn-primary',
+                                cancelButton: 'btn btn-outline-step'
+                            }
+                        }).then(function (result) {
+                            if(result.isConfirmed) {
+                                window.location.replace(response.url)
+                            }
+                        });
+                    }
+
+                    if(response.profile_status) {
+                        window.location.href = response.url;
+                    }
+                }
+
+            },
+            error: function(xhr, status, error) {
+                console.log(xhr, status, error)
+            }
+        });
     }
 </script>
 

@@ -12,7 +12,7 @@
                                     @if ($category->icon != null)
                                         <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
                                     @endif
-                                    <h4>{{ $category->en_name }}</h4>
+                                    {{ $category->getTranslation('name', \Illuminate\Support\Facades\App::getLocale() ?? "en") ?? $category->en_name }}
                                 </div>
                             </div>
                         @endforeach
@@ -38,20 +38,20 @@
             </nav>
 
             <div class="section-title title-flex">
-                <h3>{{ $category_name }} <span>{{ $category_wise_total_post }} Ads</span></h3>
+                <h3>{{ $category_name }} <span>{{ $category_wise_total_post }} {{ __('post.ads') }}</span></h3>
                 <div class="row row-cols-lg-auto g-3 align-items-center">
 
                     <div class="col-12">
                         <label class="form-check-label">
-                            Sort By:
+                            {{ __('post.sort_by') }}:
                         </label>
                     </div>
                     <div class="col-12">
                         <select class="form-select" id="inlineFormSelectPref" onchange="sortingThePosts(this.value)">
-                            <option value="">-Select-</option>
-                            <option value="1">Newest</option>
-                            <option value="2">Low to High</option>
-                            <option value="3">High to Low</option>
+                            <option value="">-{{ __('post.select') }}-</option>
+                            <option value="1">{{ __('post.newest') }}</option>
+                            <option value="2">{{ __('post.low_to_high') }}</option>
+                            <option value="3">{{ __('post.high_to_low') }}</option>
                         </select>
                     </div>
                 </div>
@@ -77,7 +77,7 @@
                                                 <a href="{{ route('public.view', ['type' => 'public', 'id' => $post->id]) }}">
                                                     <div class="card-body">
                                                         <h5 class="card-price">USD {{ $post->price ?? "" }}</h5>
-                                                        <h4 class="card-title">{{ $post->title ? substr($post->title, 0, 80) : "" }}</h4>
+                                                        <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', App::getLocale() ?? 'en'), 0, 80) : "" }}</h4>
                                                         {{--                                                <ul>--}}
                                                         {{--                                                    <li>--}}
                                                         {{--                                                        <i class="bi bi-calendar-check"></i>--}}
@@ -94,12 +94,18 @@
                                                         {{--                                                    </li>--}}
                                                         {{--                                                </ul>--}}
 
-                                                        <span class="card-location"><i class="bi bi-geo-alt"></i> {{ $post->state }}, {{ $post->city }}</span>
+                                                        <span class="card-location"><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($post->state) }}, {{ CommonFunction::getCityName($post->city) }}</span>
                                                         <div class="list-buttons">
                                                             @if(!empty(CommonFunction::getPostOwnerPhoneNumber($post->created_by)))
                                                                 <a href="#" class="btn btn-callnow mb-2"><i class="bi bi-telephone m-2"></i> {{ CommonFunction::getPostOwnerPhoneNumber($post->created_by) }}</a>
+                                                            @endif
 
-                                                                <a href="https://wa.me/{{ CommonFunction::getPostOwnerPhoneNumber($post->created_by) }}?text=Hi There.." target="_blank" class="btn btn-whatsapp"><i class="bi bi-whatsapp me-2"></i>
+                                                            @if(!empty(CommonFunction::getPostOwnerPhoneNumber($post->created_by)) || !empty(CommonFunction::getPostOwnerWhatsApp($post->created_by)))
+                                                                @php
+                                                                    $whatsApp = !empty(CommonFunction::getPostOwnerWhatsApp($post->created_by)) ? CommonFunction::getPostOwnerWhatsApp($post->created_by) : CommonFunction::getPostOwnerPhoneNumber($post->created_by);
+                                                                @endphp
+
+                                                                <a href="https://wa.me/{{ $whatsApp }}?text=Hi There.." target="_blank" class="btn btn-whatsapp"><i class="bi bi-whatsapp me-2"></i>
                                                                     WhatsApp
                                                                 </a>
                                                             @endif

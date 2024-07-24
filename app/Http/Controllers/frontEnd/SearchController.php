@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Services\Front\CategoryNameService as CATEGORY_NAME;
 use App\Services\Front\CategoryWiseSearchBar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 
 final class SearchController extends Controller
@@ -16,7 +17,9 @@ final class SearchController extends Controller
     {
         try {
             $data['category_id'] = ($request->get('category_id')) ? $request->get('category_id') : $cat_id;
-            $data['category_name'] = CommonFunction::getCategoryName(category_id: $data['category_id']);
+
+            $data['category_name'] = CommonFunction::getCategoryName(category_id: $data['category_id'])->getTranslation('name', App::getLocale() ?? 'en');
+
             $data['posts'] = $this->categoryWisePost($request->all(), $data['category_id']);
             $getBarHtml = CategoryWiseSearchBar::getSearchBar(categoryId: $data['category_id']);
 
@@ -41,7 +44,7 @@ final class SearchController extends Controller
 
             $data['category_id'] = $request->get('category_id');
             $data['category_wise_total_post'] = $this->categoryWiseTotalPost($request->get('category_id'));
-            $data['category_name'] = CommonFunction::getCategoryName(category_id: $data['category_id']);
+            $data['category_name'] = CommonFunction::getCategoryName(category_id: $data['category_id'])->getTranslation('name', App::getLocale() ?? 'en');
 
             $postHtml = view('frontEnd.search.search-post', $data)->render();
 
@@ -175,7 +178,7 @@ final class SearchController extends Controller
 
             $data['category_id'] = $request->get('category_id');
             $data['category_wise_total_post'] = $query->get()->count();
-            $data['category_name'] = CommonFunction::getCategoryName(category_id: $data['category_id']);
+            $data['category_name'] = CommonFunction::getCategoryName(category_id: $data['category_id'])->getTranslation('name', App::getLocale() ?? 'en');
 
             return response()->json([
                 'status' => true,

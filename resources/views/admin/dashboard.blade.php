@@ -1,8 +1,8 @@
 @extends('admin.layouts.app')
 
 @section('content')
-   
-    
+
+
         <div class="row gutters-10">
             <div class="col-lg-12">
                 <div class="row gutters-10">
@@ -10,11 +10,11 @@
                         <div class="bg-grad-2 text-white rounded-lg mb-4 overflow-hidden">
                             <div class="px-3 pt-3">
                                 <div class="fs-20">
-                                    <span class=" d-block">{{ trans('Total') }}</span>
-                                    {{ trans('Customer') }}
+                                    <span class=" d-block">Total</span>
+                                    Customer
                                 </div>
                                 <div class="h3 fw-700 mb-3">
-                                    {{ \App\Models\User::where('user_type', 'customer')->where('email_verified_at', '!=', null)->count() }}
+                                    {{ $total_user }}
                                 </div>
                             </div>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
@@ -28,10 +28,10 @@
                         <div class="bg-grad-3 text-white rounded-lg mb-4 overflow-hidden">
                             <div class="px-3 pt-3">
                                 <div class="fs-20">
-                                    <span class="d-block">{{ trans('Total') }}</span>
-                                    {{ trans('Order') }}
+                                    <span class="d-block">Total</span>
+                                    Approved Ads
                                 </div>
-                                <div class="h3 fw-700 mb-3">0</div>
+                                <div class="h3 fw-700 mb-3"> {{ $total_approved_ads }}</div>
                             </div>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
                                 <path fill="rgba(255,255,255,0.3)" fill-opacity="1"
@@ -44,10 +44,10 @@
                         <div class="bg-grad-1 text-white rounded-lg mb-4 overflow-hidden">
                             <div class="px-3 pt-3">
                                 <div class="fs-20">
-                                    <span class=" d-block">{{ trans('Total') }}</span>
-                                    {{ trans('Product category') }}
+                                    <span class=" d-block">Total</span>
+                                    Pending Ads
                                 </div>
-                                <div class="h3 fw-700 mb-3">0</div>
+                                <div class="h3 fw-700 mb-3">{{ $total_pending_ads }}</div>
                             </div>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
                                 <path fill="rgba(255,255,255,0.3)" fill-opacity="1"
@@ -60,10 +60,10 @@
                         <div class="bg-grad-4 text-white rounded-lg mb-4 overflow-hidden">
                             <div class="px-3 pt-3">
                                 <div class="fs-20">
-                                    <span class=" d-block">{{ trans('Total') }}</span>
-                                    {{ trans('Product brand') }}
+                                    <span class=" d-block">Total</span>
+                                    Sold Ads
                                 </div>
-                                <div class="h3 fw-700 mb-3">0</div>
+                                <div class="h3 fw-700 mb-3">{{ $total_sold_ads }}</div>
                             </div>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
                                 <path fill="rgba(255,255,255,0.3)" fill-opacity="1"
@@ -77,37 +77,37 @@
 
 
         </div>
-    
 
-    <div class="card">
-        <div class="card-header row gutters-5">
-            <div class="col">
-                <h6 class="mb-0">{{ trans('Latest User Searches') }}</h6>
-            </div>
-            
-            <a href="#" class="btn btn-primary">View All</a>
-        </div>
-        <div class="card-body">
-            <table class="table table-bordered aiz-table mb-0">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>{{ trans('Search Key') }}</th>
-                        <th>{{ trans('User') }}</th>
-                        <th>{{ trans('IP Address') }}</th>
-                        <th>{{ trans('Date') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                   
-                </tbody>
-            </table>
-        </div>
-    </div>
+
+{{--    <div class="card">--}}
+{{--        <div class="card-header row gutters-5">--}}
+{{--            <div class="col">--}}
+{{--                <h6 class="mb-0">Latest User Searches</h6>--}}
+{{--            </div>--}}
+
+{{--            <a href="#" class="btn btn-primary">View All</a>--}}
+{{--        </div>--}}
+{{--        <div class="card-body">--}}
+{{--            <table class="table table-bordered aiz-table mb-0">--}}
+{{--                <thead>--}}
+{{--                    <tr>--}}
+{{--                        <th>#</th>--}}
+{{--                        <th>Search Key</th>--}}
+{{--                        <th>User</th>--}}
+{{--                        <th>IP Address</th>--}}
+{{--                        <th>Date</th>--}}
+{{--                    </tr>--}}
+{{--                </thead>--}}
+{{--                <tbody>--}}
+
+{{--                </tbody>--}}
+{{--            </table>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
 @endsection
 @section('script')
     <script type="text/javascript">
-       
+
     </script>
 @endsection
