@@ -418,12 +418,12 @@
               if (response.status == "success") {
 
                   if (response.method == "edit") {
-                        title = "The post has been updated";
+                        title = title_post_edit;
                   }
 
                   if (response.method == "add") {
-                      title = "Your post is successfully submitted";
-                      text = "The post is under review, and it will go live in 24 hours.";
+                      title = title_post_add;
+                      text = text_post_add;
                   }
 
                   Swal.fire({
@@ -432,8 +432,8 @@
                       icon: "success",
                       allowOutsideClick: false,
                       showCancelButton: true,
-                      confirmButtonText: "Go My Account",
-                      cancelButtonText: "Go Home",
+                      confirmButtonText: go_my_account,
+                      cancelButtonText: go_home,
                       customClass: {
                           confirmButton: 'btn btn-primary',
                           cancelButton: 'btn btn-outline-step'
@@ -447,7 +447,7 @@
                   });
               }
 
-              if (response.success == "error") {
+              if (response.status == "error") {
                   Swal.fire({
                       icon: "error",
                       title: "Oops...",

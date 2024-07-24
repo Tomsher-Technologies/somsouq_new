@@ -3,14 +3,14 @@
         <div class="aiz-side-nav-logo-wrap">
             <a href="{{ route('admin.dashboard') }}" class="d-block text-left">
                 <img class="mw-100" height="100" src="{{ asset('assets/img/logo.png') }}"
-                        alt="{{ env('APP_NAME') }}">
+                     alt="{{ env('APP_NAME') }}">
             </a>
         </div>
         <div class="aiz-side-nav-wrap">
             <div class="px-20px mb-3">
                 <input class="form-control bg-soft-secondary border-0 form-control-sm text-white" type="text"
-                    name="" placeholder="{{ translate('Search in menu') }}" id="menu-search"
-                    onkeyup="menuSearch()">
+                       name="" placeholder="{{ translate('Search in menu') }}" id="menu-search"
+                       onkeyup="menuSearch()">
             </div>
             <ul class="aiz-side-nav-list" id="search-menu">
             </ul>
@@ -35,28 +35,28 @@
 
                 <!-- Sellers -->
 
-                    {{-- <li class="aiz-side-nav-item">
-                        <a href="#" class="aiz-side-nav-link">
-                            <i class="las la-user aiz-side-nav-icon"></i>
-                            <span class="aiz-side-nav-text">{{ translate('Sellers') }}</span>
-                            <span class="aiz-side-nav-arrow"></span>
-                        </a>
-                        <ul class="aiz-side-nav-list level-2">
+                {{-- <li class="aiz-side-nav-item">
+                    <a href="#" class="aiz-side-nav-link">
+                        <i class="las la-user aiz-side-nav-icon"></i>
+                        <span class="aiz-side-nav-text">{{ translate('Sellers') }}</span>
+                        <span class="aiz-side-nav-arrow"></span>
+                    </a>
+                    <ul class="aiz-side-nav-list level-2">
 
-                            <li class="aiz-side-nav-item">
-                                <a href="#" class="aiz-side-nav-link">
-                                    <span class="aiz-side-nav-text">{{ translate('Payouts') }}</span>
-                                </a>
-                            </li>
+                        <li class="aiz-side-nav-item">
+                            <a href="#" class="aiz-side-nav-link">
+                                <span class="aiz-side-nav-text">{{ translate('Payouts') }}</span>
+                            </a>
+                        </li>
 
-                        </ul>
-                    </li> --}}
+                    </ul>
+                </li> --}}
 
 
                 @can('uploads')
                     <li class="aiz-side-nav-item">
                         <a href="{{ route('uploaded-files.index') }}"
-                            class="aiz-side-nav-link {{ areActiveRoutes(['uploaded-files.create']) }}">
+                           class="aiz-side-nav-link {{ areActiveRoutes(['uploaded-files.create']) }}">
                             <i class="las la-upload aiz-side-nav-icon"></i>
                             <span class="aiz-side-nav-text">{{ translate('Uploaded Files') }}</span>
                         </a>
@@ -95,10 +95,73 @@
                         <ul class="aiz-side-nav-list level-2">
                             <li class="aiz-side-nav-item">
                                 <a href="{{ route('post.list') }}" class="aiz-side-nav-link {{ areActiveRoutes(['post.list']) }}">
-                                    <span class="aiz-side-nav-text">Lists</span>
+                                    <span class="aiz-side-nav-text">Ad Lists</span>
                                 </a>
                             </li>
+                            @can('brand')
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('brand.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['brand.index', 'brand.create', 'brand.edit']) }}">
+                                        <span class="aiz-side-nav-text">Brand</span>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('color')
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('color.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['color.index', 'color.create', 'color.edit']) }}">
+                                        <span class="aiz-side-nav-text">Color</span>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('body_type')
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('body.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['body.index', 'body.create', 'body.edit']) }}">
+                                        <span class="aiz-side-nav-text">Car Body Type</span>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('parts_type')
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('parts.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['parts.index', 'parts.create', 'parts.edit']) }}">
+                                        <span class="aiz-side-nav-text">Parts Type</span>
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('heavy_equipment')
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('equipment.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['equipment.index', 'equipment.create', 'equipment.edit']) }}">
+                                        <span class="aiz-side-nav-text">Heavy Equipment Type</span>
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('boat_type')
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('boat.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['boat.index', 'boat.create', 'boat.edit']) }}">
+                                        <span class="aiz-side-nav-text">Boat Type</span>
+                                    </a>
+                                </li>
+                            @endcan
+
                         </ul>
+                    </li>
+                @endcan
+
+                @can('report')
+                    <li class="aiz-side-nav-item">
+                        <a href="{{ route('report.index') }}" class="aiz-side-nav-link">
+                            <i class="las la-file-alt aiz-side-nav-icon"></i>
+                            <span class="aiz-side-nav-text">Ad reports</span>
+                        </a>
+                    </li>
+                @endcan
+
+                @can('safety_tips')
+                    <li class="aiz-side-nav-item">
+                        <a href="{{ route('safety_tip.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['safety_tip.index', 'safety_tip.create', 'safety_tip.edit']) }}">
+                            <i class="las la-lightbulb aiz-side-nav-icon"></i>
+                            <span class="aiz-side-nav-text">Safety Tips</span>
+                        </a>
                     </li>
                 @endcan
 
@@ -146,12 +209,64 @@
                         </a>
                     </li>
                 @endcan
-                @can('about')
+
+                @can('pages')
                     <li class="aiz-side-nav-item">
-                        <a href="{{ route('about.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['contact.index']) }}">
-                            <i class="las la-address-book aiz-side-nav-icon"></i>
-                            <span class="aiz-side-nav-text">About</span>
+                        <a href="#" class="aiz-side-nav-link">
+                            <i class="las la-map-marker aiz-side-nav-icon"></i>
+                            <span class="aiz-side-nav-text">Pages</span>
+                            <span class="aiz-side-nav-arrow"></span>
                         </a>
+                        <ul class="aiz-side-nav-list level-2">
+                            @can('tutorial')
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('tutorial.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['tutorial.index', 'tutorial.create', 'tutorial.edit']) }}">
+                                        <span class="aiz-side-nav-text">Tutorial</span>
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('about')
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('about.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['contact.index']) }}">
+                                        <span class="aiz-side-nav-text">About</span>
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('help')
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('help.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['help.index', 'help.create']) }}">
+                                        <span class="aiz-side-nav-text">Help</span>
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('term_condition')
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('condition.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['condition.index', 'condition.create', 'condition.edit']) }}">
+                                        <span class="aiz-side-nav-text">Term and Condition</span>
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('privacy_policy')
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('policy.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['policy.index', 'policy.create', 'policy.edit']) }}">
+                                        <span class="aiz-side-nav-text">Privacy Policy</span>
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('buy_sell')
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('buy.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['buy.index', 'buy.create', 'buy.edit']) }}">
+                                        <span class="aiz-side-nav-text">Buy sell</span>
+                                    </a>
+                                </li>
+                            @endcan
+
+                        </ul>
                     </li>
                 @endcan
 

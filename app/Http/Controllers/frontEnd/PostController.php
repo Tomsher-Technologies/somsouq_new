@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Libraries\LaravelShare;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\SafetyTip;
 use App\Models\State;
 use App\Services\Front\CategoryWiseDetailViewService;
 use App\Services\Front\CategoryWisePostDetailDataService;
@@ -15,6 +16,7 @@ use App\Services\Front\LoadCategoryWiseDetailFormService;
 use App\Services\Front\CategoryWisePostDetailStoreService;
 use App\Services\Front\CategoryNameService as CATEGORY_NAME;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -23,8 +25,8 @@ final class PostController extends Controller
     public function create()
     {
         try {
-            $data['categories'] = Category::where('parent_id', 0)->where('is_active', 1)->get(['id', 'en_name', 'icon']);
-            $data['states'] = State::where('status', 1)->pluck('name', 'id');
+            $data['categories'] = Category::where('parent_id', 0)->where('is_active', 1)->get(['id', 'en_name', 'ar_name', 'so_name','icon']);
+            $data['states'] = State::where('status', 1)->get(['name', 'id']);
 
             return view('frontEnd.post.create', $data);
         }catch (\Exception $exception){
@@ -34,6 +36,7 @@ final class PostController extends Controller
 
     public function AppStore(Request $request)
     {
+//        dd($request->all());
         DB::beginTransaction();
         $data = [];
         try {
@@ -42,12 +45,23 @@ final class PostController extends Controller
             $post->sub_category_id = $request->get('sub_category_id');
             $post->state_id = $request->get('state_id');
             $post->city_id = $request->get('city_id');
-            $post->title = $request->get('title');
-            $post->price = $request->get('price');
-            $post->description = $request->get('description');
 
-            if ($request->get('input_type') == "edit") {
-                $post->status = $post->status;
+            $post->title = setTranslation([
+                'en' => $request->get('title_en'),
+                'ar' => $request->get('title_ar'),
+                'so' => $request->get('title_so'),
+            ]);
+
+            $post->price = $request->get(CategoryWisePostDetailStoreService::setInputName('price'));
+
+            $post->description = setTranslation([
+                'en' => $request->get('description_en'),
+                'ar' => $request->get('description_ar'),
+                'so' => $request->get('description_so'),
+            ]);
+
+            if ($request->get('input_type') == "add") {
+                $post->status = 'pending';
             }
 
             $post->save();
@@ -97,6 +111,8 @@ final class PostController extends Controller
             return response()->json($data);
 
         }catch (\Exception $exception){
+
+            dd($exception->getMessage());
             DB::rollBack();
             return response()->json([
                 'status' => 'error',
@@ -143,10 +159,10 @@ final class PostController extends Controller
     public function edit(int $postId)
     {
         try {
-            $data['categories'] = Category::where('parent_id', 0)->where('is_active', 1)->get(['id', 'en_name', 'icon']);
-            $data['states'] = State::where('status', 1)->pluck('name', 'id');
+            $data['categories'] = Category::where('parent_id', 0)->where('is_active', 1)->get(['id', 'en_name', 'ar_name', 'so_name', 'icon']);
+            $data['states'] = State::where('status', 1)->get(['name', 'id']);
             $data['post'] = Post::find($postId);
-            $data['postDetail'] = CategoryWisePostDetailDataService::getData(categoryId: $data['post']->category_id, postId: $postId);
+//            $data['postDetail'] = CategoryWisePostDetailDataService::getData(categoryId: $data['post']->category_id, postId: $postId);
             $data['images'] = ImageUploadService::getPostImage(postId: $postId);
 
 
@@ -174,9 +190,10 @@ final class PostController extends Controller
                     'posts.created_by',
                     'posts.created_at',
                     'posts.description',
+                    'posts.status',
                     'states.name as state',
                     'cities.name as city',
-                    'categories.en_name as category_name',
+                    'categories.id as category_id',
                 ]);
 
             //$data['postDetail'] = CategoryWisePostDetailDataService::getData(categoryId: $data['post']->category_id, postId: $postId);
@@ -187,6 +204,8 @@ final class PostController extends Controller
             $data['postDetailHtml'] = view($getPostDetail['file_path'], $getPostDetail['data'])->render();
 
             if ($viewType == 'public') {
+                $data['safetyTips'] = SafetyTip::where('category_id', $data['post']->category_id)->where('is_active', 1)->get();
+
                 return view('frontEnd.post.public-view', $data);
             } elseif ($viewType == 'user') {
                 return view('frontEnd.post.view', $data);
@@ -206,9 +225,9 @@ final class PostController extends Controller
                 ImageUploadService::deletePostImage(postId: $postId);
                 $post->delete();
 
-                return redirect()->back()->with('success', 'Withdraw successfully');
+                return redirect()->back()->with('success', trans('messages.withdraw_success'));
             }
-            return redirect()->back()->with('error', 'Post not found');
+            return redirect()->back()->with('error', trans('messages.post_not_found'));
         }catch (\Exception $exception){
             return redirect()->back()->with('error', $exception->getMessage());
         }
@@ -239,7 +258,7 @@ final class PostController extends Controller
             $post->status = 'sold';
             $post->save();
 
-            return redirect()->back()->with('success', 'Sold successfully');
+            return redirect()->back()->with('success', trans('messages.sold_success'));
         }catch (\Exception $exception){
             return redirect()->back()->with('error', $exception->getMessage());
         }

@@ -2,6 +2,8 @@
 
 use App\Models\BusinessSetting;
 use App\Models\Translation;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 
 if (!function_exists('getBaseURL')) {
     function getBaseURL()
@@ -140,5 +142,77 @@ if (!function_exists('getFileBaseURL')) {
         return app('url')->asset('storage') . '/';
     }
 }
+
+if (!function_exists('webUser')) {
+    function webUser()
+    {
+        return \Illuminate\Support\Facades\Auth::guard('web')->user();
+    }
+}
+
+if (!function_exists('adminUser')) {
+    function adminUser()
+    {
+        return \Illuminate\Support\Facades\Auth::guard('admin')->user();
+    }
+}
+
+if (!function_exists('setTranslation')) {
+    function setTranslation(array $data)
+    {
+        return json_encode($data);
+    }
+}
+
+if (!function_exists('isDisable')) {
+    function isDisable(string $getLang): string
+    {
+        $lang = App::getLocale() ?? "en";
+
+        if ($lang == $getLang) {
+            return '';
+        } else {
+            return 'disabled';
+        }
+    }
+}
+
+if (!function_exists('isRequired')) {
+    function isRequired(string $getLang): string
+    {
+        $lang = App::getLocale() ?? "en";
+
+        if ($lang == $getLang) {
+            return 'required';
+        } else {
+            return '';
+        }
+    }
+}
+
+if (!function_exists('isEvent')) {
+    function isEvent(string $getLang): string
+    {
+        $lang = App::getLocale() ?? "en";
+
+        if ($lang == $getLang) {
+            return 'trigger-event';
+        } else {
+            return '';
+        }
+    }
+}
+
+if (!function_exists('getTranslation')) {
+    function getTranslation(? string $data): string|null
+    {
+        $lang = App::getLocale() ?? "en";
+        return json_decode($data)->$lang ?? "";
+    }
+}
+
+
+
+
 
 

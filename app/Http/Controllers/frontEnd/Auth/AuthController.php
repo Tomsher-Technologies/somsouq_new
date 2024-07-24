@@ -25,13 +25,13 @@ final class AuthController extends Controller
         try {
             if ($request->authenticate()){
                 return response()->json([
-                    'message' => 'Your are logged in successfully',
+                    'message' => trans('auth.login_in'),
                     'success' => true,
                     'is_login' => true
                 ]);
             } else {
                 return response()->json([
-                    'error' => 'Invalid email and password!',
+                    'error' => trans('auth.invalid_email_password'),
                     'success' => true,
                     'is_login' => false
                 ]);
@@ -57,7 +57,7 @@ final class AuthController extends Controller
             $this->create(data: $request->all());
 
             return response()->json([
-                'message' => 'Registration successfully completed',
+                'message' => trans('auth.registration_completed'),
                 'success' => true,
             ]);
         }catch (\Exception $exception){

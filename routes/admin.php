@@ -1,20 +1,33 @@
 <?php
 
 use App\Http\Controllers\Admin\AboutController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AizUploadController;
+use App\Http\Controllers\Admin\Auth\AdminLoginController;
+use App\Http\Controllers\Admin\BoatTypeController;
+use App\Http\Controllers\Admin\BodyTypeController;
+use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\BusinessSettingsController;
+use App\Http\Controllers\Admin\BuySellController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\HeavyEquipmentController;
+use App\Http\Controllers\Admin\HelpController;
+use App\Http\Controllers\Admin\PartsTypeController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\PrivacyPolicyController;
+use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SafetyTipController;
+use App\Http\Controllers\Admin\StaffController;
+use App\Http\Controllers\Admin\StateController;
+use App\Http\Controllers\Admin\TermAndConditionController;
+use App\Http\Controllers\Admin\TutorialController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\Auth\AdminLoginController;
-use App\Http\Controllers\Admin\AizUploadController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\StaffController;
-use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\StateController;
-use App\Http\Controllers\Admin\CityController;
-use App\Http\Controllers\Admin\BusinessSettingsController;
-use App\Http\Controllers\Admin\CategoryController;
 
 Route::namespace('Admin')->prefix('admin')->group(function () {
 
@@ -28,7 +41,7 @@ Route::namespace('Admin')->prefix('admin')->group(function () {
 });
 
 
-Route::middleware('auth')->prefix('admin')->group(function () {
+Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
     Route::get('/cache-cache', [AdminController::class, 'clearCache'])->name('cache.clear');
@@ -83,12 +96,148 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/user/list', [UserController::class, 'index'])->name('user.list');
 
     //Contact us
-    Route::get('/contact/list', [ContactController::class, 'index'])->name('contact.list');
-    Route::get('/contact/destroy/{contact}', [ContactController::class, 'destroy'])->name('contact.destroy');
+    Route::prefix('contact')->controller(ContactController::class)->group(function () {
+        Route::get('/list', 'index')->name('contact.list');
+        Route::get('/destroy/{contact}', 'destroy')->name('contact.destroy');
+    });
 
     //about us
-    Route::get('about', [AboutController::class, 'index'])->name('about.index');
-    Route::get('about/edit/{about}', [AboutController::class, 'edit'])->name('about.edit');
-    Route::post('about/update', [AboutController::class, 'update'])->name('about.update');
+    Route::prefix('about')->controller(AboutController::class)->group(function () {
+        Route::get('/', 'index')->name('about.index');
+        Route::get('/edit/{about}', 'edit')->name('about.edit');
+        Route::post('/update','update')->name('about.update');
+    });
 
+    //tutorial
+    Route::prefix('tutorial')->controller(TutorialController::class)->group(function () {
+        Route::get('/','index')->name('tutorial.index');
+        Route::get('/create','create')->name('tutorial.create');
+        Route::post('/store','store')->name('tutorial.store');
+        Route::get('/edit/{tutorial}','edit')->name('tutorial.edit');
+        Route::post('/update','update')->name('tutorial.update');
+        Route::get('/destroy/{tutorial}', 'destroy')->name('tutorial.destroy');
+    });
+
+    //safety tips
+    Route::prefix('safety-tip')->controller(SafetyTipController::class)->group(function () {
+        Route::get('/','index')->name('safety_tip.index');
+        Route::get('/create', 'create')->name('safety_tip.create');
+        Route::post('/store','store')->name('safety_tip.store');
+        Route::get('/edit/{safetyTip}', 'edit')->name('safety_tip.edit');
+        Route::post('/update','update')->name('safety_tip.update');
+        Route::get('/destroy/{safetyTip}','destroy')->name('safety_tip.destroy');
+    });
+
+    //help
+    Route::prefix('help')->controller(HelpController::class)->group(function () {
+        Route::get('/', 'index')->name('help.index');
+        Route::get('/create', 'create')->name('help.create');
+        Route::post('/store','store')->name('help.store');
+        Route::get('/edit/{help}','edit')->name('help.edit');
+        Route::post('/update','update')->name('help.update');
+        Route::get('/destroy/{help}', 'destroy')->name('help.destroy');
+        Route::post('/status','updateStatus')->name('help.status');
+    });
+
+    //brand
+    Route::prefix('brand')->controller(BrandController::class)->group(function () {
+        Route::get('/','index')->name('brand.index');
+        Route::get('/create','create')->name('brand.create');
+        Route::post('/store','store')->name('brand.store');
+        Route::get('/edit/{brand}','edit')->name('brand.edit');
+        Route::post('/update','update')->name('brand.update');
+        Route::get('/destroy/{brand}','destroy')->name('brand.destroy');
+        Route::post('/status','updateStatus')->name('brand.status');
+    });
+
+    //terms and conditions
+    Route::prefix('term-and-condition')->controller(TermAndConditionController::class)->group(function () {
+        Route::get('/','index')->name('condition.index');
+        Route::get('/create','create')->name('condition.create');
+        Route::post('/store','store')->name('condition.store');
+        Route::get('/edit/{condition}','edit')->name('condition.edit');
+        Route::post('/update','update')->name('condition.update');
+        Route::get('/destroy/{condition}','destroy')->name('condition.destroy');
+        Route::post('/status','updateStatus')->name('condition.status');
+    });
+
+    //terms and conditions
+    Route::prefix('privacy-policy')->controller(PrivacyPolicyController::class)->group(function () {
+        Route::get('/','index')->name('policy.index');
+        Route::get('/create','create')->name('policy.create');
+        Route::post('/store', 'store')->name('policy.store');
+        Route::get('/edit/{policy}', 'edit')->name('policy.edit');
+        Route::post('/update','update')->name('policy.update');
+        Route::get('/destroy/{policy}','destroy')->name('policy.destroy');
+        Route::post('/status','updateStatus')->name('policy.status');
+    });
+
+    //Buy and sell
+    Route::prefix('buy-sell')->controller(BuySellController::class)->group(function () {
+        Route::get('/','index')->name('buy.index');
+        Route::get('/create','create')->name('buy.create');
+        Route::post('/store','store')->name('buy.store');
+        Route::get('/edit/{buySell}','edit')->name('buy.edit');
+        Route::post('/update','update')->name('buy.update');
+        Route::get('/destroy/{buySell}', 'destroy')->name('buy.destroy');
+        Route::post('/status','updateStatus')->name('buy.status');
+    });
+
+    //Color
+    Route::prefix('color')->controller(ColorController::class)->group(function () {
+        Route::get('/','index')->name('color.index');
+        Route::get('/create','create')->name('color.create');
+        Route::post('/store','store')->name('color.store');
+        Route::get('/edit/{color}','edit')->name('color.edit');
+        Route::post('/update','update')->name('color.update');
+        Route::get('/destroy/{color}','destroy')->name('color.destroy');
+        Route::post('/status','updateStatus')->name('color.status');
+    });
+
+    //Body type
+    Route::prefix('body-type')->controller(BodyTypeController::class)->group(function () {
+        Route::get('/', 'index')->name('body.index');
+        Route::get('/create','create')->name('body.create');
+        Route::post('/store','store')->name('body.store');
+        Route::get('/edit/{bodyType}','edit')->name('body.edit');
+        Route::post('/update','update')->name('body.update');
+        Route::get('/destroy/{bodyType}','destroy')->name('body.destroy');
+        Route::post('/status','updateStatus')->name('body.status');
+    });
+
+    //parts type
+    Route::prefix('parts-type')->controller(PartsTypeController::class)->group(function () {
+        Route::get('/', 'index')->name('parts.index');
+        Route::get('/create','create')->name('parts.create');
+        Route::post('/store', 'store')->name('parts.store');
+        Route::get('/edit/{autoPartType}', 'edit')->name('parts.edit');
+        Route::post('/update', 'update')->name('parts.update');
+        Route::get('/destroy/{autoPartType}','destroy')->name('parts.destroy');
+        Route::post('/status', 'updateStatus')->name('parts.status');
+    });
+
+    //heavy equipment type
+    Route::prefix('heavy-equipment')->controller(HeavyEquipmentController::class)->group(function () {
+        Route::get('/','index')->name('equipment.index');
+        Route::get('/create','create')->name('equipment.create');
+        Route::post('/store','store')->name('equipment.store');
+        Route::get('/edit/{heavyEquipmentType}', 'edit')->name('equipment.edit');
+        Route::post('/update','update')->name('equipment.update');
+        Route::get('/destroy/{heavyEquipmentType}','destroy')->name('equipment.destroy');
+        Route::post('/status','updateStatus')->name('equipment.status');
+    });
+
+    //boat type
+    Route::prefix('boat-type')->controller(BoatTypeController::class)->group(function () {
+        Route::get('/', 'index')->name('boat.index');
+        Route::get('/create', 'create')->name('boat.create');
+        Route::post('/store', 'store')->name('boat.store');
+        Route::get('/edit/{boatType}', 'edit')->name('boat.edit');
+        Route::post('/update','update')->name('boat.update');
+        Route::get('/destroy/{boatType}', 'destroy')->name('boat.destroy');
+        Route::post('/status','updateStatus')->name('boat.status');
+    });
+
+    //report
+    Route::get('report', [ReportController::class, 'index'])->name('report.index');
 });

@@ -30,7 +30,8 @@ class UserController extends Controller
                 'users.email',
                 'users.username',
                 'users.phone_number',
-                DB::raw("CONCAT(states.name, ', ', cities.name) AS location")
+                'states.name as state',
+                'cities.name as city',
             );
 
         if ($request->get('phone_number')) {

@@ -2,7 +2,7 @@
     <div class="container">
 
         <div class="section-title">
-            <h3>Top Categories</h3>
+            <h3>{{ __('home.top_categories') }}</h3>
         </div>
 
         <div class="row">
@@ -14,7 +14,7 @@
                                     @if ($category->icon != null)
                                         <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
                                     @endif
-                                    <h4>{{ $category->en_name }}</h4>
+                                    <h4>{{ $category->getTranslation('name', \Illuminate\Support\Facades\App::getLocale() ?? "en") ?? $category->en_name }}</h4>
                                 </div>
                             </a>
                     @empty

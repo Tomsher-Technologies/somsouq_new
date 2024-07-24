@@ -14,8 +14,15 @@ final class CategoryController extends Controller
             $categoryId = $request->input('category_id');
             $getSubCategory = Category::where('parent_id', '=', $categoryId)->where('is_active', 1)->get([
                 'id',
-                'en_name'
-            ]);
+                'en_name',
+                'ar_name',
+                'so_name'
+            ])->each(function ($item) {
+                $item->name = $item->getTranslation('name', app()->getLocale() ?? "en") ?? $item->en_name;
+
+            });
+
+            //dd($getSubCategory);
 
             return response()->json([
                 'status' => true,

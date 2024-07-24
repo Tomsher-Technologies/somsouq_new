@@ -138,7 +138,7 @@ class AizUploadController extends Controller
 
                 $upload->extension = $extension;
                 $upload->file_name = $path;
-                $upload->user_id = Auth::user()->id;
+                $upload->user_id = $this->guard()->user()->id;
                 $upload->type = $type[$upload->extension];
                 $upload->file_size = $size;
                 $upload->save();
@@ -149,7 +149,7 @@ class AizUploadController extends Controller
 
     public function get_uploaded_files(Request $request)
     {
-        $uploads = Upload::where('user_id', Auth::user()->id);
+        $uploads = Upload::where('user_id', $this->guard()->user()->id);
         if ($request->search != null) {
             $uploads->where('file_original_name', 'like', '%' . $request->search . '%');
         }
@@ -215,8 +215,13 @@ class AizUploadController extends Controller
     {
         $file = Upload::findOrFail($request['id']);
 
-        return (auth()->user()->user_type == 'seller')
+        return (adminUser()->user_type == 'seller')
             ? view('frontend.user.seller.uploads.info', compact('file'))
             : view('admin.uploaded_files.info', compact('file'));
+    }
+
+    public function guard()
+    {
+        return Auth::guard('admin');
     }
 }

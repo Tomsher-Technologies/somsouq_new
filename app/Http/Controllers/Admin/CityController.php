@@ -35,7 +35,7 @@ class CityController extends Controller
             $cities_queries->where('status', ($status_city == 2) ? 0:$status_city);
         }
 
-        $cities = $cities_queries->orderBy('id', 'desc')->paginate(15);
+        $cities = $cities_queries->orderBy('id', 'desc')->paginate(10);
         $states = State::where('status', 1)->get();
 
         return view('admin.locations.cities.index', compact('cities', 'states', 'status_city', 'sort_city', 'sort_state'));
@@ -44,17 +44,21 @@ class CityController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name_en' => 'required',
         ]);
 
         $city           = new City;
-        $city->name     = $request->name;
+        $city->name = setTranslation(
+            [
+                'en' => $request->get('name_en'),
+                'ar' => $request->get('name_ar') ?? "",
+                'so' => $request->get('name_so') ?? "",
+            ]
+        );
+
         $city->state_id = $request->state_id;
         $city->save();
 
-        $city_translation = CityTranslation::firstOrNew(['lang' => env("DEFAULT_LANGUAGE"), 'city_id' => $city->id]);
-        $city_translation->name = $request->name;
-        $city_translation->save();
 
         flash(translate('City has been inserted successfully'))->success();
 
@@ -66,26 +70,26 @@ class CityController extends Controller
          $lang  = $request->lang;
          $city  = City::findOrFail($id);
          $states = State::where('status', 1)->get();
-         return view('admin.locations.cities.edit', compact('city', 'lang', 'states'));
+         $languages = \App\Models\Language::all();
+         return view('admin.locations.cities.edit', compact('city', 'lang', 'states', 'languages'));
      }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required',
+            'name_en' => 'required',
         ]);
 
-        $city               = City::findOrFail($id);
-        if($request->lang == env("DEFAULT_LANGUAGE")){
-            $city->name     = $request->name;
-        }
-
+        $city = City::findOrFail($id);
+        $city->name = setTranslation(
+            [
+                'en' => $request->get('name_en'),
+                'ar' => $request->get('name_ar'),
+                'so' => $request->get('name_so'),
+            ]
+        );
         $city->state_id     = $request->state_id;
         $city->save();
-
-        $city_translation = CityTranslation::firstOrNew(['lang' => $request->lang, 'city_id' => $city->id]);
-        $city_translation->name = $request->name;
-        $city_translation->save();
 
         flash(translate('City has been updated successfully'))->success();
         return back();

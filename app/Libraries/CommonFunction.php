@@ -3,9 +3,11 @@
 namespace App\Libraries;
 
 use App\Models\Category;
+use App\Models\City;
 use App\Models\State;
 use App\Models\Upload;
 use App\Models\User;
+use Illuminate\Support\Facades\App;
 
 class CommonFunction
 {
@@ -40,22 +42,30 @@ class CommonFunction
             ->get([
                 'id',
                 'en_name',
+                'ar_name',
+                'so_name',
                 'parent_id',
                 'icon'
             ]);
     }
 
-    public static function getCategoryName(int $category_id): string
+    public static function getCategoryName(int $category_id):object | null
     {
         return Category::where('id', $category_id)->where('parent_id', 0)->where('is_active', 1)
-            ->value('en_name');
+            ->first(['en_name', 'ar_name', 'so_name']);
+    }
+
+    public static function getSubCategoryName(int $sub_category_id):object | null
+    {
+        return Category::where('id', $sub_category_id)->where('parent_id', '!=',0)->where('is_active', 1)
+            ->first(['en_name', 'ar_name', 'so_name']);
     }
 
 
 
     public static function getState()
     {
-        return State::where('status', 1)->pluck('name', 'id');
+        return State::where('status', 1)->get(['id', 'name']);
     }
 
     public static function getPostOwnerName(?int $createdBy): string|null
@@ -82,9 +92,33 @@ class CommonFunction
         return $user_phone;
     }
 
-    public static function getStateName(int $stateId): string
+    public static function getPostOwnerWhatsApp(?int $createdBy)
     {
-        return State::where('id', $stateId)->first()->name ?? "";
+        $getUser = User::where('id', $createdBy)->first(['w_app_number']);
+        $user_phone = '';
+        if ($getUser) {
+            $user_phone = $getUser->w_app_number ?? "";
+        }
+        return $user_phone;
+    }
+
+    public static function getStateNameById(? int $stateId): string|null
+    {
+        $getState = State::where('id', $stateId)->first();
+
+        return $getState->getTranslation('name', App::getLocale() ?? 'en');
+    }
+
+    public static function getCityName(? string $city): string|null
+    {
+        $lang = App::getLocale() ?? 'en';
+        return json_decode($city)->$lang ?? "";
+    }
+
+    public static function getStateName(? string $state): string|null
+    {
+        $lang = App::getLocale() ?? 'en';
+        return json_decode($state)->$lang ?? "";
     }
 
     public static function getPostOwnerProfile(?int $createdBy): string|null
@@ -108,5 +142,10 @@ class CommonFunction
             $join_date = date('Y-m-d', strtotime($getUser->created_at));
         }
         return $join_date;
+    }
+
+    public static function langCategoryName()
+    {
+        return App::getLocale() ? App::getLocale() . "_name" : 'en_name';
     }
 }

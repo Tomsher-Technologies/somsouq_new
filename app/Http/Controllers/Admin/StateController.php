@@ -6,13 +6,12 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\State;
-use App\Models\StateTranslation;
 
 class StateController extends Controller
 {
     function __construct()
     {
-         $this->middleware('permission:locations', ['only' => ['index','store','edit','update','destroy','updateStatus']]);
+        $this->middleware('permission:locations', ['only' => ['index','store','edit','update','destroy','updateStatus']]);
     }
 
     public function index(Request $request)
@@ -36,16 +35,17 @@ class StateController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-           'name' => 'required|unique:states,name',
+            'name_en' => 'required|unique:states,name',
         ]);
 
         $state = new State;
-        $state->name        = $request->name;
+        $state->name = setTranslation([
+            'en' => $request->get('name_en'),
+            'ar' => $request->get('name_ar') ?? "",
+            'so' => $request->get('name_so') ?? "",
+        ]);
         $state->save();
 
-        $state_translation = StateTranslation::firstOrNew(['lang' => env("DEFAULT_LANGUAGE"), 'state_id' => $state->id]);
-        $state_translation->name = $request->name;
-        $state_translation->save();
 
         flash(translate('State has been inserted successfully'))->success();
         return back();
@@ -55,25 +55,23 @@ class StateController extends Controller
     {
         $lang  = $request->lang;
         $state  = State::findOrFail($id);
-        return view('admin.locations.states.edit', compact('state', 'lang'));
+        $languages = \App\Models\Language::all();
+        return view('admin.locations.states.edit', compact('state', 'lang', 'languages'));
     }
 
     public function update(Request $request, $id)
     {
-       dd($request->all());
         $request->validate([
-            'name' => 'required|unique:states,name,' . $id,
+            'name_en' => 'required',
         ]);
 
         $state = State::findOrFail($id);
-        if($request->lang == env("DEFAULT_LANGUAGE")){
-            $state->name        = $request->name;
-        }
+        $state->name = setTranslation([
+            'en' => $request->get('name_en'),
+            'ar' => $request->get('name_ar'),
+            'so' => $request->get('name_so'),
+        ]);
         $state->save();
-
-        $state_translation = StateTranslation::firstOrNew(['lang' => $request->lang, 'state_id' => $state->id]);
-        $state_translation->name = $request->name;
-        $state_translation->save();
 
         flash(translate('State has been updated successfully'))->success();
         return back();

@@ -31,10 +31,10 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $about->section ? $section[$about->section] : "" }}</td>
-                        <td>{{ $about->title ?? "" }}</td>
+                        <td>{{ $about->getTranslation('title', env('DEFAULT_LANGUAGE', 'en'))}}</td>
                         <td>
                             <a class="btn btn-soft-primary btn-icon btn-circle btn-sm"
-                               href="{{ route('about.edit', ['about' => $about->id]) }}"
+                               href="{{ route('about.edit', ['about' => $about->id, 'lang' => env('DEFAULT_LANGUAGE')]) }}"
                                title="Edit">
                                 <i class="las la-edit"></i>
                             </a>

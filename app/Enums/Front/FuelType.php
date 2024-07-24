@@ -20,14 +20,13 @@ class FuelType
     public static function getFuelType() : array
     {
         return [
-            static::PETROL => 'Petrol',
-            static::DIESEL => 'Diesel',
-            static::ELECTRIC => 'Electric',
-            static::HYBRID => 'Hybrid',
-            static::GASOLINE => 'Gasoline',
-            static::LPG => 'LPG',
-            static::GAS => 'Gas',
-
+            static::PETROL => trans('post.petrol'),
+            static::DIESEL => trans('post.diesel'),
+            static::ELECTRIC => trans('post.electric'),
+            static::HYBRID => trans('post.hybrid'),
+            static::GASOLINE => trans('post.gasoline'),
+            static::LPG => trans('post.lpg'),
+            static::GAS => trans('post.gas'),
         ];
     }
 

@@ -1,154 +1,498 @@
-<div class="post-ad-place" >
-    <h4>Tell Us About Your Car</h4>
-    <input type="hidden" name="post_detail_id" value="{{ $postDetail->id ?? "" }}">
+<input type="hidden" name="post_detail_id" value="{{ $postDetail->id ?? "" }}">
 
-    <div class="row g-3">
-        @if($sub_category_id == 19)
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link {{ (App::getLocale() == 'en') ? "active" : "" }}" id="english-tab" data-bs-toggle="tab" data-bs-target="#english" type="button" role="tab" aria-controls="english" aria-selected="true">
+            English
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link {{ (App::getLocale() == 'ar') ? "active" : "" }}" id="arabic-tab" data-bs-toggle="tab" data-bs-target="#arabic" type="button" role="tab" aria-controls="arabic" aria-selected="false">
+            Arabic
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link {{ (App::getLocale() == 'so') ? "active" : "" }}" id="somali-tab" data-bs-toggle="tab" data-bs-target="#somali" type="button" role="tab" aria-controls="somali" aria-selected="false">
+            Somali
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade {{ (App::getLocale() == 'en') ? "show active" : "" }}" id="english" role="tabpanel" aria-labelledby="english-tab">
+        <div class="row g-3">
             <div class="col-md-6">
-                <input type="number" class="form-control" id="formGroupExampleInput" name="price_per_month" placeholder="Price per-month" value="{{ $postDetail->price_per_month ?? "" }}">
+                <input type="text" class="form-control" id="formGroupExampleInput" name="title_en" placeholder="{{ __('post.ad_title') }}" value="{{ !empty($postDetail) ? $postDetail->getTranslation('title', 'en') : "" }}" {{ isRequired('en') }}>
             </div>
-        @endif
-        <div class="col-md-6">
-            <select class="form-select" aria-label="Default select example" name="brand_id">
-                <option value="">Select Brand/ Make</option>
-                @foreach($brands as $key => $brand)
-                    @if($postDetail)
-                        <option value="{{ $key }}" @selected($key == $postDetail->brand_id ?? "")>{{ $brand }}</option>
-                    @else
-                        <option value="{{ $key }}">{{ $brand }}</option>
-                    @endif
-                @endforeach
-            </select>
-        </div>
-
-        <div class="col-md-6">
-            <select class="form-select" aria-label="Default select example" name="model_year">
-                <option value="">Select Model Year</option>
-                @foreach($model_years as $key => $year)
-                    @if($postDetail)
-                        <option value="{{ $year }}" @selected($year == $postDetail->model_year ?? "")>{{ $year }}</option>
-                    @else
-                        <option value="{{ $year }}">{{ $year }}</option>
-                    @endif
-                @endforeach
-
-            </select>
-        </div>
-
-        <div class="col-md-6">
-            <input type="text" class="form-control" id="formGroupExampleInput" name="model_number" placeholder="Model" value="{{ $postDetail->model_number ?? "" }}">
-        </div>
-
-        <div class="col-md-6">
-            <input type="number" class="form-control" id="formGroupExampleInput" name="km" placeholder="Km" value="{{ $postDetail->Km ?? "" }}">
-        </div>
-
-        <div class="col-md-6">
-            <select class="form-select" aria-label="Default select example" name="color_id">
-                <option value="">Select Color</option>
-                @foreach($colors as $key => $color)
-                    @if($postDetail)
-                        <option value="{{ $key }}" @selected($key == $postDetail->color_id ?? "")>{{ $color }}</option>
-                    @else
-                        <option value="{{ $key }}">{{ $color }}</option>
-                    @endif
-                @endforeach
-
-            </select>
-        </div>
-
-        <div class="col-md-6">
-            <select class="form-select" aria-label="Default select example" name="fuel_type">
-                <option value="">Select Fuel Type</option>
-                @foreach($fuel_types as $key => $fuel)
-                    @if($postDetail)
-                        <option value="{{ $key }}" @selected($key == $postDetail->fuel_type ?? "")>{{ $fuel }}</option>
-                    @else
-                        <option value="{{ $key }}">{{ $fuel }}</option>
-                    @endif
-                @endforeach
-
-            </select>
-        </div>
-
-        <div class="col-md-6">
-            <select class="form-select" aria-label="Default select example" name="transmission">
-                <option value="">Select Transmission</option>
-                @foreach($transmissions as $key => $transmission)
-                    @if($postDetail)
-                        <option value="{{ $key }}" @selected($key == $postDetail->transmission ?? "")>{{ $transmission }}</option>
-                    @else
-                        <option value="{{ $key }}">{{ $transmission }}</option>
-                    @endif
-                @endforeach
-            </select>
-        </div>
-
-        <div class="col-md-6">
-            <select class="form-select" aria-label="Default select example" name="body_type_id">
-                <option value="">Select Body Type</option>
-                @foreach($body_types as $key => $body_type)
-                    @if($postDetail)
-                        <option value="{{ $key }}" @selected($key == $postDetail->body_type_id ?? "")>{{ $body_type }}</option>
-                    @else
-                        <option value="{{ $key }}">{{ $body_type }}</option>
-                    @endif
-                @endforeach
-            </select>
-        </div>
-
-        <div class="col-md-6">
-            <select class="form-select" aria-label="Default select example" name="driver_side">
-                <option value="">Select Driver Side</option>
-                <option value="left" {{ ($postDetail->driver_side ?? "" == "left") ? "selected" : "" }}>Left</option>
-                <option value="right" {{ ($postDetail->driver_side ?? "" == "right") ? "selected" : "" }}>Right</option>
-            </select>
-        </div>
-
-        <div class="col-md-6">
-            <input type="number" class="form-control" id="formGroupExampleInput" name="seat" placeholder="Seats" value="{{ $postDetail->seat ?? "" }}">
-        </div>
-
-        <div class="col-md-6">
-            <input type="number" class="form-control" id="formGroupExampleInput" name="engine_capacity" placeholder="Engine Capacity (cc)" value="{{ $postDetail->engine_capacity ?? "" }}">
-        </div>
-
-        <div class="col-md-6">
-            <input type="number" class="form-control" id="formGroupExampleInput" name="engine_power" placeholder="Engine Power (hp)" value="{{ $postDetail->engine_power ?? "" }}">
-        </div>
-
-        <div class="col-md-6">
-            <input type="number" class="form-control" id="formGroupExampleInput" name="cylinder" placeholder="Cylinder" value="{{ $postDetail->cylinder ?? "" }}">
-        </div>
-
-        @if($sub_category_id == 26)
             <div class="col-md-6">
-                <select class="form-select" aria-label="Default select example" name="exchangeable">
-                    <option value="">Exchangeable</option>
-                    <option value="Yes" {{ ($postDetail->exchangeable ?? "" == "Yes") ? "selected" : "" }}>Yes</option>
-                    <option value="No" {{ ($postDetail->exchangeable ?? "" == "No") ? "selected" : "" }}>No</option>
-                </select>
+                <input type="number" class="form-control number {{ isEvent('en') }}" id="price_en" placeholder="{{ ($sub_category_id == 19) ? __('post.price_per_day') : __('post.price') }}" name="price_en" value="{{ $postDetail->price ?? "" }}" {{ isRequired('en') }} {{ isDisable('en') }}>
             </div>
 
-            <div class="col-md-6">
-                <select class="form-select" aria-label="Default select example" name="usage_condition">
-                    <option value="">Select Condition</option>
-                    <option value="new" {{ ($postDetail->usage_condition ?? "" == "new") ? "selected" : "" }}>New</option>
-                    <option value="local used" {{ ($postDetail->usage_condition ?? "" == "local used") ? "selected" : "" }}>Local Used</option>
-                    <option value="foreign used" {{ ($postDetail->usage_condition ?? "" == "foreign used") ? "selected" : "" }}>Foreign Used</option>
-                </select>
+            <div class="col-md-12">
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="{{ __('post.description') }}" name="description_en">{{ !empty($postDetail) ? $postDetail->getTranslation('description', 'en') : "" }}</textarea>
             </div>
-        @endif
 
-    </div>
-    <div class="promote-ad">
-        <h4>Promote Your Ad</h4>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="promote-ad-inner">
-                    <!-- <span>Trail for free</span> -->
-                    <a href="#" class="btn btn-promote">Free <i class="bi bi-check2"></i></a>
+            @if($sub_category_id == 19)
+                <div class="col-md-6">
+                    <input type="number" class="form-control {{ isEvent('en') }}" id="price_per_month_en" name="price_per_month_en" placeholder="{{ __('post.price_per_month') }}" value="{{ $postDetail->price_per_month ?? "" }}" {{ isDisable('en') }}>
                 </div>
+            @endif
+
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('en') }}" aria-label="Default select example" name="brand_id_en" id="brand_id_en" {{ isDisable('en') }}>
+                    <option value="">{{ __('post.brand_make') }}</option>
+                    @foreach($brands as $brand)
+                        @if($postDetail)
+                            <option value="{{ $brand->id }}" @selected($brand->id == $postDetail->brand_id ?? "")>{{ $brand->getTranslation('name', 'en') }}</option>
+                        @else
+                            <option value="{{ $brand->id }}">{{ $brand->getTranslation('name', 'en') }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('en') }}" aria-label="Default select example" name="model_year_en" id="model_year_en" {{ isDisable('en') }}>
+                    <option value="">{{ __('post.model_year') }}</option>
+                    @foreach($model_years as $key => $year)
+                        @if($postDetail)
+                            <option value="{{ $year }}" @selected($year == $postDetail->model_year ?? "")>{{ $year }}</option>
+                        @else
+                            <option value="{{ $year }}">{{ $year }}</option>
+                        @endif
+                    @endforeach
+
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <input type="text" class="form-control {{ isEvent('en') }}" id="model_number_en" name="model_number_en" placeholder="{{ __('post.model') }}" value="{{ $postDetail->model_number ?? "" }}" {{ isDisable('en') }}>
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" class="form-control {{ isEvent('en') }}" id="km_en" name="km_en" placeholder="{{ __('post.kilometers') }}" value="{{ $postDetail->Km ?? "" }}" {{ isDisable('en') }}>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('en') }}" aria-label="Default select example" name="color_id_en" id="color_id_en" {{ isDisable('en') }}>
+                    <option value="">{{ __('post.color') }}</option>
+                    @foreach($colors as $color)
+                        @if($postDetail)
+                            <option value="{{ $color->id }}" @selected($color->id == $postDetail->color_id ?? "")>{{ $color->getTranslation('name', 'en') }}</option>
+                        @else
+                            <option value="{{ $color->id }}">{{ $color->getTranslation('name', 'en') }}</option>
+                        @endif
+                    @endforeach
+
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('en') }}" aria-label="Default select example" name="fuel_type_en" id="fuel_type_en" {{ isDisable('en') }}>
+                    <option value="">{{ __('post.fuel_type') }}</option>
+                    @foreach($fuel_types as $key => $fuel)
+                        @if($postDetail)
+                            <option value="{{ $key }}" @selected($key == $postDetail->fuel_type ?? "")>{{ $fuel }}</option>
+                        @else
+                            <option value="{{ $key }}">{{ $fuel }}</option>
+                        @endif
+                    @endforeach
+
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('en') }}" aria-label="Default select example" name="transmission_en" id="transmission_en" {{ isDisable('en') }}>
+                    <option value="">{{ __('post.transmission') }}</option>
+                    @foreach($transmissions as $key => $transmission)
+                        @if($postDetail)
+                            <option value="{{ $key }}" @selected($key == $postDetail->transmission ?? "")>{{ $transmission }}</option>
+                        @else
+                            <option value="{{ $key }}">{{ $transmission }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('en') }}" aria-label="Default select example" name="body_type_id_en" id="body_type_id_en" {{ isDisable('en') }}>
+                    <option value="">{{ __('post.body_type') }} </option>
+                    @foreach($body_types as $body_type)
+                        @if($postDetail)
+                            <option value="{{ $body_type->id }}" @selected($body_type->id == $postDetail->body_type_id ?? "")>{{ $body_type->getTranslation('name', 'en') }}</option>
+                        @else
+                            <option value="{{ $body_type->id }}">{{ $body_type->getTranslation('name', 'en') }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('en') }}" aria-label="Default select example" name="driver_side_en" id="driver_side_en" {{ isDisable('en') }}>
+                    <option value="">{{ __('post.driver_side') }}</option>
+                    <option value="left" {{ !empty($postDetail) ? ($postDetail->driver_side == "left") ? "selected" : '' : '' }}>Left</option>
+                    <option value="right" {{ !empty($postDetail) ? ($postDetail->driver_side == "right") ? "selected" : '' : '' }}>Right</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" class="form-control {{ isEvent('en') }}" id="seat_en" name="seat_en" placeholder="{{ __('post.seats') }}" value="{{ $postDetail->seat ?? "" }}" {{ isDisable('en') }}>
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" class="form-control {{ isEvent('en') }}" id="engine_capacity_en" name="engine_capacity_en" placeholder="{{ __('post.engine_capacity') }} (cc)" value="{{ $postDetail->engine_capacity ?? "" }}" {{ isDisable('en') }}>
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" class="form-control {{ isEvent('en') }}" id="engine_power_en" name="engine_power_en" placeholder="{{ __('post.engine_power') }} (hp)" value="{{ $postDetail->engine_power ?? "" }}" {{ isDisable('en') }}>
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" class="form-control {{ isEvent('en') }}" id="cylinder_en" name="cylinder_en" placeholder="{{ __('post.cylinder') }}" value="{{ $postDetail->cylinder ?? "" }}" {{ isDisable('en') }}>
+            </div>
+
+            @if($sub_category_id == 26)
+                <div class="col-md-6">
+                    <select class="form-select {{ isEvent('en') }}" aria-label="Default select example" name="exchangeable_en" id="exchangeable_en" {{ isDisable('en') }}>
+                        <option value="">{{ __('post.exchangeable') }}</option>
+                        <option value="Yes" {{ !empty($postDetail) ? ($postDetail->exchangeable == "Yes") ? "selected" : '' : '' }}>Yes</option>
+                        <option value="No" {{ !empty($postDetail) ? ($postDetail->exchangeable == "No") ? "selected" : '' : '' }}>No</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <select class="form-select {{ isEvent('en') }}" aria-label="Default select example" name="usage_condition_en" id="usage_condition_en" {{ isDisable('en') }}>
+                        <option value="">{{ __('post.condition') }} </option>
+                        <option value="new" {{ !empty($postDetail) ? ($postDetail->usage_condition == "new") ? "selected" : '' : '' }}>{{ __('post.new') }}</option>
+                        <option value="local used" {{ !empty($postDetail) ? ($postDetail->usage_condition == "local used") ? "selected" : '' : '' }}>{{ __('post.local_used') }}</option>
+                        <option value="foreign used" {{ !empty($postDetail) ? ($postDetail->usage_condition == "foreign used") ? "selected" : '' : '' }}>{{ __('post.foreign_used') }}</option>
+                    </select>
+                </div>
+            @endif
+
+        </div>
+    </div>
+
+    <div class="tab-pane fade {{ (App::getLocale() == 'ar') ? "show active" : "" }}" id="arabic" role="tabpanel" aria-labelledby="arabic-tab">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="title_ar" name="title_ar" placeholder="{{ __('post.ad_title') }}" value="{{ !empty($postDetail) ? $postDetail->getTranslation('title', 'ar') : "" }}" {{ isRequired('ar') }}>
+            </div>
+            <div class="col-md-6">
+                <input type="number" class="form-control number {{ isEvent('ar') }}" id="price_ar" placeholder="{{ ($sub_category_id == 19) ? __('post.price_per_day') : __('post.price') }}" name="price_ar" value="{{ $postDetail->price ?? "" }}" {{ isRequired('ar') }} {{ isDisable('ar') }}>
+            </div>
+
+            <div class="col-md-12">
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="{{ __('post.description') }}" name="description_ar">{{ !empty($postDetail) ? $postDetail->getTranslation('description', 'ar') : "" }}</textarea>
+            </div>
+
+            @if($sub_category_id == 19)
+                <div class="col-md-6">
+                    <input type="number" class="form-control {{ isEvent('ar') }}" id="price_per_month_ar" name="price_per_month_ar" placeholder="{{ __('post.price_per_month') }}" value="{{ $postDetail->price_per_month ?? "" }}" {{ isDisable('ar') }}>
+                </div>
+            @endif
+
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('ar') }}" aria-label="Default select example" name="brand_id_ar" id="brand_id_ar" {{ isDisable('ar') }}>
+                    <option value="">{{ __('post.brand_make') }}</option>
+                    @foreach($brands as $brand)
+                        @if($postDetail)
+                            <option value="{{ $brand->id }}" @selected($brand->id == $postDetail->brand_id ?? "")>{{ $brand->getTranslation('name', 'ar') }}</option>
+                        @else
+                            <option value="{{ $brand->id }}">{{ $brand->getTranslation('name', 'ar') }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('ar') }}" aria-label="Default select example" name="model_year_ar" id="model_year_ar" {{ isDisable('ar') }}>
+                    <option value="">{{ __('post.model_year') }}</option>
+                    @foreach($model_years as $key => $year)
+                        @if($postDetail)
+                            <option value="{{ $year }}" @selected($year == $postDetail->model_year ?? "")>{{ $year }}</option>
+                        @else
+                            <option value="{{ $year }}">{{ $year }}</option>
+                        @endif
+                    @endforeach
+
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <input type="text" class="form-control {{ isEvent('ar') }}" id="model_number_ar" name="model_number_ar" placeholder="{{ __('post.model') }}" value="{{ $postDetail->model_number ?? "" }}" {{ isDisable('ar') }}>
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" class="form-control {{ isEvent('ar') }}" id="km_ar" name="km_ar" placeholder="{{ __('post.kilometers') }}" value="{{ $postDetail->Km ?? "" }}" {{ isDisable('ar') }}>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('ar') }}" aria-label="Default select example" name="color_id_ar" id="color_id_ar" {{ isDisable('ar') }}>
+                    <option value="">{{ __('post.color') }}</option>
+                    @foreach($colors as $color)
+                        @if($postDetail)
+                            <option value="{{ $color->id }}" @selected($color->id == $postDetail->color_id ?? "")>{{ $color->getTranslation('name', 'ar') }}</option>
+                        @else
+                            <option value="{{ $color->id }}">{{ $color->getTranslation('name', 'ar') }}</option>
+                        @endif
+                    @endforeach
+
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('ar') }}" aria-label="Default select example" name="fuel_type_ar" id="fuel_type_ar" {{ isDisable('ar') }}>
+                    <option value="">{{ __('post.fuel_type') }}</option>
+                    @foreach($fuel_types as $key => $fuel)
+                        @if($postDetail)
+                            <option value="{{ $key }}" @selected($key == $postDetail->fuel_type ?? "")>{{ $fuel }}</option>
+                        @else
+                            <option value="{{ $key }}">{{ $fuel }}</option>
+                        @endif
+                    @endforeach
+
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('ar') }}" aria-label="Default select example" name="transmission_ar" id="transmission_ar" {{ isDisable('ar') }}>
+                    <option value="">{{ __('post.transmission') }}</option>
+                    @foreach($transmissions as $key => $transmission)
+                        @if($postDetail)
+                            <option value="{{ $key }}" @selected($key == $postDetail->transmission ?? "")>{{ $transmission }}</option>
+                        @else
+                            <option value="{{ $key }}">{{ $transmission }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('ar') }}" aria-label="Default select example" name="body_type_id_ar" id="body_type_id_ar" {{ isDisable('ar') }}>
+                    <option value="">{{ __('post.body_type') }} </option>
+                    @foreach($body_types as $body_type)
+                        @if($postDetail)
+                            <option value="{{ $body_type->id }}" @selected($body_type->id == $postDetail->body_type_id ?? "")>{{ $body_type->getTranslation('name', 'ar') }}</option>
+                        @else
+                            <option value="{{ $body_type->id }}">{{ $body_type->getTranslation('name', 'ar') }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('ar') }}" aria-label="Default select example" name="driver_side_ar" id="driver_side_ar" {{ isDisable('ar') }}>
+                    <option value="">{{ __('post.driver_side') }}</option>
+                    <option value="left" {{ !empty($postDetail) ? ($postDetail->driver_side == "left") ? "selected" : '' : '' }}>{{ __('post.left') }}</option>
+                    <option value="right" {{ !empty($postDetail) ? ($postDetail->driver_side == "right") ? "selected" : '' : '' }}>{{ __('post.right') }}</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" class="form-control {{ isEvent('ar') }}" id="seat_ar" name="seat_ar" placeholder="{{ __('post.seats') }}" value="{{ $postDetail->seat ?? "" }}" {{ isDisable('ar') }}>
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" class="form-control {{ isEvent('ar') }}" id="engine_capacity_ar" name="engine_capacity_ar" placeholder="{{ __('post.engine_capacity') }} (cc)" value="{{ $postDetail->engine_capacity ?? "" }}" {{ isDisable('ar') }}>
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" class="form-control {{ isEvent('ar') }}" id="engine_power_ar" name="engine_power_ar" placeholder="{{ __('post.engine_power') }} (hp)" value="{{ $postDetail->engine_power ?? "" }}" {{ isDisable('ar') }}>
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" class="form-control {{ isEvent('ar') }}" id="cylinder_ar" name="cylinder_ar" placeholder="{{ __('post.cylinder') }}" value="{{ $postDetail->cylinder ?? "" }}" {{ isDisable('ar') }}>
+            </div>
+
+            @if($sub_category_id == 26)
+                <div class="col-md-6">
+                    <select class="form-select {{ isEvent('ar') }}" aria-label="Default select example" name="exchangeable_ar" id="exchangeable_ar" {{ isDisable('ar') }}>
+                        <option value="">{{ __('post.exchangeable') }}</option>
+                        <option value="Yes" {{ !empty($postDetail) ? ($postDetail->exchangeable == "Yes") ? "selected" : '' : '' }}>{{ __('post.yes') }}</option>
+                        <option value="No" {{ !empty($postDetail) ? ($postDetail->exchangeable == "No") ? "selected" : '' : '' }}>{{ __('post.no') }}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <select class="form-select {{ isEvent('ar') }}" aria-label="Default select example" name="usage_condition_ar" id="usage_condition_ar" {{ isDisable('ar') }}>
+                        <option value="">{{ __('post.condition') }} </option>
+                        <option value="new" {{ !empty($postDetail) ? ($postDetail->usage_condition == "new") ? "selected" : '' : '' }}>{{ __('post.new') }}</option>
+                        <option value="local used" {{ !empty($postDetail) ? ($postDetail->usage_condition == "local used") ? "selected" : '' : '' }}>{{ __('post.local_used') }}</option>
+                        <option value="foreign used" {{ !empty($postDetail) ? ($postDetail->usage_condition == "foreign used") ? "selected" : '' : '' }}>{{ __('post.foreign_used') }}</option>
+                    </select>
+                </div>
+            @endif
+
+        </div>
+    </div>
+    <div class="tab-pane fade {{ (App::getLocale() == 'so') ? "show active" : "" }}" id="somali" role="tabpanel" aria-labelledby="somali-tab">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="title_so" name="title_so" placeholder="{{ __('post.ad_title') }}" value="{{ !empty($postDetail) ? $postDetail->getTranslation('title', 'so') : "" }}" {{ isRequired('so') }}>
+            </div>
+            <div class="col-md-6">
+                <input type="number" class="form-control number {{ isEvent('so') }}" id="price_so" placeholder="{{ ($sub_category_id == 19) ? __('post.price_per_day') : __('post.price') }}" name="price_so" value="{{ $postDetail->price ?? "" }}" {{ isRequired('so') }} {{ isDisable('so') }}>
+            </div>
+
+            <div class="col-md-12">
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="{{ __('post.description') }}" name="description_so">
+                    {{ !empty($postDetail) ? $postDetail->getTranslation('title', 'so') : "" }}
+                </textarea>
+            </div>
+
+            @if($sub_category_id == 19)
+                <div class="col-md-6">
+                    <input type="number" class="form-control {{ isEvent('so') }}" id="price_per_month_so" name="price_per_month_so" placeholder="{{ __('post.price_per_month') }}" value="{{ $postDetail->price_per_month ?? "" }}" {{ isDisable('so') }}>
+                </div>
+            @endif
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('so') }}" aria-label="Default select example" name="brand_id_so" id="brand_id_so" {{ isDisable('so') }}>
+                    <option value="">{{ __('post.brand_make') }}</option>
+                    @foreach($brands as $brand)
+                        @if($postDetail)
+                            <option value="{{ $brand->id }}" @selected($brand->id == $postDetail->brand_id ?? "")>{{ $brand->getTranslation('name', 'so') }}</option>
+                        @else
+                            <option value="{{ $brand->id }}">{{ $brand->getTranslation('name', 'so') }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('so') }}" aria-label="Default select example" name="model_year_so" id="model_year_so" {{ isDisable('so') }}>
+                    <option value="">{{ __('post.model_year') }}</option>
+                    @foreach($model_years as $key => $year)
+                        @if($postDetail)
+                            <option value="{{ $year }}" @selected($year == $postDetail->model_year ?? "")>{{ $year }}</option>
+                        @else
+                            <option value="{{ $year }}">{{ $year }}</option>
+                        @endif
+                    @endforeach
+
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <input type="text" class="form-control {{ isEvent('so') }}" id="model_number_so" name="model_number_so" placeholder="{{ __('post.model') }}" value="{{ $postDetail->model_number ?? "" }}" {{ isDisable('so') }}>
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" class="form-control {{ isEvent('so') }}" id="km_so" name="km_so" placeholder="{{ __('post.kilometers') }}" value="{{ $postDetail->Km ?? "" }}" {{ isDisable('so') }}>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('so') }}" aria-label="Default select example" name="color_id_so" id="color_id_so" {{ isDisable('so') }}>
+                    <option value="">{{ __('post.color') }}</option>
+                    @foreach($colors as $color)
+                        @if($postDetail)
+                            <option value="{{ $color->id }}" @selected($color->id == $postDetail->color_id ?? "")>{{ $color->getTranslation('name', 'so') }}</option>
+                        @else
+                            <option value="{{ $color->id }}">{{ $color->getTranslation('name', 'so') }}</option>
+                        @endif
+                    @endforeach
+
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('so') }}" aria-label="Default select example" name="fuel_type_so" id="fuel_type_so" {{ isDisable('so') }}>
+                    <option value="">{{ __('post.fuel_type') }}</option>
+                    @foreach($fuel_types as $key => $fuel)
+                        @if($postDetail)
+                            <option value="{{ $key }}" @selected($key == $postDetail->fuel_type ?? "")>{{ $fuel }}</option>
+                        @else
+                            <option value="{{ $key }}">{{ $fuel }}</option>
+                        @endif
+                    @endforeach
+
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('so') }}" aria-label="Default select example" name="transmission_so" id="transmission_so" {{ isDisable('so') }}>
+                    <option value="">{{ __('post.transmission') }}</option>
+                    @foreach($transmissions as $key => $transmission)
+                        @if($postDetail)
+                            <option value="{{ $key }}" @selected($key == $postDetail->transmission ?? "")>{{ $transmission }}</option>
+                        @else
+                            <option value="{{ $key }}">{{ $transmission }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('so') }}" aria-label="Default select example" name="body_type_id_so" id="body_type_id_so" {{ isDisable('so') }}>
+                    <option value="">{{ __('post.body_type') }} </option>
+                    @foreach($body_types as $body_type)
+                        @if($postDetail)
+                            <option value="{{ $body_type->id }}" @selected($body_type->id == $postDetail->body_type_id ?? "")>{{ $body_type->getTranslation('name', 'so') }}</option>
+                        @else
+                            <option value="{{ $body_type->id }}">{{ $body_type->getTranslation('name', 'so') }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <select class="form-select {{ isEvent('so') }}" aria-label="Default select example" name="driver_side_so" id="driver_side_so" {{ isDisable('so') }}>
+                    <option value="">{{ __('post.driver_side') }}</option>
+                    <option value="left" {{ !empty($postDetail) ? ($postDetail->driver_side == "left") ? "selected" : '' : '' }}>{{ __('post.left') }}</option>
+                    <option value="right" {{ !empty($postDetail) ? ($postDetail->driver_side == "right") ? "selected" : '' : '' }}>{{ __('post.right') }}</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" class="form-control {{ isEvent('so') }}" id="seat_so" name="seat_so" placeholder="{{ __('post.seats') }}" value="{{ $postDetail->seat ?? "" }}" {{ isDisable('so') }}>
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" class="form-control {{ isEvent('so') }}" id="engine_capacity_so" name="engine_capacity_so" placeholder="{{ __('post.engine_capacity') }} (cc)" value="{{ $postDetail->engine_capacity ?? "" }}" {{ isDisable('so') }}>
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" class="form-control {{ isEvent('so') }}" id="engine_power_so" name="engine_power_so" placeholder="{{ __('post.engine_power') }} (hp)" value="{{ $postDetail->engine_power ?? "" }}" {{ isDisable('so') }}>
+            </div>
+
+            <div class="col-md-6">
+                <input type="number" class="form-control {{ isEvent('so') }}" id="cylinder_so" name="cylinder_so" placeholder="{{ __('post.cylinder') }}" value="{{ $postDetail->cylinder ?? "" }}" {{ isDisable('so') }}>
+            </div>
+
+            @if($sub_category_id == 26)
+                <div class="col-md-6">
+                    <select class="form-select {{ isEvent('so') }}" aria-label="Default select example" name="exchangeable_so" id="exchangeable_so" {{ isDisable('so') }}>
+                        <option value="">{{ __('post.exchangeable') }}</option>
+                        <option value="Yes" {{ !empty($postDetail) ? ($postDetail->exchangeable == "Yes") ? "selected" : '' : '' }}>{{ __('post.yes') }}</option>
+                        <option value="No" {{ !empty($postDetail) ? ($postDetail->exchangeable == "No") ? "selected" : '' : '' }}>{{ __('post.no') }}</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <select class="form-select {{ isEvent('so') }}" aria-label="Default select example" name="usage_condition_so" id="usage_condition_so" {{ isDisable('so') }}>
+                        <option value="">{{ __('post.condition') }} </option>
+                        <option value="new" {{ !empty($postDetail) ? ($postDetail->usage_condition == "new") ? "selected" : '' : '' }}>{{ __('post.new') }}</option>
+                        <option value="local used" {{ !empty($postDetail) ? ($postDetail->usage_condition == "local used") ? "selected" : '' : '' }}>{{ __('post.local_used') }}</option>
+                        <option value="foreign used" {{ !empty($postDetail) ? ($postDetail->usage_condition == "foreign used") ? "selected" : '' : '' }}>{{ __('post.foreign_used') }}</option>
+                    </select>
+                </div>
+            @endif
+
+        </div>
+    </div>
+</div>
+
+
+<div class="promote-ad">
+    <h4>{{ __('post.promote_ad') }}</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="promote-ad-inner">
+                <!-- <span>Trail for free</span> -->
+                <a href="#" class="btn btn-promote">{{ __('post.free') }} <i class="bi bi-check2"></i></a>
             </div>
         </div>
     </div>

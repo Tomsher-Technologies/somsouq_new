@@ -18,11 +18,11 @@
 
                 <div class="row gutters-5">
                     <div class="col-md-4">
-                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title" value="{{ $title ?? "" }}">
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter reference no" value="{{ $title ?? "" }}">
                     </div>
                     <div class="col-md-3">
                         <select class="form-control form-control-sm aiz-selectpicker mb-2 mb-md-0" data-live-search="true"
-                                name="status" id="">
+                                name="status" id="" data-selected={{ $status ?? "" }}>
                             <option value="">Status</option>
                             <option value="pending" {{ ($status ?? "" == "pending") ? "selected" : "" }}>Pending</option>
                             <option value="approved" {{ ($status ?? "" == "approved") ? "selected" : "" }}>Approved</option>
@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="col-md-2">
-                        <select class="form-control form-control-sm aiz-selectpicker mb-2 mb-md-0" data-live-search="true" name="is_popular" id="">
+                        <select class="form-control form-control-sm aiz-selectpicker mb-2 mb-md-0" data-live-search="true" name="is_popular" id="" data-selected={{ $is_popular ?? "" }}>>
                             <option value="">Is Popular</option>
                             <option value="yes" {{ ($is_popular ?? "" == "yes") ? "selected" : "" }}>Yes</option>
                             <option value="no" {{ ($is_popular ?? "" == "no") ? "selected" : "" }}>No</option>
@@ -54,6 +54,7 @@
                 <tr>
                     <th >#</th>
                     <th>Title</th>
+                    <th>Reference no.</th>
                     <th >Category</th>
                     <th >Sub Category</th>
                     <th class="text-center">Is Popular</th>
@@ -64,7 +65,8 @@
                 @foreach ($posts as $key => $post)
                     <tr>
                         <td>{{ $key + 1 + ($posts->currentPage() - 1) * $posts->perPage() }}</td>
-                        <td>{{ $post->title }}</td>
+                        <td>{{ $post->getTranslation('title', 'en') }}</td>
+                        <td>{{ $post->tracking_number }}</td>
                         <td>{{ $post->category_name }}</td>
                         <td>{{ $post->sub_category_name }}</td>
                         <td class="text-center">

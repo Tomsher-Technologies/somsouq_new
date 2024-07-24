@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 // use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Auth;
+//use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class AdminLoginController extends Controller
 {
@@ -40,6 +41,16 @@ class AdminLoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
+    protected function guard()
+    {
+        return Auth::guard('admin');
+    }
+
      /**
      * Show the login form.
      *
@@ -59,7 +70,7 @@ class AdminLoginController extends Controller
 
         //validation rules.
         $rules = [
-            'email'    => 'required|email|exists:users|min:6|max:191',
+            'email'    => 'required|email|exists:admins|min:6|max:191',
             'password' => 'required|string|min:4|max:255',
         ];
 
@@ -81,19 +92,21 @@ class AdminLoginController extends Controller
 
     public function login(Request $request)
     {
+//        dd(11);
         $this->validator($request);
 
-        if(Auth::attempt($request->only('email','password'),$request->filled('remember'))){
+        if($this->guard()->attempt($request->only('email','password'),$request->filled('remember'))){
             //Authentication passed...
+            $user = $this->guard()->user();
 
-            if(Auth::user()->user_type == "admin" || Auth::user()->user_type == "staff"){
+            if($user->user_type == "admin" || $user->user_type == "staff"){
                 return redirect()->route('admin.dashboard');
             }else{
-                auth()->guard()->logout();
+                $this->guard()->logout();
 
-                $request->session()->invalidate();
+//                $request->session()->invalidate();
 
-                $request->session()->regenerateToken();
+//                $request->session()->regenerateToken();
                 return back()->with('status', 'Permission Denied!');
             }
 
@@ -105,11 +118,11 @@ class AdminLoginController extends Controller
 
     public function logout(Request $request)
     {
-        auth()->guard()->logout();
+        $this->guard()->logout();
 
-        $request->session()->invalidate();
+//        $request->session()->invalidate();
 
-        $request->session()->regenerateToken();
+//        $request->session()->regenerateToken();
 
         return redirect()
             ->route('admin.login')

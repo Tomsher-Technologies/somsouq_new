@@ -7,8 +7,8 @@ $category = CommonFunction::getCategory();
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <h4>Find amazing deals on the go. <br>
-                        <span>Download the app now!</span></h4>
+                    <h4>{{ __('home.find_amazing_deal') }}<br>
+                        <span>{{ __('home.download_the_app') }}</span></h4>
                 </div>
                 <div class="col-md-5">
                     <span><img src="{{ asset('assets/frontEnd/images/play.png') }}" alt=""></span>
@@ -25,18 +25,18 @@ $category = CommonFunction::getCategory();
                 </div>
 
                 <div class="col-md-10 text-md-end">
-                    <a href="{{ route('post.create') }}" class="btn btn-primary" @guest data-bs-toggle="modal" data-bs-target="#loginModal" @endguest>Post Free Ad</a>
+                    <button class="btn btn-primary" @guest data-bs-toggle="modal" data-bs-target="#loginModal" @else onclick="isProfileUpdated()" @endguest>{{ __('home.post_free_ad') }}</button>
                 </div>
             </div>
             <hr class="footer-hr">
             <div class="row">
                 <div class="col-md-2">
                     <div class="footer-links">
-                        <h5>Our Categories</h5>
+                        <h5>{{ __('home.our_categories') }}</h5>
                         <ul>
                             @for($i = 0; $i<=3; $i++)
                                 <li>
-                                    <a href="{{ route('post.detail-category', ['cat_id' => $category[$i]->id]) }}">{{ $category[$i]->en_name }}</a>
+                                    <a href="{{ route('post.detail-category', ['cat_id' => $category[$i]->id]) }}">{{ $category[$i]->getTranslation('name', \Illuminate\Support\Facades\App::getLocale()) }}</a>
                                 </li>
                             @endfor
                         </ul>
@@ -80,39 +80,42 @@ $category = CommonFunction::getCategory();
                 </div>
                 <div class="col-md-2">
                     <div class="footer-links">
-                        <h5>Quick Links</h5>
+                        <h5>{{ __('home.quick_link') }}</h5>
                         <ul>
                             <li>
-                                <a href="{{ route('about-us') }}">About Us</a>
+                                <a href="{{ route('about-us') }}">{{ __('pages.about_us') }}</a>
                             </li>
                             <li>
-                                <a href="{{ route('term-condition') }}">Terms & Conditions</a>
+                                <a href="{{ route('term-condition') }}">{{ __('pages.terms_and_conditions') }}</a>
                             </li>
                             <li>
-                                <a href="{{ route('privacy-policy') }}">Privacy Policy</a>
+                                <a href="{{ route('privacy-policy') }}">{{ __('pages.privacy_policy') }}</a>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="footer-links">
-                        <h5>Support</h5>
+                        <h5>{{ __('home.support') }}</h5>
                         <ul>
                             <li>
-                                <a href="{{ route('help') }}">Help</a>
+                                <a href="{{ route('help') }}">{{ __('pages.help') }}</a>
                             </li>
                             <li>
-                                <a href="{{ route('contact-us') }}">Contact Us</a>
+                                <a href="{{ route('contact-us') }}">{{ __('pages.contact_us') }}</a>
                             </li>
                             <li>
-                                <a href="{{ route('tutorial') }}">Tutorial</a>
+                                <a href="{{ route('tutorial') }}">{{ __('pages.tutorial') }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('buy-sell') }}">{{ __('pages.how_to_sell_and_buy') }}</a>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="social-links">
-                        <h5>FOLLOW US</h5>
+                        <h5>{{ __('home.follow_us') }}</h5>
                         <ul>
                             <li>
                                 <a href="#"><i class="bi bi-facebook"></i></a>

@@ -27,7 +27,7 @@ class PostController extends Controller
 
             if ($request->get('title')) {
                 $data['title'] = $request->get('title');
-                $query->where('posts.title', 'like', '%' . $request->get('title') . '%');
+                $query->where('posts.tracking_number', 'like', '%' . $request->get('title') . '%');
             }
 
             if($request->get('status')){
@@ -105,6 +105,6 @@ class PostController extends Controller
 
     protected static function updatePostData(int $postId, array $data):bool|null
     {
-        return Post::where('id', $postId)->update($data += ['updated_by' => Auth::id()]);
+        return Post::where('id', $postId)->update($data += ['updated_by' => Auth::guard('admin')->id()]);
     }
 }

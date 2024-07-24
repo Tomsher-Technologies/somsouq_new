@@ -18,13 +18,14 @@ class RoleController extends Controller
      */
     function __construct()
     {
-         $this->middleware('permission:roles', ['only' => ['index','store','create','show','edit','update','destroy']]);
+         //$this->middleware(['permission:roles'], ['only' => ['index','store','create','show','edit','update','destroy']]);
     }
 
     public function index(Request $request)
     {
         $request->session()->put('roles_last_url', url()->full());
         $roles = Role::where('is_active',1)->orderBy('id','DESC')->paginate(10);
+//        dd($roles);
         return view('admin.roles.index',compact('roles'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
@@ -45,7 +46,7 @@ class RoleController extends Controller
             'permission' => 'required',
         ]);
 
-        $role = Role::create(['name' => $request->input('title')]);
+        $role = Role::create(['guard_name' => 'admin', 'name' => $request->input('title')]);
         $role->syncPermissions($request->input('permission'));
 
         return redirect()->route('roles.index')

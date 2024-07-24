@@ -18,11 +18,11 @@ class Transmissions
     public static function getTransmission() : array
     {
         return [
-            static::MANUAL => 'Manual',
-            static::AUTOMATIC => 'Automatic',
-            static::AUTO_MANUAL => 'Auto-manual',
-            static::AMT => 'AMT',
-            static::CVT => 'CVT',
+            static::MANUAL => trans('post.manual'),
+            static::AUTOMATIC => trans('post.automatic'),
+            static::AUTO_MANUAL => trans('post.auto_manual'),
+            static::AMT => trans('post.amt'),
+            static::CVT => trans('post.cvt'),
         ];
     }
 

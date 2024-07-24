@@ -30,10 +30,10 @@ final class SocialiteAuthController extends Controller
             $findUser = User::where('email', $getUser->email)->first();
 
             if ($findUser){
-                Auth::login($findUser);
+                $this->guard()->login($findUser);
                 return redirect()->route('home');
             }else{
-                Auth::login($this->create(data: $getUser, provider: $provider));
+                $this->guard()->login($this->create(data: $getUser, provider: $provider));
                 return redirect()->route('home');
             }
 
@@ -57,14 +57,40 @@ final class SocialiteAuthController extends Controller
         ]);
     }
 
+//    public function logout(Request $request)
+//    {
+//       Auth::logout();
+//       Session::forget('location');
+//       $request->session()->invalidate();
+//       $request->session()->regenerateToken();
+//       $request->session()->flush();
+//
+//        return redirect()->route('home');
+//    }
+
     public function logout(Request $request)
     {
-       Auth::logout();
-       Session::forget('location');
-       $request->session()->invalidate();
-       $request->session()->regenerateToken();
-       $request->session()->flush();
+        $locale =  Session::get('locale');
+        $this->guard()->logout();
 
-        return redirect()->route('home');
+//        $request->session()->invalidate();
+//        $request->session()->flush();
+
+        return $this->loggedOut($request, $locale) ?: redirect('/');
+    }
+
+    protected function loggedOut(Request $request, $locale)
+    {
+        Session::put('locale',$locale);
+    }
+
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\Guard|\Illuminate\Contracts\Auth\StatefulGuard
+     */
+    protected function guard()
+    {
+        return Auth::guard('web');
     }
 }

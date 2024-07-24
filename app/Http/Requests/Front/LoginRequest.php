@@ -40,7 +40,7 @@ class LoginRequest extends FormRequest
      */
     public function authenticate(): bool
     {
-       return Auth::attempt($this->only($this->inputType,'password'));
+       return Auth::guard('web')->attempt($this->only($this->inputType,'password'));
     }
 
     /**

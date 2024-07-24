@@ -44,11 +44,11 @@ class LoadCategoryWiseDetailFormService
             case CategoryNameService::VEHICLE_FOR_RENT:
             case CategoryNameService::VEHICLE_FOR_SALE:
                 static::$htmlFormData['brands'] = Brand::whereIn('category_id', [CategoryNameService::VEHICLE_FOR_RENT, CategoryNameService::VEHICLE_FOR_SALE])
-                    ->where('is_active', true)->pluck('en_name', 'id');
+                    ->where('is_active', true)->get(['name', 'id']);
                 static::$htmlFormData['model_years'] = range(date('Y'), 1950);
 
                 if (!in_array($subCategoryId, [25, 32])) {
-                    static::$htmlFormData['colors'] = Color::where('is_active', 1)->pluck('en_name', 'id');
+                    static::$htmlFormData['colors'] = Color::where('is_active', 1)->get(['name', 'id']);
                 }
 
                 if (!in_array($subCategoryId, [23, 30])) {
@@ -57,7 +57,7 @@ class LoadCategoryWiseDetailFormService
                 }
 
                 if (in_array($subCategoryId, [19, 26])) {
-                    static::$htmlFormData['body_types'] = BodyType::where('is_active', 1)->pluck('type_name', 'id');
+                    static::$htmlFormData['body_types'] = BodyType::where('is_active', 1)->get(['name', 'id']);
                     static::$htmlFormName = "frontEnd.post.form.vehicle.car_form";
 
                 } elseif (in_array($subCategoryId, [20, 27])) {
@@ -70,15 +70,15 @@ class LoadCategoryWiseDetailFormService
                     static::$htmlFormName = "frontEnd.post.form.vehicle.bus_form";
 
                 } elseif (in_array($subCategoryId, [23, 30])) {
-                    static::$htmlFormData['autoPartTypes'] = AutoPartType::where('is_active', true)->pluck('en_name', 'id');
+                    static::$htmlFormData['autoPartTypes'] = AutoPartType::where('is_active', true)->get(['id', 'name']);
                     static::$htmlFormName = "frontEnd.post.form.vehicle.part_form";
 
                 } elseif (in_array($subCategoryId, [24, 31])) {
-                    static::$htmlFormData['heavyEquipmentTypes'] = HeavyEquipmentType::where('is_active', true)->pluck('en_name', 'id');
+                    static::$htmlFormData['heavyEquipmentTypes'] = HeavyEquipmentType::where('is_active', true)->get(['id', 'name']);
                     static::$htmlFormName = "frontEnd.post.form.vehicle.heavy_equipment_form";
 
                 } elseif (in_array($subCategoryId, [25, 32])) {
-                    static::$htmlFormData['boatTypes'] = BoatType::where('is_active', true)->pluck('en_name', 'id');
+                    static::$htmlFormData['boatTypes'] = BoatType::where('is_active', true)->get(['id', 'name']);
                     static::$htmlFormName = "frontEnd.post.form.vehicle.boat_form";
 
                 }
