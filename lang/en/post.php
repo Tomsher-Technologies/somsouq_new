@@ -131,4 +131,5 @@ return [
 
     'left' => 'Left',
     'right' => 'Right',
+    'upload_high_quality_photo' => 'Upload High Quality Photos',
 ];

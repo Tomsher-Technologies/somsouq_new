@@ -69,7 +69,7 @@
                                     <a href="{{ route('public.view', ['type' => 'public', 'id' => $post->id]) }}">
                                     <div class="card-body">
                                         <h5 class="card-price">USD {{ $post->price ?? "" }}</h5>
-                                        <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', App::getLocale() ?? 'en'), 0, 80) : "" }}</h4>
+                                        <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', getLocaleLang()), 0, 80) : "" }}</h4>
                                         {{--                                                <ul>--}}
                                         {{--                                                    <li>--}}
                                         {{--                                                        <i class="bi bi-calendar-check"></i>--}}

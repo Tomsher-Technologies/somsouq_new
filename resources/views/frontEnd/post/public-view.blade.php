@@ -2,8 +2,8 @@
 
 @section('meta-tag')
     <meta property="og:url" content="{{ url()->current() }}" />
-    <meta property="og:title" content="{{ $post->getTranslation('title', App::getLocale() ?? "en") }}" />
-    <meta property="og:description" content="{{ $post->description ? substr($post->getTranslation('description', App::getLocale() ?? "en"), 0, 185) : "" }}" />
+    <meta property="og:title" content="{{ $post->getTranslation('title', getLocaleLang()) }}" />
+    <meta property="og:description" content="{{ $post->description ? substr($post->getTranslation('description', getLocaleLang()), 0, 185) : "" }}" />
     <meta property="og:image" content="{{ CommonFunction::showPostImage($post->id) }}" />
     <meta property="og:type" content="website" />
 @endsection
@@ -22,8 +22,8 @@
                     <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="bi bi-house-door-fill"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('post.detail-category', ['cat_id' => $post->category_id]) }}">{{ CommonFunction::getCategoryName($post->category_id)->getTranslation('name', App::getLocale() ?? 'en') }}</a></li>
-                            <li class="breadcrumb-item">{{ CommonFunction::getSubCategoryName($post->sub_category_id)->getTranslation('name', App::getLocale() ?? 'en') }}</li>
+                            <li class="breadcrumb-item"><a href="{{ route('post.detail-category', ['cat_id' => $post->category_id]) }}">{{ CommonFunction::getCategoryName($post->category_id)->getTranslation('name', getLocaleLang()) }}</a></li>
+                            <li class="breadcrumb-item">{{ CommonFunction::getSubCategoryName($post->sub_category_id)->getTranslation('name', getLocaleLang()) }}</li>
                             <li class="breadcrumb-item active" aria-current="page">{{ $post->tracking_number }}</li>
                         </ol>
                     </nav>
@@ -36,7 +36,7 @@
         <div class="container">
             <div class="detail-title-flex">
                 <div class="product-detail-title">
-                    <h3>{{ $post->getTranslation('title', App::getLocale() ?? "en") }}</h3>
+                    <h3>{{ $post->getTranslation('title', getLocaleLang()) }}</h3>
                     <div class="detail-sub-title">
                         <span class="card-location"><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($post->state) }}, {{ CommonFunction::getCityName($post->city) }}
                         </span>
@@ -90,7 +90,7 @@
                             <div class="additional-details">
                                 <div class="card product-card">
                                     <div class="card-body p-0">
-                                        {{ $post->getTranslation('description', App::getLocale() ?? "en") }}
+                                        {{ $post->getTranslation('description', getLocaleLang()) }}
                                     </div>
                                 </div>
                             </div>
@@ -138,7 +138,7 @@
                         <ul>
                             @forelse($safetyTips as $tip)
                                 <li>
-                                    {{ $tip->getTranslation('name', \Illuminate\Support\Facades\App::getLocale() ?? "en") }}
+                                    {{ $tip->getTranslation('name', getLocaleLang()) }}
                                 </li>
                             @empty
                             @endforelse

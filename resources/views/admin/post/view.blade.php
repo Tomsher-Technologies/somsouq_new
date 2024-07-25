@@ -163,7 +163,7 @@
                     <h4 class="mb-2">{{ __('post.description') }}</h4>
                     <div class="card p-3 border-0">
                         <div class="card-body">
-                            {{ $post->getTranslation('description', App::getLocale() ?? "en") }}
+                            {{ $post->getTranslation('description', getLocaleLang()) }}
                         </div>
                     </div>
                 </div>

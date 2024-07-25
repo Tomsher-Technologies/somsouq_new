@@ -127,7 +127,7 @@
                                     <select class="form-control" id="state_id" name="state_id" onChange="getCityByStateId(this.value, 'city_id', '{{ route('get-city-by-state-id') }}', '{{ webUser()->city_id }}')" required>
                                         <option value="">-{{ __('post.select') }}-</option>
                                         @foreach(CommonFunction::getState() as $state)
-                                            <option value="{{ $state->id }}" @selected($state->id == webUser()->state_id ?? "")>{{ $state->getTranslation('name', App::getLocale() ?? 'en') }}</option>
+                                            <option value="{{ $state->id }}" @selected($state->id == webUser()->state_id ?? "")>{{ $state->getTranslation('name', getLocaleLang()) }}</option>
                                         @endforeach
                                     </select>
                                 </div>

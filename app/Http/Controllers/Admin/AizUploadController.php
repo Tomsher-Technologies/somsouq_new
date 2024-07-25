@@ -42,7 +42,7 @@ class AizUploadController extends Controller
                 break;
         }
 
-        $all_uploads = $all_uploads->paginate(60)->appends(request()->query());
+        $all_uploads = $all_uploads->where('user_id', adminUser()->id)->paginate(60)->appends(request()->query());
 
 
         return view('admin.uploaded_files.index', compact('all_uploads', 'search', 'sort_by'));

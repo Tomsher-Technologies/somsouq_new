@@ -20,13 +20,13 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header">
                                 <button class="accordion-button {{ $loop->iteration == 1 ? "" : "collapsed" }}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $help->id }}" aria-expanded="{{ $loop->iteration == 1 ? "true" : "false" }}" aria-controls="collapse{{ $help->id }}">
-                                    {{ $help->getTranslation('question', App::getLocale() ?? "en") }}
+                                    {{ $help->getTranslation('question', getLocaleLang()) }}
                                 </button>
                             </h2>
                             <div id="collapse{{ $help->id }}" class="accordion-collapse collapse {{ $loop->iteration == 1 ? "show" : "" }}" data-bs-parent="#accordionExample1">
                                 <div class="accordion-body">
                                     <p>
-                                        {{ $help->getTranslation('answer', App::getLocale() ?? "en") }}
+                                        {{ $help->getTranslation('answer', getLocaleLang()) }}
                                     </p>
                                 </div>
                             </div>

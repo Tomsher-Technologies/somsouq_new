@@ -32,7 +32,7 @@
                        <select class="form-control" name="state_id">
                            <option value="">Select</option>
                            @foreach(CommonFunction::getState() as $state)
-                               <option value="{{$state->id}}" @selected($state->id == $state_id ?? "")>{{$state->getTranslation('name', App::getLocale() ?? 'en')}}</option>
+                               <option value="{{$state->id}}" @selected($state->id == $state_id ?? "")>{{$state->getTranslation('name', getLocaleLang())}}</option>
                            @endforeach
                        </select>
                     </div>

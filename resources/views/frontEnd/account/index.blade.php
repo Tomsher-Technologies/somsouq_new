@@ -76,8 +76,8 @@
                                             <div class="ad-list-item {{ $post->status }}">
                                                 <img src="{{ CommonFunction::showPostImage($post->id) }}" class="img-fluid" alt="" height="144" width="144" style="object-fit: cover">
                                                 <div class="ad-list-info">
-                                                    <h5>{{ $post->getTranslation('title', App::getLocale() ?? "en") }}</h5>
-                                                    <p>{{ $post->description ? substr($post->getTranslation('description', App::getLocale() ?? "en"), 0, 185) : "" }}</p>
+                                                    <h5>{{ $post->getTranslation('title', getLocaleLang()) }}</h5>
+                                                    <p>{{ $post->description ? substr($post->getTranslation('description', getLocaleLang()), 0, 185) : "" }}</p>
                                                     <span><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($post->state) }}, {{ CommonFunction::getCityName($post->city) }}</span>
                                                     @if($post->status === 'rejected')
                                                         <span class="text-danger">{{ $post->comment ?? "" }}</span>
@@ -131,11 +131,11 @@
                                                 <div class="card-img-warpper">
                                                     <img src="{{ CommonFunction::showPostImage($post->id) }}" class="card-img-top" alt="{{ CommonFunction::getPostImageName($post->id) }}" style="height: 234px; object-fit: cover">
                                                     <span class="card-location"><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($post->state) }}, {{ CommonFunction::getCityName($post->city) }}</span>
-                                                    <span class="property-category">{{ CommonFunction::getCategoryName($post->category_id)->getTranslation('name', App::getLocale() ?? 'en') }}</span>
+                                                    <span class="property-category">{{ CommonFunction::getCategoryName($post->category_id)->getTranslation('name', getLocaleLang()) }}</span>
                                                 </div>
                                                 <div class="card-body">
                                                     <h5 class="card-price">USD {{ $post->price ?? "" }} </h5>
-                                                    <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', App::getLocale() ?? 'en'), 0, 80) : "" }}</h4>
+                                                    <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', getLocaleLang()), 0, 80) : "" }}</h4>
                                                 </div>
                                             </a>
                                         </div>

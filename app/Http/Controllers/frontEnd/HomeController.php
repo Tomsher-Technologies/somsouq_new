@@ -113,7 +113,7 @@ final class HomeController extends Controller
         LaravelLocalization::setLocale($language);
         Session::put("locale", $language);
 
-        $url = \LaravelLocalization::getLocalizedURL(App::getLocale(), \URL::previous());
+        $url = \LaravelLocalization::getLocalizedURL(getLocaleLang(), \URL::previous());
         return Redirect::to($url);
     }
 }

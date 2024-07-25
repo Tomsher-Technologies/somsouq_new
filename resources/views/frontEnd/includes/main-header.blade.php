@@ -18,7 +18,7 @@
                                     <li><a class="dropdown-item" href="{{ route('location', ['location' => 0]) }}">{{ __('home.all_location') }}</a></li>
                                     @foreach(CommonFunction::getState() as $state)
                                         <li class="@if($loop->last) {{ "border-0" }}@endif">
-                                            <a class="dropdown-item" href="{{ route('location', ['location' => $state->id]) }}"><span>{{ $state->getTranslation('name', App::getLocale() ?? 'en') }}</span>
+                                            <a class="dropdown-item" href="{{ route('location', ['location' => $state->id]) }}"><span>{{ $state->getTranslation('name', getLocaleLang()) }}</span>
                                                 @if($state->id == session('location')) <i class="bi bi-check-lg"></i> @endif
                                             </a>
                                         </li>
@@ -36,14 +36,14 @@
                                 @session('locale')
                                 {{ LaravelLocalization::getCurrentLocaleNative() }}
                                 @else
-                                    English
+                                    Somali
                                 @endsession
 
                             </a>
 {{--                            <span class="d-inline-block d-md-none"><i class="bi bi-globe"></i></span>--}}
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('lang', ['lang' => 'en']) }}">English</a></li>
                                 <li><a class="dropdown-item" href="{{ route('lang', ['lang' => 'so']) }}">Somali</a></li>
+                                <li><a class="dropdown-item" href="{{ route('lang', ['lang' => 'en']) }}">English</a></li>
                                 <li class="border-0"><a class="dropdown-item" href="{{ route('lang', ['lang' => 'ar']) }}">العربية</a></li>
                             </ul>
                         </div>
@@ -112,7 +112,7 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{ route('location', ['location' => 0]) }}">{{ __('home.all_location') }}</a></li>
                         @foreach(CommonFunction::getState() as $state)
-                            <li class="@if($loop->last) {{ "border-0" }}@endif"><a class="dropdown-item" href="{{ route('location', ['location' => $state->id]) }}">{{ $state->getTranslation('name', App::getLocale() ?? 'en') }}</a></li>
+                            <li class="@if($loop->last) {{ "border-0" }}@endif"><a class="dropdown-item" href="{{ route('location', ['location' => $state->id]) }}">{{ $state->getTranslation('name', getLocaleLang()) }}</a></li>
                         @endforeach
                     </ul>
                 </div>

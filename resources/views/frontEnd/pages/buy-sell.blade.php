@@ -11,8 +11,8 @@
                             @forelse($data as $key => $value)
                                 <h4>{{ __('pages.content_type.' . $key) }}</h4>
                                 @forelse($value as $title)
-                                    <h5>{{ $title->priority }}. {{ $title->getTranslation('title', App::getLocale() ?? "en") }}</h5>
-                                    {!! $title->getTranslation('description', App::getLocale() ?? "en") !!}
+                                    <h5>{{ $title->priority }}. {{ $title->getTranslation('title', getLocaleLang()) }}</h5>
+                                    {!! $title->getTranslation('description', getLocaleLang()) !!}
                                 @empty
                                 @endforelse
                             @empty

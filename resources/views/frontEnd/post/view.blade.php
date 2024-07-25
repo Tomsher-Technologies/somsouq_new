@@ -43,7 +43,7 @@
                             </div>
 
                             <div class="product-detail-title m-0">
-                                <h3>{{ $post->getTranslation('title', App::getLocale() ?? "en") }}</h3>
+                                <h3>{{ $post->getTranslation('title', getLocaleLang()) }}</h3>
                             </div>
                             <h5 class="pt-2"><i class="bi bi-geo-alt me-1"></i>{{ CommonFunction::getStateName($post->state) }}, {{ CommonFunction::getCityName($post->city) }}</h5>
                         </div>
@@ -99,7 +99,7 @@
                     <h4 class="mb-2">{{ __('post.description') }}</h4>
                     <div class="card p-3 border-0">
                         <div class="card-body">
-                            {{ $post->getTranslation('description', App::getLocale() ?? "en") }}
+                            {{ $post->getTranslation('description', getLocaleLang()) }}
                         </div>
                     </div>
                 </div>

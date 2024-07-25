@@ -32,7 +32,7 @@
                                         <select class="form-select" aria-label="Default select example" name="category_id" required>
                                             <option value="">- {{ __('home.select_categories') }} -</option>
                                             @foreach(CommonFunction::getCategory() as $category)
-                                                <option value="{{ $category->id }}">{{ $category->getTranslation('name', \Illuminate\Support\Facades\App::getLocale()) ?? $category->en_name }}</option>
+                                                <option value="{{ $category->id }}">{{ $category->getTranslation('name', getLocaleLang()) ?? $category->en_name }}</option>
                                             @endforeach
                                         </select>
 
@@ -46,7 +46,7 @@
                                                 <select class="form-select" aria-label="Default select example" fdprocessedid="qsjqsg" name="category_id" required>
                                                     <option value="">- {{ __('home.select_categories') }} -</option>
                                                     @foreach(CommonFunction::getCategory() as $category)
-                                                        <option value="{{ $category->id }}">{{ $category->getTranslation('name', \Illuminate\Support\Facades\App::getLocale()) ?? $category->en_name }}</option>
+                                                        <option value="{{ $category->id }}">{{ $category->getTranslation('name', getLocaleLang()) ?? $category->en_name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

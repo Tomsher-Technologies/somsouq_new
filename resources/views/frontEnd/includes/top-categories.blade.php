@@ -14,7 +14,7 @@
                                     @if ($category->icon != null)
                                         <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
                                     @endif
-                                    <h4>{{ $category->getTranslation('name', \Illuminate\Support\Facades\App::getLocale() ?? "en") ?? $category->en_name }}</h4>
+                                    <h4>{{ $category->getTranslation('name', getLocaleLang()) ?? $category->en_name }}</h4>
                                 </div>
                             </a>
                     @empty
