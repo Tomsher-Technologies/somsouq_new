@@ -6,8 +6,8 @@
             <div class="row">
                 <div class="col-12">
                     @forelse($conditions as $condition)
-                        <h2>{{ $condition->priority }}. {{ $condition->getTranslation('title', App::getLocale() ?? "en") }}</h2>
-                        {!! $condition->getTranslation('description', App::getLocale() ?? "en") !!}
+                        <h2>{{ $condition->priority }}. {{ $condition->getTranslation('title', getLocaleLang()) }}</h2>
+                        {!! $condition->getTranslation('description', getLocaleLang()) !!}
                     @empty
                     @endforelse
 

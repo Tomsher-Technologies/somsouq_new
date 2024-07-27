@@ -6,8 +6,8 @@
             <div class="row">
                 <div class="col-12">
                     @forelse($policies as $policy)
-                        <h2>{{ $policy->priority }}. {{ $policy->getTranslation('title', App::getLocale() ?? "en") }}</h2>
-                        {!! $policy->getTranslation('description', App::getLocale() ?? "en") !!}
+                        <h2>{{ $policy->priority }}. {{ $policy->getTranslation('title', getLocaleLang()) }}</h2>
+                        {!! $policy->getTranslation('description', getLocaleLang()) !!}
                     @empty
                     @endforelse
                 </div>

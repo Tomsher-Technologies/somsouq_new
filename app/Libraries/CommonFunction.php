@@ -106,18 +106,18 @@ class CommonFunction
     {
         $getState = State::where('id', $stateId)->first();
 
-        return $getState->getTranslation('name', App::getLocale() ?? 'en');
+        return $getState->getTranslation('name', getLocaleLang());
     }
 
     public static function getCityName(? string $city): string|null
     {
-        $lang = App::getLocale() ?? 'en';
+        $lang = getLocaleLang();
         return json_decode($city)->$lang ?? "";
     }
 
     public static function getStateName(? string $state): string|null
     {
-        $lang = App::getLocale() ?? 'en';
+        $lang = getLocaleLang();
         return json_decode($state)->$lang ?? "";
     }
 
@@ -127,7 +127,7 @@ class CommonFunction
             ->where('users.id', $createdBy)
             ->first(['file_name']);
 
-        if ($getUser) {
+        if ($getUser->file_name) {
             return app('url')->asset('storage/' . $getUser->file_name);
         }
 
@@ -142,10 +142,5 @@ class CommonFunction
             $join_date = date('Y-m-d', strtotime($getUser->created_at));
         }
         return $join_date;
-    }
-
-    public static function langCategoryName()
-    {
-        return App::getLocale() ? App::getLocale() . "_name" : 'en_name';
     }
 }

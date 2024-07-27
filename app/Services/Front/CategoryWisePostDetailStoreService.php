@@ -64,7 +64,7 @@ class CategoryWisePostDetailStoreService
 
     public static function setInputName($name)
     {
-        return $name .'_'. App::getLocale() ?? 'en';
+        return $name .'_'. getLocaleLang();
     }
 
 

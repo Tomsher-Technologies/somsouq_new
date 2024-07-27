@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => env('DEFAULT_LANGUAGE', 'so'),
 
     'supported_locales' => ['en', 'so', 'ar'],
 
@@ -98,7 +98,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => env('DEFAULT_LANGUAGE', 'so'),
 
     /*
     |--------------------------------------------------------------------------

@@ -61,7 +61,7 @@
                                                     @if ($category->icon != null)
                                                         <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
                                                     @endif
-                                                    <h4>{{ $category->getTranslation('name', \Illuminate\Support\Facades\App::getLocale() ?? "en") ?? $category->en_name }}</h4>
+                                                    <h4>{{ $category->getTranslation('name', getLocaleLang()) ?? $category->en_name }}</h4>
                                                 </div>
                                             </label>
                                         </div>
@@ -106,7 +106,7 @@
                                         <select class="form-select" aria-label="Default select example" name="state_id" onChange="getCityByStateId(this.value, 'city_id', '{{ route('get-city-by-state-id') }}')" required>
                                             <option value="">{{ __('post.state') }}</option>
                                             @foreach($states as $state)
-                                                <option value="{{ $state->id }}">{{ $state->getTranslation('name', App::getLocale() ?? 'en') }}</option>
+                                                <option value="{{ $state->id }}">{{ $state->getTranslation('name', getLocaleLang()) }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -127,7 +127,7 @@
 
                         <div class="step step-4">
                             <div class="post-ad-place">
-                                <h4>Upload High Quality Photos</h4>
+                                <h4>{{ __('post.upload_high_quality_photo') }}</h4>
 
                                 <div class="row g-3">
                                     <div class="col-md-12">

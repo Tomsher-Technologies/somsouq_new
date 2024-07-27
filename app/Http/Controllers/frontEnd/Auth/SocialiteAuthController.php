@@ -33,7 +33,12 @@ final class SocialiteAuthController extends Controller
                 $this->guard()->login($findUser);
                 return redirect()->route('home');
             }else{
-                $this->guard()->login($this->create(data: $getUser, provider: $provider));
+                $deletedUser = User::withTrashed()->where('email', $getUser->email)->first();
+                if ($deletedUser) {
+                    $deletedUser->restore();
+                } else {
+                    $this->guard()->login($this->create(data: $getUser, provider: $provider));
+                }
                 return redirect()->route('home');
             }
 

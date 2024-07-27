@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\frontEnd;
 
 use App\Http\Controllers\Controller;
+use App\Models\CompanyInfo;
 use App\Models\Post;
 use App\Models\Upload;
 use App\Models\User;
 use App\Rules\MatchNewPassword;
-use App\Rules\MatchOldPassword;
+use App\Services\Front\CategoryWisePostDetailDeleteService;
+use App\Services\Front\ImageUploadService;
 use Artisan;
 use Cache;
 use Illuminate\Http\Request;
@@ -65,7 +67,8 @@ final class MyAccountController extends Controller
 
     public function editProfile()
     {
-        return view('frontEnd.account.edit-profile');
+        $companyInfo = CompanyInfo::where('user_id', webUser()->id)->first();
+        return view('frontEnd.account.edit-profile', compact('companyInfo'));
     }
 
     public function changePassword()
@@ -75,6 +78,21 @@ final class MyAccountController extends Controller
 
     public function updateProfile(Request $request)
     {
+        $rules['account_type'] = 'required';
+        $rules['name'] = 'required';
+        $rules['state_id'] = 'required';
+        $rules['city_id'] = 'required';
+        $rules['phone_number'] = 'required';
+        $rules['email'] = 'email|string|nullable|unique:users,email,' . $request->user_id;
+
+        if ($request->get('account_type') === 'company') {
+            $rules['company_type'] = 'required';
+            $rules['company_name'] = 'required';
+            $rules['company_registration_number'] = 'required';
+        }
+
+        $request->validate($rules);
+
         try {
             $user = User::find($request->user_id);
             $user->name = $request->get('name') ?? "";
@@ -83,7 +101,24 @@ final class MyAccountController extends Controller
             $user->w_app_number = $request->get('w_app_number') ?? "";
             $user->state_id = $request->get('state_id') ?? "";
             $user->city_id = $request->get('city_id') ?? "";
+            $user->sign_up_for = $request->get('account_type') ?? "";
+            $user->gender = $request->get('gender') ?? "";
             $user->save();
+
+            if ($user->sign_up_for === 'company') {
+                $companyInfo = CompanyInfo::findOrNew($request->get('company_id') ?? "");
+                $companyInfo->user_id = $user->id;
+                $companyInfo->company_type = $request->get("company_type");
+                $companyInfo->company_name = $request->get("company_name");
+                $companyInfo->company_reg_number = $request->get("company_registration_number");
+                $companyInfo->save();
+            } else {
+                $companyInfo = CompanyInfo::find($request->get('company_id') ?? "");
+                if ($companyInfo) {
+                    $companyInfo->delete();
+                }
+            }
+
 
             if ($request->hasFile('profile_img')) {
                 $this->fileUpload(file: $request->file('profile_img'));
@@ -91,7 +126,6 @@ final class MyAccountController extends Controller
 
             return redirect()->back()->with('success', trans('messages.profile_updated'));
         }catch (\Exception $e) {
-            dd($e->getMessage());
             return redirect()->back()->with('error', trans('messages.wrong'));
         }
     }
@@ -146,7 +180,8 @@ final class MyAccountController extends Controller
     {
         try {
             $getUser = $this->guard()->user();
-            if (empty($getUser->phone_number) && empty($getUser->w_app_number)) {
+
+            if (empty($getUser->sign_up_for) && (empty($getUser->phone_number) || empty($getUser->w_app_number))) {
                 return response()->json([
                     'success' => true,
                     'profile_status'=> false,
@@ -161,9 +196,45 @@ final class MyAccountController extends Controller
                 ]);
             }
         }catch (\Exception $e) {
+            dd($e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => trans('messages.wrong'),
+            ]);
+        }
+    }
+
+    public function deleteAccount(Request $request)
+    {
+        try {
+            $user = User::find($request->get('user_id'));
+            if ($user) {
+                $getPost = Post::where('created_by', $user->id)->first();
+                if ($getPost) {
+                    CategoryWisePostDetailDeleteService::deletePostDetail(categoryId: $getPost->category_id, postId: $getPost->id);
+                    ImageUploadService::deletePostImage(postId: $getPost->id);
+                    $getPost->delete();
+                }
+
+                if ($user->sign_up_for === 'company') {
+                    $getCompanyInfo = CompanyInfo::where('user_id', $user->id)->first();
+                    if ($getCompanyInfo) {
+                        $getCompanyInfo->delete();
+                    }
+                }
+
+                $user->delete();
+            }
+
+            return response()->json([
+                'success' => true,
+                'url' => route('front.logout'),
+            ]);
+
+        }catch (\Exception $e){
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
             ]);
         }
     }

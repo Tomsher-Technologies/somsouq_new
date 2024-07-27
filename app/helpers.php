@@ -167,7 +167,7 @@ if (!function_exists('setTranslation')) {
 if (!function_exists('isDisable')) {
     function isDisable(string $getLang): string
     {
-        $lang = App::getLocale() ?? "en";
+        $lang = getLocaleLang();
 
         if ($lang == $getLang) {
             return '';
@@ -180,7 +180,7 @@ if (!function_exists('isDisable')) {
 if (!function_exists('isRequired')) {
     function isRequired(string $getLang): string
     {
-        $lang = App::getLocale() ?? "en";
+        $lang = getLocaleLang();
 
         if ($lang == $getLang) {
             return 'required';
@@ -193,7 +193,7 @@ if (!function_exists('isRequired')) {
 if (!function_exists('isEvent')) {
     function isEvent(string $getLang): string
     {
-        $lang = App::getLocale() ?? "en";
+        $lang = getLocaleLang();
 
         if ($lang == $getLang) {
             return 'trigger-event';
@@ -206,10 +206,28 @@ if (!function_exists('isEvent')) {
 if (!function_exists('getTranslation')) {
     function getTranslation(? string $data): string|null
     {
-        $lang = App::getLocale() ?? "en";
+        $lang = getLocaleLang();
         return json_decode($data)->$lang ?? "";
     }
 }
+
+if (!function_exists('getLocaleLang')) {
+    function getLocaleLang(): string|null
+    {
+        return App::getLocale() ?? getConfigLang();
+    }
+}
+
+if (!function_exists('getEnvLang')) {
+    function getConfigLang(): string|null
+    {
+       return config('app.locale');
+    }
+}
+
+
+
+
 
 
 

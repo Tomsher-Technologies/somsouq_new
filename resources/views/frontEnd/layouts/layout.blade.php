@@ -36,7 +36,7 @@
 <script src="{{ asset('assets/frontEnd/js/sweetalert.min.js') }}"></script>
 <script>
     let BASE_URL = "{{ route('home') }}";
-    let setLocalLang = "{{ \Illuminate\Support\Facades\App::getLocale() ?? 'en' }}";
+    let setLocalLang = "{{ getLocaleLang() }}";
     $(".btn-custom-close").on('click', function (e){
         $(e.target).parent().remove();
     });

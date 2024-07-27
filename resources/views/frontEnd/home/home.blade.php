@@ -6,6 +6,7 @@
 
     @include('frontEnd.includes.add-section')
 
+    @if(count($popular_ads) > 0 && !empty(webUser()))
     <section class="popular-ads-section">
         <div class="container">
             <div class="section-title title-flex">
@@ -15,18 +16,18 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="list-properties owl-theme">
-                        @forelse($popular_ads as $ad)
+                        @forelse($popular_ads as $post)
                         <div class="card ad-card">
-                            <button class="btn btn-wishlist" @guest data-bs-toggle="modal" data-bs-target="#loginModal" @else onclick="addToWishlist('{{ $ad->id }}')" @endguest><i class="bi bi-heart"></i></button>
-                            <a href="{{ route('public.view', ['type' => 'public', 'id' => $ad->id]) }}">
+                            <button class="btn btn-wishlist" @guest data-bs-toggle="modal" data-bs-target="#loginModal" @else onclick="addToWishlist('{{ $post->id }}')" @endguest><i class="bi bi-heart"></i></button>
+                            <a href="{{ route('public.view', ['type' => 'public', 'id' => $post->id]) }}">
                                 <div class="card-img-warpper">
-                                    <img src="{{ CommonFunction::showPostImage($ad->id) }}" class="card-img-top img-fluid" alt="{{ CommonFunction::getPostImageName($ad->id) }}" style="height: 234px; object-fit: cover">
-                                    <span class="card-location"><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($ad->state) }}, {{ CommonFunction::getCityName($ad->city) }}</span>
-                                    <span class="property-category">{{ CommonFunction::getCategoryName($ad->category_id)->getTranslation('name', App::getLocale() ?? 'en') }}</span>
+                                    <img src="{{ CommonFunction::showPostImage($post->id) }}" class="card-img-top img-fluid" alt="{{ CommonFunction::getPostImageName($post->id) }}" style="height: 234px; object-fit: cover">
+                                    <span class="card-location"><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($post->state) }}, {{ CommonFunction::getCityName($post->city) }}</span>
+                                    <span class="property-category">{{ CommonFunction::getCategoryName($post->category_id)->getTranslation('name', getLocaleLang()) }}</span>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-price">USD {{ $ad->price ?? "" }}</h5>
-                                    <h4 class="card-title">{{ $ad->title ? substr($ad->getTranslation('title', App::getLocale() ?? "en"), 0, 80) : "" }}</h4>
+                                    <h5 class="card-price">USD {{ $post->price ?? "" }}</h5>
+                                    <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', getLocaleLang()), 0, 80) : "" }}</h4>
                                 </div>
                             </a>
                         </div>
@@ -39,16 +40,17 @@
             </div>
         </div>
     </section>
+    @endif
 
-
+    @if(!empty($posts[1]))
     <section class="popular-properties-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3> {{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 1)->getTranslation('name', App::getLocale() ?? 'en') }}</h3>
+                <h3> {{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 1)->getTranslation('name', getLocaleLang()) }}</h3>
                 <a href="{{ route('post.detail-category', ['cat_id' => 1]) }}" class="page-link d-none d-md-block">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
             <div class="row g-3">
-                @if(!empty($posts[1]))
+
                 @forelse($posts[1] as $post)
                         <div class="col-md-3">
                             <div class="card ad-card">
@@ -60,27 +62,27 @@
                                     </div>
                                     <div class="card-body">
                                         <h5 class="card-price">USD {{ $post->price ?? "" }}</h5>
-                                        <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', App::getLocale() ?? "en"), 0, 80) : "" }}</h4>
+                                        <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', getLocaleLang()), 0, 80) : "" }}</h4>
                                     </div>
                                 </a>
                             </div>
                         </div>
                 @empty
                 @endforelse
-                @endif
             </div>
         </div>
     </section>
+    @endif
 
-
+    @if(!empty($posts[2]))
     <section class="popular-properties-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3> {{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 2)->getTranslation('name', App::getLocale() ?? 'en') }}</h3>
+                <h3> {{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 2)->getTranslation('name', getLocaleLang()) }}</h3>
                 <a href="{{ route('post.detail-category', ['cat_id' => 2]) }}" class="page-link">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
             <div class="row g-3">
-                @if(!empty($posts[2]))
+
                 @forelse($posts[2] as $post)
                     <div class="col-md-3">
                         <div class="card ad-card">
@@ -93,27 +95,28 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-price">USD {{ $post->price ?? "" }}</h5>
-                                    <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', App::getLocale() ?? "en"), 0, 80) : "" }}</h4>
+                                    <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', getLocaleLang()), 0, 80) : "" }}</h4>
                                 </div>
                             </a>
                         </div>
                     </div>
                 @empty
                 @endforelse
-                @endif
+
             </div>
         </div>
     </section>
+    @endif
 
-
+    @if(!empty($posts[3]))
     <section class="popular-cars-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3> {{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 3)->getTranslation('name', App::getLocale() ?? 'en') }}</h3>
+                <h3> {{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 3)->getTranslation('name', getLocaleLang()) }}</h3>
                 <a href="{{ route('post.detail-category', ['cat_id' => 3]) }}" class="page-link">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
             <div class="row g-3">
-                @if(!empty($posts[3]))
+
                 @forelse($posts[3] as $post)
                     <div class="col-md-3">
                         <div class="card ad-card">
@@ -126,27 +129,27 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-price">USD {{ $post->price ?? "" }}</h5>
-                                    <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', App::getLocale() ?? "en"), 0, 80) : "" }}</h4>
+                                    <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', getLocaleLang()), 0, 80) : "" }}</h4>
                                 </div>
                             </a>
                         </div>
                     </div>
                 @empty
                 @endforelse
-                @endif
+
             </div>
         </div>
     </section>
+    @endif
 
-
+    @if(!empty($posts[4]))
     <section class="popular-cars-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3>{{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 4)->getTranslation('name', App::getLocale() ?? 'en') }}</h3>
+                <h3>{{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 4)->getTranslation('name', getLocaleLang()) }}</h3>
                 <a href="{{ route('post.detail-category', ['cat_id' => 4]) }}" class="page-link">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
             <div class="row g-3">
-                @if(!empty($posts[4]))
                 @forelse($posts[4] as $post)
                     <div class="col-md-3">
                         <div class="card ad-card">
@@ -159,19 +162,20 @@
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-price">USD {{ $post->price ?? "" }}</h5>
-                                    <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', App::getLocale() ?? "en"), 0, 80) : "" }}</h4>
+                                    <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', getLocaleLang()), 0, 80) : "" }}</h4>
                                 </div>
                             </a>
                         </div>
                     </div>
                 @empty
                 @endforelse
-                @endif
+
             </div>
         </div>
     </section>
+    @endif
 
-
+    @if(!empty($posts[5]))
     <section class="popular-cars-section">
         <div class="container">
             <div class="section-title title-flex">
@@ -181,7 +185,9 @@
 
         </div>
     </section>
+    @endif
 
+    @if(!empty($posts[6]))
     <section class="popular-electronics-section">
         <div class="container">
             <div class="section-title title-flex">
@@ -190,9 +196,11 @@
             </div>
         </div>
     </section>
+    @endif
 
     @include('frontEnd.includes.add-section')
 
+    @if(!empty($posts[7]))
     <section class="popular-electronics-section">
         <div class="container">
             <div class="section-title title-flex">
@@ -202,7 +210,7 @@
 
         </div>
     </section>
-
+    @endif
 
 
     @include('frontEnd.modals.login-modal')

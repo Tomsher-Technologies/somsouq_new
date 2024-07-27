@@ -31,13 +31,13 @@
                         </select>
                     </div>
 
-                    <div class="col-md-2">
-                        <select class="form-control form-control-sm aiz-selectpicker mb-2 mb-md-0" data-live-search="true" name="is_popular" id="" data-selected={{ $is_popular ?? "" }}>>
-                            <option value="">Is Popular</option>
-                            <option value="yes" {{ ($is_popular ?? "" == "yes") ? "selected" : "" }}>Yes</option>
-                            <option value="no" {{ ($is_popular ?? "" == "no") ? "selected" : "" }}>No</option>
-                        </select>
-                    </div>
+{{--                    <div class="col-md-2">--}}
+{{--                        <select class="form-control form-control-sm aiz-selectpicker mb-2 mb-md-0" data-live-search="true" name="is_popular" id="" data-selected={{ $is_popular ?? "" }}>>--}}
+{{--                            <option value="">Is Popular</option>--}}
+{{--                            <option value="yes" {{ ($is_popular ?? "" == "yes") ? "selected" : "" }}>Yes</option>--}}
+{{--                            <option value="no" {{ ($is_popular ?? "" == "no") ? "selected" : "" }}>No</option>--}}
+{{--                        </select>--}}
+{{--                    </div>--}}
 
                     <div class="col-md-3">
                         <button class="btn btn-primary" type="submit">Filter</button>
@@ -53,11 +53,11 @@
                 <thead>
                 <tr>
                     <th >#</th>
-{{--                    <th>Title</th>--}}
                     <th>Reference no.</th>
+                    <th>Title</th>
                     <th >Category</th>
                     <th >Sub Category</th>
-                    <th class="text-center">Is Popular</th>
+{{--                    <th class="text-center">Is Popular</th>--}}
                     <th class="text-center">Status</th>
                     <th class="text-center">Action</th>
                 </tr>
@@ -66,16 +66,16 @@
                 @foreach ($posts as $key => $post)
                     <tr>
                         <td>{{ $key + 1 + ($posts->currentPage() - 1) * $posts->perPage() }}</td>
-{{--                        <td>{{ $post->getTranslation('title', 'en') }}</td>--}}
                         <td>{{ $post->tracking_number }}</td>
+                        <td>{{ $post->getTranslation('title', 'en') }}</td>
                         <td>{{ $post->category_name }}</td>
                         <td>{{ $post->sub_category_name }}</td>
-                        <td class="text-center">
-                            <label class="aiz-switch aiz-switch-success mb-0">
-                                <input type="checkbox" onchange="updateIsPopularOption(this)" value="{{ $post->id }}" {{ ($post->is_popular == "yes") ? 'checked' : "" }}>
-                                <span></span>
-                            </label>
-                        </td>
+{{--                        <td class="text-center">--}}
+{{--                            <label class="aiz-switch aiz-switch-success mb-0">--}}
+{{--                                <input type="checkbox" onchange="updateIsPopularOption(this)" value="{{ $post->id }}" {{ ($post->is_popular == "yes") ? 'checked' : "" }}>--}}
+{{--                                <span></span>--}}
+{{--                            </label>--}}
+{{--                        </td>--}}
 
                         <td class="text-center">
                             <label class="aiz-switch aiz-switch-success mb-0">

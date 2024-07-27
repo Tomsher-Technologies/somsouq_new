@@ -5,10 +5,12 @@ namespace App\Http\Controllers\frontEnd\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Front\LoginRequest;
 use App\Http\Requests\Front\RegistrationRequest;
+use App\Models\CompanyInfo;
 use App\Models\User;
 use Artisan;
 use Cache;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 final class AuthController extends Controller
@@ -53,14 +55,32 @@ final class AuthController extends Controller
      */
     public function registration(RegistrationRequest $request)
     {
+        DB::beginTransaction();
         try {
-            $this->create(data: $request->all());
+            $getDeletedUser = User::withTrashed()->where('username', $request->get('username'))->first();
 
+            if ($getDeletedUser) {
+                $getDeletedUser->restore();
+            } else {
+                $user = $this->create(data: $request->all());
+
+                if ($user->sign_up_for === 'company') {
+                    $companyInfo = new CompanyInfo();
+                    $companyInfo->user_id = $user->id;
+                    $companyInfo->company_type = $request->get("company_type");
+                    $companyInfo->company_name = $request->get("company_name");
+                    $companyInfo->company_reg_number = $request->get("company_registration_number");
+                    $companyInfo->save();
+                }
+            }
+
+            DB::commit();
             return response()->json([
                 'message' => trans('auth.registration_completed'),
                 'success' => true,
             ]);
         }catch (\Exception $exception){
+            DB::rollBack();
             return response()->json([
                 'error' => $exception->getMessage(),
                 'success' => false,
@@ -78,12 +98,13 @@ final class AuthController extends Controller
     {
         return User::create([
             'username' => $data['username'],
-            'email' => $data['email'],
+//            'email' => $data['email'],
             'state_id' => $data['state_id'],
             'city_id' => $data['city_id'],
             'phone_number' => $data['phone_number'],
-            'place_of_birth' => $data['place_of_birth'],
-            'date_of_birth' => $data['date_of_birth'],
+            'sign_up_for' => $data['account_type'],
+//            'place_of_birth' => $data['place_of_birth'],
+//            'date_of_birth' => $data['date_of_birth'],
             'password' => Hash::make($data['password']),
         ]);
     }

@@ -86,6 +86,13 @@ $("#registrationForm").submit(function(e) {
         success: function(data) {
 
             if(!data.success && data.errors){
+
+                if(data.errors.account_type) {
+                    $('#signForError').html(data.errors.account_type);
+                } else {
+                    $('#signForError').html("");
+                }
+
                 if(data.errors.username) {
                     $('#usernameError').html(data.errors.username);
                 } else {
@@ -98,11 +105,11 @@ $("#registrationForm").submit(function(e) {
                     $('#passwordErrorReg').html("");
                 }
 
-                if(data.errors.email) {
-                    $('#emailErrorReg').html(data.errors.email);
-                } else {
-                    $('#emailErrorReg').html("");
-                }
+                // if(data.errors.email) {
+                //     $('#emailErrorReg').html(data.errors.email);
+                // } else {
+                //     $('#emailErrorReg').html("");
+                // }
 
                 if(data.errors.phone_number) {
                     $('#phoneError').html(data.errors.phone_number);
@@ -110,11 +117,33 @@ $("#registrationForm").submit(function(e) {
                     $('#phoneError').html("");
                 }
 
+                if(data.errors.company_type) {
+                    $('#companyTypeError').html(data.errors.company_type);
+                } else {
+                    $('#companyTypeError').html("");
+                }
+
+                if(data.errors.company_name) {
+                    $('#companyNameError').html(data.errors.company_name);
+                } else {
+                    $('#companyNameError').html("");
+                }
+
+                if(data.errors.company_registration_number) {
+                    $('#companyRegError').html(data.errors.company_registration_number);
+                } else {
+                    $('#companyRegError').html("");
+                }
+
             } else {
                 $('#usernameError').html("");
                 $('#passwordErrorReg').html("");
-                $('#emailErrorReg').html("");
+                // $('#emailErrorReg').html("");
                 $('#phoneError').html("");
+                $('#signForError').html("");
+                $('#companyTypeError').html("");
+                $('#companyNameError').html("");
+                $('#companyRegError').html("");
             }
 
             if(data.success){
@@ -129,3 +158,17 @@ $("#registrationForm").submit(function(e) {
         }
     });
 });
+
+
+function getUserType(selected)
+{
+    if(selected === 'company') {
+        document.getElementById('company_type_div').style.display = 'block';
+        document.getElementById('company_name_div').style.display = 'block';
+        document.getElementById('company_registration_div').style.display = 'block';
+    } else {
+        document.getElementById('company_type_div').style.display = 'none';
+        document.getElementById('company_name_div').style.display = 'none';
+        document.getElementById('company_registration_div').style.display = 'none';
+    }
+}

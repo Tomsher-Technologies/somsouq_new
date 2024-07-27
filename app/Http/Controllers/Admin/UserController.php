@@ -21,17 +21,13 @@ class UserController extends Controller
 
     public function index(Request $request)
     {
-        $query = User::query()
-            ->leftJoin('states', 'states.id', '=', 'users.state_id')
-            ->leftJoin('cities', 'cities.id', '=', 'users.city_id')
-            ->select(
+        $query = User::query()->select(
                 'users.id',
                 'users.name',
                 'users.email',
                 'users.username',
                 'users.phone_number',
-                'states.name as state',
-                'cities.name as city',
+                'users.sign_up_for',
             );
 
         if ($request->get('phone_number')) {
@@ -49,10 +45,10 @@ class UserController extends Controller
             $data['username'] = $request->get('username');
         }
 
-        $data['state_id'] = "";
-        if ($request->get('state_id')) {
-            $query->where('users.state_id', $request->get('state_id'));
-            $data['state_id'] = $request->get('state_id');
+        $data['account_type'] = "";
+        if ($request->get('account_type')) {
+            $data['account_type'] = $request->get('account_type');
+            $query->where('users.sign_up_for', $data['account_type']);
         }
 
         $data['users'] = $query->orderBy('id', 'DESC')->paginate(10);

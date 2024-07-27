@@ -5,6 +5,7 @@ namespace App\Http\Controllers\frontEnd;
 use App\Http\Controllers\Controller;
 use App\Libraries\LaravelShare;
 use App\Models\Category;
+use App\Models\LastViewPost;
 use App\Models\Post;
 use App\Models\SafetyTip;
 use App\Models\State;
@@ -15,6 +16,7 @@ use App\Services\Front\ImageUploadService;
 use App\Services\Front\LoadCategoryWiseDetailFormService;
 use App\Services\Front\CategoryWisePostDetailStoreService;
 use App\Services\Front\CategoryNameService as CATEGORY_NAME;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -174,6 +176,7 @@ final class PostController extends Controller
 
     public function view(string $viewType, int $postId)
     {
+
         try {
             $data['post'] = Post::leftJoin('states', 'states.id', '=', 'posts.state_id')
                 ->leftJoin('cities', 'cities.id', '=', 'posts.city_id')
@@ -196,6 +199,11 @@ final class PostController extends Controller
                     'categories.id as category_id',
                 ]);
 
+            if (webUser() && $viewType == 'public') {
+                $this->storeUserLastViewPost($data['post']->category_id, $postId);
+            }
+
+
             //$data['postDetail'] = CategoryWisePostDetailDataService::getData(categoryId: $data['post']->category_id, postId: $postId);
             $data['images'] = ImageUploadService::getPostImage(postId: $postId);
 
@@ -206,12 +214,15 @@ final class PostController extends Controller
             if ($viewType == 'public') {
                 $data['safetyTips'] = SafetyTip::where('category_id', $data['post']->category_id)->where('is_active', 1)->get();
 
+                $data['relatedPost'] = $this->relatedPosts($data['post']->category_id, $postId);
+
                 return view('frontEnd.post.public-view', $data);
             } elseif ($viewType == 'user') {
                 return view('frontEnd.post.view', $data);
             }
 
         }catch (\Exception $exception){
+            dd($exception->getMessage(), $exception->getFile(), $exception->getLine());
             return redirect()->back()->with('error', 'Something went wrong at line number'. $exception->getLine());
         }
     }
@@ -298,6 +309,46 @@ final class PostController extends Controller
                 'data' => $e->getMessage()
             ]);
         }
+    }
+
+    public function relatedPosts(int $categoryId, int $postId)
+    {
+        return Post::leftJoin('states', 'states.id', '=', 'posts.state_id')
+            ->leftJoin('cities', 'cities.id', '=', 'posts.city_id')
+            ->leftJoin('categories', 'categories.id', '=', 'posts.category_id')
+            ->where('posts.category_id', $categoryId)
+            ->where('posts.id', '!=', $postId)
+            ->whereIn('posts.status', ['approved'])
+            ->orderBy('posts.updated_at', 'desc')
+            ->limit(8)
+            ->get([
+                'posts.id',
+                'posts.title',
+                'posts.price',
+                'posts.tracking_number',
+                'posts.category_id',
+                'posts.sub_category_id',
+                'posts.updated_at',
+                'posts.created_by',
+                'posts.created_at',
+                'posts.description',
+                'posts.status',
+                'states.name as state',
+                'cities.name as city',
+                'categories.id as category_id',
+            ]);
+    }
+
+    public function storeUserLastViewPost(int $categoryId, int $postId)
+    {
+        $lastView = LastViewPost:: where('user_id', webUser()->id)->where('category_id', $categoryId)->first();
+        if (empty($lastView)) {
+            $lastView = new LastViewPost();
+        }
+        $lastView->user_id = webUser()->id;
+        $lastView->category_id = $categoryId;
+        $lastView->post_id = $postId;
+        $lastView->save();
     }
 
 }

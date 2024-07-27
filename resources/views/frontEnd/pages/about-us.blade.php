@@ -9,8 +9,8 @@
                         <div class="col-md-12 text-center">
                             <div class="about-content">
                                 <h4>About Us</h4>
-                                <h3>{{ $about->getTranslation('title', \Illuminate\Support\Facades\App::getLocale() ?? 'en') }}</h3>
-                                <p class="pt-2">{!! $about->getTranslation('description', \Illuminate\Support\Facades\App::getLocale() ?? 'en') !!}</p>
+                                <h3>{{ $about->getTranslation('title', getLocaleLang()) }}</h3>
+                                <p class="pt-2">{!! $about->getTranslation('description', getLocaleLang()) !!}</p>
                             </div>
                         </div>
                         <div class="col-md-12 mt-4">
@@ -28,8 +28,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mission-content">
-                                <h3>{{ $about->getTranslation('title', \Illuminate\Support\Facades\App::getLocale() ?? 'en') }}</h3>
-                                <p>{!! $about->getTranslation('description', \Illuminate\Support\Facades\App::getLocale() ?? 'en') !!}</p>
+                                <h3>{{ $about->getTranslation('title', getLocaleLang()) }}</h3>
+                                <p>{!! $about->getTranslation('description', getLocaleLang()) !!}</p>
                             </div>
 
                         </div>
@@ -47,7 +47,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4 pe-5">
-                            <h3>{{ $about->getTranslation('title', \Illuminate\Support\Facades\App::getLocale() ?? 'en') }}</h3>
+                            <h3>{{ $about->getTranslation('title', getLocaleLang()) }}</h3>
 
                             <img src="{{ uploaded_asset($about->image ?? "") }}" class="img-fluid rounded-3" alt="">
 
@@ -62,8 +62,8 @@
                                         </div>
                                     </span>
                                         <span>
-                                        <h4>{{ $data->getTranslation('title', \Illuminate\Support\Facades\App::getLocale() ?? 'en') }}</h4>
-                                        <p>{{ $data->getTranslation('description', \Illuminate\Support\Facades\App::getLocale() ?? 'en') }}</p>
+                                        <h4>{{ $data->getTranslation('title', getLocaleLang()) }}</h4>
+                                        <p>{{ $data->getTranslation('description', getLocaleLang()) }}</p>
                                     </span>
                                     </li>
                                 </ul>
@@ -84,8 +84,8 @@
                             <div class="community-inner">
                                 <div class="row">
                                     <div class="col-md-9">
-                                        <h3>{{ $about->getTranslation('title', \Illuminate\Support\Facades\App::getLocale() ?? 'en') }}</h3>
-                                        <p>{!! $about->getTranslation('description', \Illuminate\Support\Facades\App::getLocale() ?? 'en') !!}</p>
+                                        <h3>{{ $about->getTranslation('title', getLocaleLang()) }}</h3>
+                                        <p>{!! $about->getTranslation('description', getLocaleLang()) !!}</p>
                                     </div>
                                     <div class="col-md-3">
                                         <img src="{{ uploaded_asset($about->image ?? "") }}" class="img-fluid" alt="">

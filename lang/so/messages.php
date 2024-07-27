@@ -19,4 +19,5 @@ return [
     //profile
     'profile_updated' => 'Profile updated successfully.',
     'report_submit' => 'Your report submitted successfully',
+    'update_your_profile' => 'Please update your profile.',
 ];

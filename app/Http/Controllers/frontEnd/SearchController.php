@@ -18,7 +18,7 @@ final class SearchController extends Controller
         try {
             $data['category_id'] = ($request->get('category_id')) ? $request->get('category_id') : $cat_id;
 
-            $data['category_name'] = CommonFunction::getCategoryName(category_id: $data['category_id'])->getTranslation('name', App::getLocale() ?? 'en');
+            $data['category_name'] = CommonFunction::getCategoryName(category_id: $data['category_id'])->getTranslation('name', getLocaleLang());
 
             $data['posts'] = $this->categoryWisePost($request->all(), $data['category_id']);
             $getBarHtml = CategoryWiseSearchBar::getSearchBar(categoryId: $data['category_id']);
@@ -44,7 +44,7 @@ final class SearchController extends Controller
 
             $data['category_id'] = $request->get('category_id');
             $data['category_wise_total_post'] = $this->categoryWiseTotalPost($request->get('category_id'));
-            $data['category_name'] = CommonFunction::getCategoryName(category_id: $data['category_id'])->getTranslation('name', App::getLocale() ?? 'en');
+            $data['category_name'] = CommonFunction::getCategoryName(category_id: $data['category_id'])->getTranslation('name', getLocaleLang());
 
             $postHtml = view('frontEnd.search.search-post', $data)->render();
 
@@ -178,7 +178,7 @@ final class SearchController extends Controller
 
             $data['category_id'] = $request->get('category_id');
             $data['category_wise_total_post'] = $query->get()->count();
-            $data['category_name'] = CommonFunction::getCategoryName(category_id: $data['category_id'])->getTranslation('name', App::getLocale() ?? 'en');
+            $data['category_name'] = CommonFunction::getCategoryName(category_id: $data['category_id'])->getTranslation('name', getLocaleLang());
 
             return response()->json([
                 'status' => true,

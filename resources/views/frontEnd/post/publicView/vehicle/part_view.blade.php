@@ -43,7 +43,7 @@
                         <li><strong>{{ __('post.brand_make_name') }}:</strong> <span>{{ getTranslation($postDetail->brand_name) }}</span></li>
                         <li><strong>{{ __('post.model_year') }}</strong> <span>{{ $postDetail->model_year ?? "" }}</span></li>
                         <li><strong>{{ __('post.model') }}</strong> <span>{{ $postDetail->model_number ?? "" }}</span></li>
-                        <li><strong>{{ __('post.color') }}:</strong> <span>{{ $postDetail->color_name ?? "" }}</span></li>
+                        <li><strong>{{ __('post.color') }}:</strong> <span>{{ getTranslation($postDetail->color_name) }}</span></li>
                         <li><strong>{{ __('post.transmission') }}:</strong> <span>{{ $postDetail->exchangeable ?? "" }}</span></li>
                         <li><strong>{{ __('post.condition') }}:</strong> <span>{{ $postDetail->usage_condition ? ucwords($postDetail->usage_condition) : "" }}</span></li>
                     </ul>

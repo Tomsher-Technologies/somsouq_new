@@ -9,7 +9,7 @@
                             <select class="form-select" aria-label="Floating label select example" name="sub_category_id" id="sub_category_id" onchange="postBarSearch()">
                                 <option value="">-{{ __('post.select') }}-</option>
                                 @foreach($subCategories as $subCategory)
-                                    <option value="{{ $subCategory->id }}">{{ $subCategory->getTranslation('name', \Illuminate\Support\Facades\App::getLocale() ?? "en") ?? $subCategory->en_name }}</option>
+                                    <option value="{{ $subCategory->id }}">{{ $subCategory->getTranslation('name', getLocaleLang()) ?? $subCategory->en_name }}</option>
                                 @endforeach
                             </select>
                             <label for="floatingSelect">{{ __('post.sub_category') }}</label>
@@ -20,7 +20,7 @@
                             <select class="form-select" aria-label="Floating label select example" name="state_id" onchange="postBarSearch()">
                                 <option value="">-{{ __('post.select') }}-</option>
                                 @foreach($states as $state)
-                                    <option value="{{ $state->id }}">{{ $state->getTranslation('name', App::getLocale() ?? 'en') }}</option>
+                                    <option value="{{ $state->id }}">{{ $state->getTranslation('name', getLocaleLang()) }}</option>
                                 @endforeach
                             </select>
                             <label for="floatingSelect">{{ __('post.state') }}</label>
