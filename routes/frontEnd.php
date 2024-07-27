@@ -75,6 +75,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::get('/change-password', [MyAccountController::class, 'changePassword'])->name('user.change.password');
             Route::post('/update-password', [MyAccountController::class, 'updatePassword'])->name('update.password');
             Route::get('/profile-check', [MyAccountController::class, 'isProfileUpdated'])->name('profile.check');
+            Route::get('/delete', [MyAccountController::class, 'deleteAccount'])->name('user.delete');
         });
 
         //user post

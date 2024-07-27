@@ -24,13 +24,22 @@ class RegistrationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'username' => ['required', 'unique:users,username', new AlphaSpaces],
+        $rules = [
+            'username' => ['required', 'unique:users,username,NULL,id,deleted_at,NULL', new AlphaSpaces],
             'password' => 'required|min:6|required_with:password_confirmation|same:password_confirmation',
             'password_confirmation' => 'min:6',
-            'email' => 'email|unique:users,email|string|nullable',
+//            'email' => 'email|unique:users,email,NULL,id,deleted_at,NULL|string|nullable',
             'phone_number' => 'required',
+            'account_type' => 'required',
         ];
+
+        if ($this->request->get('sign_up_for') === 'company') {
+            $rules['company_type'] = 'required';
+            $rules['company_name'] = 'required';
+            $rules['company_registration_number'] = 'required';
+        }
+
+        return $rules;
     }
 
     /**

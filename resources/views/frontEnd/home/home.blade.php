@@ -6,8 +6,7 @@
 
     @include('frontEnd.includes.add-section')
 
-
-    @if(empty($popular_ads))
+    @if(count($popular_ads) > 0 && !empty(webUser()))
     <section class="popular-ads-section">
         <div class="container">
             <div class="section-title title-flex">
@@ -17,18 +16,18 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="list-properties owl-theme">
-                        @forelse($popular_ads as $ad)
+                        @forelse($popular_ads as $post)
                         <div class="card ad-card">
-                            <button class="btn btn-wishlist" @guest data-bs-toggle="modal" data-bs-target="#loginModal" @else onclick="addToWishlist('{{ $ad->id }}')" @endguest><i class="bi bi-heart"></i></button>
-                            <a href="{{ route('public.view', ['type' => 'public', 'id' => $ad->id]) }}">
+                            <button class="btn btn-wishlist" @guest data-bs-toggle="modal" data-bs-target="#loginModal" @else onclick="addToWishlist('{{ $post->id }}')" @endguest><i class="bi bi-heart"></i></button>
+                            <a href="{{ route('public.view', ['type' => 'public', 'id' => $post->id]) }}">
                                 <div class="card-img-warpper">
-                                    <img src="{{ CommonFunction::showPostImage($ad->id) }}" class="card-img-top img-fluid" alt="{{ CommonFunction::getPostImageName($ad->id) }}" style="height: 234px; object-fit: cover">
-                                    <span class="card-location"><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($ad->state) }}, {{ CommonFunction::getCityName($ad->city) }}</span>
-                                    <span class="property-category">{{ CommonFunction::getCategoryName($ad->category_id)->getTranslation('name', getLocaleLang()) }}</span>
+                                    <img src="{{ CommonFunction::showPostImage($post->id) }}" class="card-img-top img-fluid" alt="{{ CommonFunction::getPostImageName($post->id) }}" style="height: 234px; object-fit: cover">
+                                    <span class="card-location"><i class="bi bi-geo-alt"></i> {{ CommonFunction::getStateName($post->state) }}, {{ CommonFunction::getCityName($post->city) }}</span>
+                                    <span class="property-category">{{ CommonFunction::getCategoryName($post->category_id)->getTranslation('name', getLocaleLang()) }}</span>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-price">USD {{ $ad->price ?? "" }}</h5>
-                                    <h4 class="card-title">{{ $ad->title ? substr($ad->getTranslation('title', getLocaleLang()), 0, 80) : "" }}</h4>
+                                    <h5 class="card-price">USD {{ $post->price ?? "" }}</h5>
+                                    <h4 class="card-title">{{ $post->title ? substr($post->getTranslation('title', getLocaleLang()), 0, 80) : "" }}</h4>
                                 </div>
                             </a>
                         </div>

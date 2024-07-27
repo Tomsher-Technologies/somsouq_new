@@ -23,10 +23,11 @@ class SetLocale
 //
 //        return $next($request);
 
+
         if (Session::get("locale") != null) {
             App::setLocale(Session::get("locale"));
         } else {
-            Session::put("locale", "en");
+            Session::put("locale", getConfigLang());
             App::setLocale(Session::get("locale"));
         }
         LaravelLocalization::setLocale(Session::get("locale"));

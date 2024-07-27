@@ -28,12 +28,12 @@
                     <div class="col-md-3">
                         <input type="text" class="form-control" name="username" value="{{ $username ?? "" }}" placeholder="Username">
                     </div>
+
                     <div class="col-md-2">
-                       <select class="form-control" name="state_id">
-                           <option value="">Select</option>
-                           @foreach(CommonFunction::getState() as $state)
-                               <option value="{{$state->id}}" @selected($state->id == $state_id ?? "")>{{$state->getTranslation('name', getLocaleLang())}}</option>
-                           @endforeach
+                       <select class="form-control" name="account_type">
+                           <option value="">Account Type</option>
+                           <option value="individual" {{ ($account_type === "individual") ? "selected" : '' }}>Individual</option>
+                           <option value="company" {{ ($account_type === "company") ? "selected" : '' }}>Company</option>
                        </select>
                     </div>
                     <div class="col-md-2">
@@ -54,7 +54,7 @@
                     <th>Phone number</th>
                     <th>Email</th>
                     <th>Username</th>
-                    <th>Location</th>
+                    <th>Account Type</th>
                     <th width="10%" class="text-center">Options</th>
                 </tr>
                 </thead>
@@ -70,7 +70,7 @@
                         <td>
                             {{ $user->username ?? '-' }}
                         </td>
-                        <td>{{ CommonFunction::getStateName($user->state) }}, {{ CommonFunction::getCityName($user->city) }}</td>
+                        <td>{{ $user->sign_up_for ? ucfirst($user->sign_up_for) : '-' }}</td>
                         <td></td>
 
                     </tr>
