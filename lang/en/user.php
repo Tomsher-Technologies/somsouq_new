@@ -30,7 +30,7 @@ return [
     'login' => 'Login',
     'do_not_have_account' => 'Don’t have an account?',
     'create' => 'Create',
-    'login_with_email_username' => 'CreateLog in with your email/ username',
+    'login_with_email_username' => 'Log in with your email/ username',
     'email_username' => 'Email/ Username',
     'enter_email_username' => 'Enter email or username',
     'password' => 'Password',
@@ -71,4 +71,8 @@ return [
     'male' => 'Male',
     'female' => 'Female',
     'other' => 'Other',
+
+    'continue_with_facebook' => 'Continue with Facebook',
+    'continue_with_google' => 'Continue with Google',
+    'continue_with_email' => 'Continue with Email/ Username',
 ];

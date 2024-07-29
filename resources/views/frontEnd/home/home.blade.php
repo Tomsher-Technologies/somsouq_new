@@ -46,7 +46,7 @@
     <section class="popular-properties-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3> {{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 1)->getTranslation('name', getLocaleLang()) }}</h3>
+                <h3> {{ __('home.popular_property_for_rent') }} </h3>
                 <a href="{{ route('post.detail-category', ['cat_id' => 1]) }}" class="page-link d-none d-md-block">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
             <div class="row g-3">
@@ -78,7 +78,7 @@
     <section class="popular-properties-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3> {{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 2)->getTranslation('name', getLocaleLang()) }}</h3>
+                <h3> {{ __('home.popular_property_for_sale') }}</h3>
                 <a href="{{ route('post.detail-category', ['cat_id' => 2]) }}" class="page-link">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
             <div class="row g-3">
@@ -112,7 +112,7 @@
     <section class="popular-cars-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3> {{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 3)->getTranslation('name', getLocaleLang()) }}</h3>
+                <h3> {{ __('home.popular_vehicles_for_rent') }}</h3>
                 <a href="{{ route('post.detail-category', ['cat_id' => 3]) }}" class="page-link">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
             <div class="row g-3">
@@ -146,7 +146,7 @@
     <section class="popular-cars-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3>{{ __('home.popular') .' '. CommonFunction::getCategoryName(category_id: 4)->getTranslation('name', getLocaleLang()) }}</h3>
+                <h3>{{ __('home.popular_vehicles_for_sale') }}</h3>
                 <a href="{{ route('post.detail-category', ['cat_id' => 4]) }}" class="page-link">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
             <div class="row g-3">
@@ -179,7 +179,7 @@
     <section class="popular-cars-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3>Popular Fashion Items</h3>
+                <h3>{{ __('home.popular_fashion_items') }}</h3>
                 <a href="#" class="page-link">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
 
@@ -191,7 +191,7 @@
     <section class="popular-electronics-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3>Popular Electronics</h3>
+                <h3>{{ __('home.popular_electronics') }}</h3>
                 <a href="#" class="page-link">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
         </div>
@@ -204,7 +204,7 @@
     <section class="popular-electronics-section">
         <div class="container">
             <div class="section-title title-flex">
-                <h3>Popular Health & Beauty Items</h3>
+                <h3>{{ __('home.popular_health_beauty_item') }}</h3>
                 <a href="#" class="page-link">{{ __('home.see_all') }} <i class="bi bi-chevron-right"></i></a>
             </div>
 

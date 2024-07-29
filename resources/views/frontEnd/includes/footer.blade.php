@@ -45,36 +45,22 @@ $category = CommonFunction::getCategory();
                 <div class="col-md-2 align-content-md-end">
                     <div class="footer-links">
                         <ul>
-                            <li>
-                                <a href="#">Fashion</a>
-                            </li>
-                            <li>
-                                <a href="#">Electronics</a>
-                            </li>
-                            <li>
-                                <a href="#">Health & Beauty</a>
-                            </li>
-                            <li>
-                                <a href="#">Furniture & Home</a>
-                            </li>
+                            @for($i = 4; $i<=7; $i++)
+                                <li>
+                                    <a href="#">{{ $category[$i]->getTranslation('name', getLocaleLang()) }}</a>
+                                </li>
+                            @endfor
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-2 align-content-md-end">
                     <div class="footer-links">
                         <ul>
-                            <li>
-                                <a href="#">Mobile & Tablet</a>
-                            </li>
-                            <li>
-                                <a href="#">Jobs</a>
-                            </li>
-                            <li>
-                                <a href="#">Sports & School Product</a>
-                            </li>
-                            <li>
-                                <a href="#">Services</a>
-                            </li>
+                            @for($i = 8; $i<=11; $i++)
+                                <li>
+                                    <a href="#">{{ $category[$i]->getTranslation('name', getLocaleLang()) }}</a>
+                                </li>
+                            @endfor
                         </ul>
                     </div>
                 </div>
@@ -138,7 +124,7 @@ $category = CommonFunction::getCategory();
             <div class="row">
                 <div class="col-md-6">
                     <div class="copyright">
-                        <p>Designed by som souq . © 2024 . All Rights Reserved</p>
+                        <p>{{ __('home.designed_by') }}</p>
                     </div>
                 </div>
                 <div class="col-md-6 ">

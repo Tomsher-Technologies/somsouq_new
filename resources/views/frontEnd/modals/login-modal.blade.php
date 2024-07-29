@@ -11,14 +11,14 @@
                         <img src="{{ asset('assets/frontEnd/images/login-img.jpg') }}" class="img-fluid" alt="">
                         <h3 class="my-4">{{ __('user.login') }}</h3>
                         <a href="{{ url('auth/facebook') }}" class="btn btn-login mb-2"> <img src="{{ asset('assets/frontEnd/images/facebook.png') }}" class="img-fluid"
-                                                                     alt=""> Continue with Facebook</a>
+                                                                     alt=""> {{ __('user.continue_with_facebook') }}</a>
                         <a href="{{ url('auth/google') }}" class="btn btn-login mb-2"> <img src="{{ asset('assets/frontEnd/images/google.png') }}" class="img-fluid"
-                                                                     alt=""> Continue with Google</a>
+                                                                     alt=""> {{ __('user.continue_with_google') }}</a>
 {{--                        <a href="#" class="btn btn-login mb-2"> <img src="{{ asset('assets/frontEnd/images/apple.png') }}" class="img-fluid"--}}
 {{--                                                                     alt=""> Continue with Apple</a>--}}
                         <a href="#" class="btn btn-login" data-bs-target="#signInModal"
                            data-bs-toggle="modal"> <img src="{{ asset('assets/frontEnd/images/email.png') }}" class="img-fluid" alt="">
-                            Continue with Email/ Username
+                            {{ __('user.continue_with_email') }}
                         </a>
                         <p class="py-3 text-center">{{ __('user.do_not_have_account') }} <a href="#" data-bs-target="#signUpModal"
                                                                               data-bs-toggle="modal">{{ __('user.create') }}</a></p>
@@ -47,7 +47,7 @@
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">{{ __('user.account_type') }}</label>
                                 <select class="form-control" name="account_type" id="sing_for" onchange="getUserType(this.value)">
-                                    <option value="">-Select-</option>
+                                    <option value="">-{{ __('post.select') }}-</option>
                                     <option value="individual">{{ __('user.individual') }}</option>
                                     <option value="company">{{ __('user.company') }}</option>
                                 </select>
@@ -61,12 +61,12 @@
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">{{ __('user.password') }}</label>
-                                <input type="password" class="form-control" name="password" id="password" placeholder="{{ __('user.enter_password') }}">
+                                <input type="password" class="form-control" name="password" id="password_id" placeholder="{{ __('user.enter_password') }}" autocomplete="off">
                                 <span class="text-danger" id="passwordErrorReg"></span>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">{{ __('user.confirm_password') }}</label>
-                                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="{{ __('user.enter_password') }}">
+                                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation_id" placeholder="{{ __('user.enter_password') }}" autocomplete="off">
                             </div>
 
                             <div class="col-md-12 mb-3" id="company_type_div" style="display: none">
@@ -165,7 +165,7 @@
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <label class="form-label">{{ __('user.password') }}</label>
-                                    <input type="password" name="password" class="form-control" id="password_login_id" placeholder="{{ __('user.enter_password') }}">
+                                    <input type="password" name="password" class="form-control" id="password_login_id" placeholder="{{ __('user.enter_password') }}" autocomplete="off">
                                     <span class="text-danger" id="passwordError"></span>
 
                                     <span class="text-danger" id="isLoginError"></span>

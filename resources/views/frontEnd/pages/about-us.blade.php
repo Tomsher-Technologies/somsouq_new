@@ -8,7 +8,7 @@
                     <div class="row">
                         <div class="col-md-12 text-center">
                             <div class="about-content">
-                                <h4>About Us</h4>
+                                <h4>{{ __('pages.about_us') }}</h4>
                                 <h3>{{ $about->getTranslation('title', getLocaleLang()) }}</h3>
                                 <p class="pt-2">{!! $about->getTranslation('description', getLocaleLang()) !!}</p>
                             </div>

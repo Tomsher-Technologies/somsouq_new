@@ -3,17 +3,13 @@
 namespace App\Http\Controllers\frontEnd;
 
 use App\Http\Controllers\Controller;
-use App\Libraries\CommonFunction;
-use App\Models\Category;
 use App\Models\LastViewPost;
 use App\Models\Post;
-use App\Models\State;
 use Artisan;
 use Cache;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 final class HomeController extends Controller
 {
@@ -95,7 +91,8 @@ final class HomeController extends Controller
 
             return view('frontEnd.home.home', $data);
         } catch (\Exception $e) {
-            dd($e->getMessage());
+//            dd($e->getMessage());
+            abort(404);
         }
     }
 

@@ -7,14 +7,16 @@
                 <div class="col-md-12">
                     <div class="category_slider owl-carousel owl-theme">
                         @foreach(CommonFunction::getCategory() as $category)
-                            <div class="item">
-                                <div class="categories-box {{ ($category->id == $category_id) ? 'active' : '' }}" data-id="{{$category->id}}">
-                                    @if ($category->icon != null)
-                                        <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
-                                    @endif
-                                    {{ $category->getTranslation('name', getLocaleLang()) ?? $category->en_name }}
+                            <a>
+                                <div class="item">
+                                    <div class="categories-box {{ ($category->id == $category_id) ? 'active' : '' }}" data-id="{{$category->id}}">
+                                        @if ($category->icon != null)
+                                            <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
+                                        @endif
+                                        {{ $category->getTranslation('name', getLocaleLang()) ?? $category->en_name }}
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
                     </div>
                 </div>

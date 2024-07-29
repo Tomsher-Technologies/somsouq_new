@@ -1,13 +1,13 @@
 <?php
 return [
-    'tutorial' => 'Tutorial',
-    'faq' => 'Frequently Asked Questions',
+    'tutorial' => 'الشرح',
+    'faq' => 'الأسئلة الشائعة',
     'faq_title' => 'Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit phasellus mollis sitoler aliquam sit nullam.',
-    'about_us' => 'About Us',
-    'terms_and_conditions' => 'Terms & Conditions',
-    'privacy_policy' => 'Privacy Policy',
-    'help' => 'Help',
-    'contact_us' => 'Contact Us',
+    'about_us' => 'نبذة عنا',
+    'terms_and_conditions' => 'الشروط والأحكام',
+    'privacy_policy' => 'سياسة الخصوصية',
+    'help' => 'المساعدة',
+    'contact_us' => 'تواصل معنا',
     'how_to_sell_and_buy' => 'How To Sell And Buy',
 
     'content_type' => [
