@@ -129,12 +129,6 @@ $("#registrationForm").submit(function(e) {
                     $('#companyNameError').html("");
                 }
 
-                if(data.errors.company_registration_number) {
-                    $('#companyRegError').html(data.errors.company_registration_number);
-                } else {
-                    $('#companyRegError').html("");
-                }
-
             } else {
                 $('#usernameError').html("");
                 $('#passwordErrorReg').html("");
@@ -143,7 +137,6 @@ $("#registrationForm").submit(function(e) {
                 $('#signForError').html("");
                 $('#companyTypeError').html("");
                 $('#companyNameError').html("");
-                $('#companyRegError').html("");
             }
 
             if(data.success){
@@ -165,10 +158,8 @@ function getUserType(selected)
     if(selected === 'company') {
         document.getElementById('company_type_div').style.display = 'block';
         document.getElementById('company_name_div').style.display = 'block';
-        document.getElementById('company_registration_div').style.display = 'block';
     } else {
         document.getElementById('company_type_div').style.display = 'none';
         document.getElementById('company_name_div').style.display = 'none';
-        document.getElementById('company_registration_div').style.display = 'none';
     }
 }

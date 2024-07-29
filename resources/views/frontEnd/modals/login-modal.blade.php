@@ -71,11 +71,7 @@
 
                             <div class="col-md-12 mb-3" id="company_type_div" style="display: none">
                                 <label class="form-label">{{ __('user.company_type') }}</label>
-                                <select class="form-control" name="company_type" id="company_type">
-                                    <option value="">-{{ __('post.select') }}-</option>
-                                    <option value="personal">{{ __('user.personal') }}</option>
-                                    <option value="private">{{ __('user.private') }}</option>
-                                </select>
+                                <input type="text" class="form-control" name="company_type" id="company_type_id" placeholder="{{ __('user.enter_company_type') }}">
                                 <span class="text-danger" id="companyTypeError"></span>
                             </div>
 
@@ -84,13 +80,6 @@
                                 <input type="text" class="form-control" name="company_name" id="company_name" placeholder="{{ __('user.enter_company_name') }}">
                                 <span class="text-danger" id="companyNameError"></span>
                             </div>
-
-                            <div class="col-md-12 mb-3" id="company_registration_div" style="display: none">
-                                <label class="form-label">{{ __('user.company_reg_number') }}</label>
-                                <input type="text" class="form-control" name="company_registration_number" id="company_registration_number" placeholder="{{ __('user.reg_number') }}">
-                                <span class="text-danger" id="companyRegError"></span>
-                            </div>
-
 
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">{{ __('post.state') }}</label>

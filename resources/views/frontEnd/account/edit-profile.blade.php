@@ -159,21 +159,12 @@
 
                                     <div class="col-md-6" id="company_type_div" style="display: none">
                                         <label class="form-label">{{ __('user.company_type') }}</label>
-                                        <select class="form-control" name="company_type" id="company_type_id" required>
-                                            <option value="">-{{ __('post.select') }}-</option>
-                                            <option value="personal" {{ !empty($companyInfo) ? ($companyInfo->company_type == "personal") ? "selected" : '' : '' }}>{{ __('user.personal') }}</option>
-                                            <option value="private" {{ !empty($companyInfo) ? ($companyInfo->company_type == "private") ? "selected" : '' : '' }}>{{ __('user.private') }}</option>
-                                        </select>
+                                        <input type="text" class="form-control" name="company_type" id="company_type_id" placeholder="{{ __('user.enter_company_type') }}" required>
                                     </div>
 
                                     <div class="col-md-6" id="company_name_div" style="display: none">
                                         <label class="form-label">{{ __('user.company_name') }}</label>
                                         <input type="text" class="form-control" name="company_name" id="company_name_id" value="{{ $companyInfo->company_name ?? "" }}" placeholder="{{ __('user.enter_company_name') }}" required>
-                                    </div>
-
-                                    <div class="col-md-6" id="company_registration_div" style="display: none">
-                                        <label class="form-label">{{ __('user.company_reg_number') }}</label>
-                                        <input type="text" class="form-control" name="company_registration_number" id="company_reg_number" value="{{ $companyInfo->company_reg_number ?? "" }}" placeholder="{{ __('user.reg_number') }}" required>
                                     </div>
 
                                     <div class="col-md-6">
@@ -258,19 +249,15 @@
             if(selected === 'company') {
                 document.getElementById('company_type_div').style.display = 'block';
                 document.getElementById('company_name_div').style.display = 'block';
-                document.getElementById('company_registration_div').style.display = 'block';
 
                 $("#company_type_id").prop('required',true);
                 $("#company_name_id").prop('required',true);
-                $("#company_reg_number").prop('required',true);
             } else {
                 document.getElementById('company_type_div').style.display = 'none';
                 document.getElementById('company_name_div').style.display = 'none';
-                document.getElementById('company_registration_div').style.display = 'none';
 
                 $("#company_type_id").prop('required',false);
                 $("#company_name_id").prop('required',false);
-                $("#company_reg_number").prop('required',false);
             }
         }
 

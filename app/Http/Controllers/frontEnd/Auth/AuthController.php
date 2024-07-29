@@ -69,7 +69,6 @@ final class AuthController extends Controller
                     $companyInfo->user_id = $user->id;
                     $companyInfo->company_type = $request->get("company_type");
                     $companyInfo->company_name = $request->get("company_name");
-                    $companyInfo->company_reg_number = $request->get("company_registration_number");
                     $companyInfo->save();
                 }
             }
