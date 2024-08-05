@@ -35,7 +35,7 @@
                                 @endif
                             </div>
                             <div class="col-md-4">
-                                <input type="text" class="form-control" id="phone_number" placeholder="{{ __('user.phone_number') }}" name="phone_number" value="{{ old('phone_number') }}" required>
+                                <input type="text" class="form-control" id="phone_number_id" placeholder="{{ __('user.phone_number') }}" name="phone_number" value="{{ old('phone_number') }}" required>
                                 @if($errors->has('phone_number'))
                                     <span class="text-danger">{{ $errors->first('phone_number') }}</span>
                                 @endif
@@ -45,7 +45,7 @@
                             </div>
 
                             <div class="col-md-12">
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="{{ __('user.description') }}" name="description">{{ old('description') }}</textarea>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="{{ __('post.description') }}" name="description">{{ old('description') }}</textarea>
                             </div>
                         </div>
 
@@ -63,6 +63,8 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('assets/custom-js/getCityByStateId.js') }}"></script>
+    <script src="{{ asset('assets/custom-js/login.js') }}"></script>
     <script src="{{ asset('assets/frontEnd/js/jquery-validation/jquery.validate.js') }}"></script>
     <script>
         $('#contactForm').validate({

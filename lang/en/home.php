@@ -27,6 +27,14 @@ return [
     'popular' => 'Popular',
     'see_all' => 'See all',
 
+    'popular_property_for_rent' => 'Popular Properties for Rent',
+    'popular_property_for_sale' => 'Popular Properties for Sale',
+    'popular_vehicles_for_rent' => 'Popular Vehicles for Rent',
+    'popular_vehicles_for_sale' => 'Popular Vehicles for Sale',
+    'popular_fashion_items' => 'Popular Fashion Items',
+    'popular_electronics' => 'Popular Electronics',
+    'popular_health_beauty_item' => 'Popular Health & Beauty Items',
+
     //footer
     'find_amazing_deal' => 'Find amazing deals on the go.',
     'download_the_app' => 'Download the app now!',
@@ -34,4 +42,5 @@ return [
     'quick_link' => 'Quick Links',
     'support' => 'Support',
     'follow_us' => 'FOLLOW US',
+    'designed_by' => 'Designed by som souq . © 2024 . All Rights Reserved',
 ];

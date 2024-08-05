@@ -38,7 +38,6 @@ final class PostController extends Controller
 
     public function AppStore(Request $request)
     {
-//        dd($request->all());
         DB::beginTransaction();
         $data = [];
         try {
@@ -163,7 +162,7 @@ final class PostController extends Controller
         try {
             $data['categories'] = Category::where('parent_id', 0)->where('is_active', 1)->get(['id', 'en_name', 'ar_name', 'so_name', 'icon']);
             $data['states'] = State::where('status', 1)->get(['name', 'id']);
-            $data['post'] = Post::find($postId);
+            $data['post'] = Post::select('id', 'category_id', 'sub_category_id', 'state_id', 'city_id', 'status')->find($postId);
 //            $data['postDetail'] = CategoryWisePostDetailDataService::getData(categoryId: $data['post']->category_id, postId: $postId);
             $data['images'] = ImageUploadService::getPostImage(postId: $postId);
 
@@ -212,8 +211,7 @@ final class PostController extends Controller
             $data['postDetailHtml'] = view($getPostDetail['file_path'], $getPostDetail['data'])->render();
 
             if ($viewType == 'public') {
-                $data['safetyTips'] = SafetyTip::where('category_id', $data['post']->category_id)->where('is_active', 1)->get();
-
+                $data['safetyTip'] = SafetyTip::where('category_id', $data['post']->category_id)->where('is_active', 1)->latest()->first();
                 $data['relatedPost'] = $this->relatedPosts($data['post']->category_id, $postId);
 
                 return view('frontEnd.post.public-view', $data);

@@ -218,7 +218,7 @@ if (!function_exists('getLocaleLang')) {
     }
 }
 
-if (!function_exists('getEnvLang')) {
+if (!function_exists('getConfigLang')) {
     function getConfigLang(): string|null
     {
        return config('app.locale');

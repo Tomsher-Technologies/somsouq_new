@@ -7,14 +7,16 @@
                 <div class="col-md-12">
                     <div class="category_slider owl-carousel owl-theme">
                         @foreach(CommonFunction::getCategory() as $category)
-                            <div class="item">
-                                <div class="categories-box {{ ($category->id == $category_id) ? 'active' : '' }}" data-id="{{$category->id}}">
-                                    @if ($category->icon != null)
-                                        <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
-                                    @endif
-                                    {{ $category->getTranslation('name', getLocaleLang()) ?? $category->en_name }}
+                            <a>
+                                <div class="item">
+                                    <div class="categories-box {{ ($category->id == $category_id) ? 'active' : '' }}" data-id="{{$category->id}}">
+                                        @if ($category->icon != null)
+                                            <img src="{{ uploaded_asset($category->icon) }}" class="img-fluid" alt="icon">
+                                        @endif
+                                        {{ $category->getTranslation('name', getLocaleLang()) ?? $category->en_name }}
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         @endforeach
                     </div>
                 </div>
@@ -273,6 +275,45 @@
                 }
             });
         }
+
+
+        $('body').on('change', '#fashion_sub_category_id',function (e) {
+            let subCategoryId = e.target.value;
+
+            $.ajax({
+                url: "{{ route('type-material.list') }}",
+                type: 'get',
+                data: {
+                    sub_category_id: subCategoryId
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    var type = '<option value="">-' + select + '-</option>';
+                    var material = '<option value="">-' + select + '-</option>';
+
+                    if (response.status) {
+                        $.each(response.type, function (id, value) {
+                            let data = JSON.parse(value.name);
+                            type += '<option value="' + value.id + '">' + data[setLocalLang] + '</option>';
+                        });
+
+                        $.each(response.material, function (id, value) {
+                            let data = JSON.parse(value.name);
+                            material += '<option value="' + value.id + '">' + data[setLocalLang] + '</option>';
+                        });
+                    }
+
+                    $("#type_id").html(type);
+                    $("#material_id").html(material);
+
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr, status, error)
+                }
+            });
+        });
     </script>
 
 @endsection

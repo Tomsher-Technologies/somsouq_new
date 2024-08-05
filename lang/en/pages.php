@@ -8,7 +8,8 @@ return [
     'privacy_policy' => 'Privacy Policy',
     'help' => 'Help',
     'contact_us' => 'Contact Us',
-    'how_to_sell_and_buy' => 'How To Sell And Buy',
+    'how_to_sell_and_buy' => 'How to sell and buy',
+    'copyright_policy' => 'Copyright Policy',
 
     'content_type' => [
         '1' => 'How to sell on som souq?',

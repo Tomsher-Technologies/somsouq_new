@@ -13,8 +13,13 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\CopyRightController;
+use App\Http\Controllers\Admin\FashionTypeController;
+use App\Http\Controllers\Admin\GemstoneController;
 use App\Http\Controllers\Admin\HeavyEquipmentController;
 use App\Http\Controllers\Admin\HelpController;
+use App\Http\Controllers\Admin\MaterialController;
+use App\Http\Controllers\Admin\OccasionController;
 use App\Http\Controllers\Admin\PartsTypeController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
@@ -22,6 +27,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SafetyTipController;
+use App\Http\Controllers\Admin\SizeVariantController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\StateController;
 use App\Http\Controllers\Admin\TermAndConditionController;
@@ -155,23 +161,19 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
     //terms and conditions
     Route::prefix('term-and-condition')->controller(TermAndConditionController::class)->group(function () {
         Route::get('/','index')->name('condition.index');
-        Route::get('/create','create')->name('condition.create');
-        Route::post('/store','store')->name('condition.store');
-        Route::get('/edit/{condition}','edit')->name('condition.edit');
         Route::post('/update','update')->name('condition.update');
-        Route::get('/destroy/{condition}','destroy')->name('condition.destroy');
-        Route::post('/status','updateStatus')->name('condition.status');
     });
 
-    //terms and conditions
+    //privacy policy
     Route::prefix('privacy-policy')->controller(PrivacyPolicyController::class)->group(function () {
         Route::get('/','index')->name('policy.index');
-        Route::get('/create','create')->name('policy.create');
-        Route::post('/store', 'store')->name('policy.store');
-        Route::get('/edit/{policy}', 'edit')->name('policy.edit');
         Route::post('/update','update')->name('policy.update');
-        Route::get('/destroy/{policy}','destroy')->name('policy.destroy');
-        Route::post('/status','updateStatus')->name('policy.status');
+    });
+
+    //privacy policy
+    Route::prefix('copy-right-policy')->controller(CopyRightController::class)->group(function () {
+        Route::get('/','index')->name('copy-right.index');
+        Route::post('/update','update')->name('copy-right.update');
     });
 
     //Buy and sell
@@ -242,4 +244,64 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
 
     //report
     Route::get('report', [ReportController::class, 'index'])->name('report.index');
+
+    //fashion type controller
+    Route::prefix('fashion-type')->controller(FashionTypeController::class)->group(function () {
+        Route::get('/', 'index')->name('fashion-type.index');
+        Route::get('/create', 'create')->name('fashion-type.create');
+        Route::post('/store', 'store')->name('fashion-type.store');
+        Route::get('/edit/{fashionType}', 'edit')->name('fashion-type.edit');
+        Route::post('/update','update')->name('fashion-type.update');
+        Route::get('/destroy/{fashionType}', 'destroy')->name('fashion-type.destroy');
+        Route::post('/status','updateStatus')->name('fashion-type.status');
+    });
+
+    //variants
+    Route::prefix('variant')->controller(SizeVariantController::class)->group(function () {
+        Route::get('/', 'index')->name('variant.index');
+        Route::post('/store', 'store')->name('variant.store');
+        Route::get('/view/{variant}', 'view')->name('variant.view');
+        Route::get('/edit/{variant}', 'edit')->name('variant.edit');
+        Route::post('/update','update')->name('variant.update');
+
+        Route::post('/value-store', 'valueStore')->name('value.store');
+        Route::get('/value-edit/{variantValue}', 'valueEdit')->name('value.edit');
+        Route::post('/value-update', 'valueUpdate')->name('value.update');
+
+        Route::post('/status','updateStatus')->name('variant.status');
+    });
+
+    //Fashion material
+    Route::prefix('material')->controller(MaterialController::class)->group(function () {
+        Route::get('/', 'index')->name('material.index');
+        Route::get('/create', 'create')->name('material.create');
+        Route::post('/store', 'store')->name('material.store');
+        Route::get('/edit/{material}', 'edit')->name('material.edit');
+        Route::post('/update','update')->name('material.update');
+        Route::get('/destroy/{material}', 'destroy')->name('material.destroy');
+        Route::post('/status','updateStatus')->name('material.status');
+    });
+
+    //Occasion
+    Route::prefix('occasion')->controller(OccasionController::class)->group(function () {
+        Route::get('/', 'index')->name('occasion.index');
+        Route::get('/create', 'create')->name('occasion.create');
+        Route::post('/store', 'store')->name('occasion.store');
+        Route::get('/edit/{occasion}', 'edit')->name('occasion.edit');
+        Route::post('/update','update')->name('occasion.update');
+        Route::get('/destroy/{occasion}', 'destroy')->name('occasion.destroy');
+        Route::post('/status','updateStatus')->name('occasion.status');
+    });
+
+    //gemstone
+    Route::prefix('gemstone')->controller(GemstoneController::class)->group(function () {
+        Route::get('/', 'index')->name('stone.index');
+        Route::get('/create', 'create')->name('stone.create');
+        Route::post('/store', 'store')->name('stone.store');
+        Route::get('/edit/{gemstone}', 'edit')->name('stone.edit');
+        Route::post('/update','update')->name('stone.update');
+        Route::get('/destroy/{gemstone}', 'destroy')->name('stone.destroy');
+        Route::post('/status','updateStatus')->name('stone.status');
+    });
+
 });

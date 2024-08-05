@@ -2,6 +2,7 @@
 
 namespace App\Services\Front;
 
+use App\Models\Fashion\FashionDetail;
 use App\Models\PropertyDetail;
 use App\Models\VehicleDetail;
 use Illuminate\Support\Facades\App;
@@ -56,6 +57,26 @@ class CategoryWisePostDetailStoreService
                $vehicleDetails->boat_type_id = $request[self::setInputName('boat_type_id')] ?? null;
                $vehicleDetails->price_per_month = $request[self::setInputName('price_per_month')] ?? null;
                $vehicleDetails->save();
+                break;
+
+            case CategoryNameService::FASHION:
+                $fashion = FashionDetail::findOrNew($request['post_detail_id'] ?? "");
+                $fashion->post_id = $postId;
+                $fashion->brand_name = setTranslation([
+                    'so' => $request['brand_name_so'] ?? null,
+                    'en' => $request['brand_name_en'] ?? null,
+                    'ar' => $request['brand_name_ar'] ?? null
+                ]);
+                $fashion->type_id = $request[self::setInputName('type')] ?? null;
+                $fashion->size_id = $request[self::setInputName('size')] ?? null;
+                $fashion->color_id = $request[self::setInputName('color')] ?? null;
+                $fashion->material_id = $request[self::setInputName('material')] ?? null;
+                $fashion->condition = $request[self::setInputName('condition')] ?? null;
+                $fashion->occasion_id = $request[self::setInputName('occasion')] ?? null;
+                $fashion->gender = $request[self::setInputName('gender')] ?? null;
+                $fashion->gemstone_id = $request[self::setInputName('gemstone')] ?? null;
+                $fashion->movement = $request[self::setInputName('movement')] ?? null;
+                $fashion->save();
                 break;
             default:
                 break;

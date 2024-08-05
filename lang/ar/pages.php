@@ -1,19 +1,20 @@
 <?php
 return [
-    'tutorial' => 'Tutorial',
-    'faq' => 'Frequently Asked Questions',
+    'tutorial' => 'الشرح',
+    'faq' => 'الأسئلة الشائعة',
     'faq_title' => 'Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit phasellus mollis sitoler aliquam sit nullam.',
-    'about_us' => 'About Us',
-    'terms_and_conditions' => 'Terms & Conditions',
-    'privacy_policy' => 'Privacy Policy',
-    'help' => 'Help',
-    'contact_us' => 'Contact Us',
-    'how_to_sell_and_buy' => 'How To Sell And Buy',
+    'about_us' => 'نبذة عنا',
+    'terms_and_conditions' => 'الشروط والأحكام',
+    'privacy_policy' => 'سياسة الخصوصية',
+    'help' => 'المساعدة',
+    'contact_us' => 'تواصل معنا',
+    'how_to_sell_and_buy' => 'كيفية البيع والشراء‌',
+    'copyright_policy' => 'سياسة الطبع والنشر‌',
 
     'content_type' => [
-        '1' => 'How to sell on som souq?',
-        '2' => 'How to buy on som souq?',
-        '3' => 'Sell like a pro!',
+        '1' => 'كيف تبيع على صوم سوق - SOM SOUQ؟',
+        '2' => 'كيف تشتري من صوم سوق - SOM SOUQ؟',
+        '3' => 'تحلى بصفات البائع المتمرس!',
     ]
 
 

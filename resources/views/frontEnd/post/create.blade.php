@@ -312,7 +312,6 @@
                 }
             });
 
-
             $('input[type="file"]').imageuploadify()
         });
 
@@ -365,6 +364,45 @@
                 $('#' + currentInputId + 'ar').val(input.value);
             }
         });
+
+        function getTypeWiseSize(typeId, old_data)
+        {
+            if (typeof old_data === 'undefined') {
+                old_data = 0;
+            }
+            if(typeId !== "" ) {
+                $.ajax({
+                    url: "{{ route('fashion-type.size') }}",
+                    type: 'get',
+                    data: {
+                        type_id: typeId
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        var option = '<option value="">-' + select + '-</option>';
+                        if (response.status) {
+                            $.each(response.data, function (id, value) {
+                                //let data = JSON.parse(value);
+
+                                if (value.id === old_data) {
+                                    option += '<option value="' + value.id + '" selected>' + value.name + '</option>';
+                                } else {
+                                    option += '<option value="' + value.id + '">' + value.name + '</option>';
+                                }
+                            });
+                        }
+                        $("#size_so").html(option);
+                        $("#size_en").html(option);
+                        $("#size_ar").html(option);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr, status, error)
+                    }
+                });
+            }
+        }
 
     </script>
 @endsection

@@ -41,3 +41,8 @@
 
 @include('frontEnd.modals.login-modal')
 @endsection
+
+@section('script')
+    <script src="{{ asset('assets/custom-js/getCityByStateId.js') }}"></script>
+    <script src="{{ asset('assets/custom-js/login.js') }}"></script>
+@endsection

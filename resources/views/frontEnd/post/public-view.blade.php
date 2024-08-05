@@ -135,14 +135,9 @@
 
                     <div class="property-safety-tips mt-3">
                         <h3>{{ __('post.safety_tips') }} <i class="bi bi-lightbulb"></i></h3>
-                        <ul>
-                            @forelse($safetyTips as $tip)
-                                <li>
-                                    {{ $tip->getTranslation('name', getLocaleLang()) }}
-                                </li>
-                            @empty
-                            @endforelse
-                        </ul>
+                        @if($safetyTip)
+                            {!! $safetyTip->getTranslation('tip', getLocaleLang()) !!}
+                        @endif
                     </div>
                     <p class="py-3">Is there an issue? <a href="#" @guest data-bs-toggle="modal" data-bs-target="#loginModal" @else data-bs-toggle="modal" data-bs-target="#reportModal" @endguest>Report this ad</a></p>
                     <div class="google-ad mt-3">

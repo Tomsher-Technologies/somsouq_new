@@ -99,7 +99,7 @@ class BuySellController extends Controller
             ]);
             $buy_sell->save();
 
-            flash('Data store successfully')->success();
+            flash('Data update successfully')->success();
             return redirect()->back();
         }catch (\Exception $e){
             flash('Something went wrong')->error();

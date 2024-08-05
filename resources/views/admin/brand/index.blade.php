@@ -20,13 +20,7 @@
 
                 <div class="row gutters-5">
                     <div class="col-md-4">
-                        <select class="form-control form-control-sm aiz-selectpicker mb-2 mb-md-0" data-live-search="true"
-                                name="category" id="" data-selected={{ $category }}>
-                            <option value="0">All</option>
-                            @foreach ($categories as $item)
-                                <option value="{{ $item->id }}">{{ $item->en_name }}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" name="search" class="form-control" value="{{ $search }}">
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-primary" type="submit">Filter</button>
@@ -42,7 +36,6 @@
                 <thead>
                 <tr>
                     <th >#</th>
-                    <th>Category</th>
                     <th>Brand</th>
                     <th class="text-center">Status</th>
                     <th width="10%" class="text-center">Options</th>
@@ -52,7 +45,6 @@
                 @foreach ($brands as $key => $brand)
                     <tr>
                         <td>{{ $key + 1 + ($brands->currentPage() - 1) * $brands->perPage() }}</td>
-                        <td>{{ $brand->en_name }}</td>
                         <td>
                             {{ $brand->getTranslation('name', 'en') }}
                         </td>

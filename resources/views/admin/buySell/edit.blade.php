@@ -90,7 +90,7 @@
 
                                 <div class="form-group mb-3">
                                     <label for="name">Description</label>
-                                    <textarea class="form-control" placeholder="Enter Description" name="description_so" id="description_so">{{ $buySell->getTranslation('description', 'ar') }}</textarea>
+                                    <textarea class="form-control" placeholder="Enter Description" name="description_so" id="description_so">{{ $buySell->getTranslation('description', 'so') }}</textarea>
                                 </div>
                             </div>
                             {{--                        somali--}}
@@ -110,7 +110,6 @@
 @endsection
 
 @section('script')
-
     <script src="{{ static_asset('assets/js/tinymce/tinymce.min.js') }}" ></script>
     <script>
         tinymce.init({
@@ -135,6 +134,7 @@
             selector: 'textarea#description_ar',
             height: 300,
             license_key: 'gpl',
+            directionality: 'rtl',
             promotion: false,
             branding: false,
             plugins: [

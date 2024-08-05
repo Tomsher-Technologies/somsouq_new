@@ -14,7 +14,7 @@ function getSubCategoryByCategory(category_id, sub_category_id, url, old_data){
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
-                var option = '<option value="">-Select-</option>';
+                var option = '<option value="">-' + select + '-</option>';
                 if (response.status) {
                     $.each(response.data, function (id, value) {
                         if (value.id == old_data) {

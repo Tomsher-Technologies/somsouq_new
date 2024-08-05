@@ -24,12 +24,12 @@ class BodyTypeController extends Controller
         }
 
         $bodyTypes = $query->latest()->paginate(10);
-        return view('admin.bodyType.index', compact('bodyTypes', 'searchText'));
+        return view('admin.vehicle.bodyType.index', compact('bodyTypes', 'searchText'));
     }
 
     public function create()
     {
-        return view('admin.bodyType.create', [
+        return view('admin.vehicle.bodyType.create', [
             'languages' => \App\Models\Language::all(),
         ]);
     }
@@ -60,7 +60,7 @@ class BodyTypeController extends Controller
     public function edit(BodyType $bodyType)
     {
         $languages =  \App\Models\Language::all();
-        return view('admin.bodyType.edit', compact('bodyType', 'languages'));
+        return view('admin.vehicle.bodyType.edit', compact('bodyType', 'languages'));
     }
 
     public function update(Request $request)

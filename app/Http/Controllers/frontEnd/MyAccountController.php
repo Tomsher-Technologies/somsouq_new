@@ -110,7 +110,6 @@ final class MyAccountController extends Controller
                 $companyInfo->user_id = $user->id;
                 $companyInfo->company_type = $request->get("company_type");
                 $companyInfo->company_name = $request->get("company_name");
-                $companyInfo->company_reg_number = $request->get("company_registration_number");
                 $companyInfo->save();
             } else {
                 $companyInfo = CompanyInfo::find($request->get('company_id') ?? "");
@@ -180,8 +179,7 @@ final class MyAccountController extends Controller
     {
         try {
             $getUser = $this->guard()->user();
-
-            if (empty($getUser->sign_up_for) && (empty($getUser->phone_number) || empty($getUser->w_app_number))) {
+            if ((empty($getUser->phone_number) or empty($getUser->w_app_number)) and (empty($getUser->sign_up_for))) {
                 return response()->json([
                     'success' => true,
                     'profile_status'=> false,
@@ -196,7 +194,6 @@ final class MyAccountController extends Controller
                 ]);
             }
         }catch (\Exception $e) {
-            dd($e->getMessage());
             return response()->json([
                 'success' => false,
                 'message' => trans('messages.wrong'),

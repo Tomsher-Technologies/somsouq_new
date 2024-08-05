@@ -29,7 +29,8 @@ final class AuthController extends Controller
                 return response()->json([
                     'message' => trans('auth.login_in'),
                     'success' => true,
-                    'is_login' => true
+                    'is_login' => true,
+                    'url' => url()->previous()
                 ]);
             } else {
                 return response()->json([
@@ -69,7 +70,6 @@ final class AuthController extends Controller
                     $companyInfo->user_id = $user->id;
                     $companyInfo->company_type = $request->get("company_type");
                     $companyInfo->company_name = $request->get("company_name");
-                    $companyInfo->company_reg_number = $request->get("company_registration_number");
                     $companyInfo->save();
                 }
             }
