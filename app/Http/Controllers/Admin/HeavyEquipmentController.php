@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\HeavyEquipmentType;
+use App\Models\Vehicle\HeavyEquipmentType;
 use Illuminate\Http\Request;
 
 class HeavyEquipmentController extends Controller

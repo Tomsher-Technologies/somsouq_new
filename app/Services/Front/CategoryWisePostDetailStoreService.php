@@ -4,8 +4,7 @@ namespace App\Services\Front;
 
 use App\Models\Fashion\FashionDetail;
 use App\Models\PropertyDetail;
-use App\Models\VehicleDetail;
-use Illuminate\Support\Facades\App;
+use App\Models\Vehicle\VehicleDetail;
 
 class CategoryWisePostDetailStoreService
 {

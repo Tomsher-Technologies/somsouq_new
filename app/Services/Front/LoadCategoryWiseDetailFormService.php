@@ -8,16 +8,16 @@ use App\Enums\Front\FuelType;
 use App\Enums\Front\FurnitureStatus;
 use App\Enums\Front\Movement;
 use App\Enums\Front\Transmissions;
-use App\Models\AutoPartType;
-use App\Models\BoatType;
-use App\Models\BodyType;
 use App\Models\Brand;
 use App\Models\Color;
 use App\Models\Fashion\FashionType;
 use App\Models\Fashion\Gemstone;
 use App\Models\Fashion\Material;
 use App\Models\Fashion\Occasion;
-use App\Models\HeavyEquipmentType;
+use App\Models\Vehicle\AutoPartType;
+use App\Models\Vehicle\BoatType;
+use App\Models\Vehicle\BodyType;
+use App\Models\Vehicle\HeavyEquipmentType;
 
 class LoadCategoryWiseDetailFormService
 {

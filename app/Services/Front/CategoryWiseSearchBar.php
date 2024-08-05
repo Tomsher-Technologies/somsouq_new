@@ -5,10 +5,9 @@ namespace App\Services\Front;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Color;
-use App\Models\Fashion\FashionType;
 use App\Models\Post;
 use App\Models\State;
-use App\Models\VehicleDetail;
+use App\Models\Vehicle\VehicleDetail;
 
 class CategoryWiseSearchBar {
     protected static string|null $htmlFormName = null;

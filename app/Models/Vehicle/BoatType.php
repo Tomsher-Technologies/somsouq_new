@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Vehicle;
 
-use Illuminate\Database\Eloquent\Model;
 use App;
+use Illuminate\Database\Eloquent\Model;
 
-class AutoPartType extends Model
+class BoatType extends Model
 {
-   protected $table = 'auto_part_types';
-
+   protected $table = 'boat_types';
     public function getTranslation($field, $lang)
     {
         return collect($this->getArrayAttributeByKey($field))[$lang] ?? null;
