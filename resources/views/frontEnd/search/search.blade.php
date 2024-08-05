@@ -275,6 +275,45 @@
                 }
             });
         }
+
+
+        $('body').on('change', '#fashion_sub_category_id',function (e) {
+            let subCategoryId = e.target.value;
+
+            $.ajax({
+                url: "{{ route('type-material.list') }}",
+                type: 'get',
+                data: {
+                    sub_category_id: subCategoryId
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    var type = '<option value="">-' + select + '-</option>';
+                    var material = '<option value="">-' + select + '-</option>';
+
+                    if (response.status) {
+                        $.each(response.type, function (id, value) {
+                            let data = JSON.parse(value.name);
+                            type += '<option value="' + value.id + '">' + data[setLocalLang] + '</option>';
+                        });
+
+                        $.each(response.material, function (id, value) {
+                            let data = JSON.parse(value.name);
+                            material += '<option value="' + value.id + '">' + data[setLocalLang] + '</option>';
+                        });
+                    }
+
+                    $("#type_id").html(type);
+                    $("#material_id").html(material);
+
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr, status, error)
+                }
+            });
+        });
     </script>
 
 @endsection

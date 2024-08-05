@@ -4,6 +4,8 @@ namespace App\Http\Controllers\frontEnd;
 
 use App\Http\Controllers\Controller;
 use App\Libraries\CommonFunction;
+use App\Models\Fashion\FashionType;
+use App\Models\Fashion\Material;
 use App\Models\Post;
 use App\Services\Front\CategoryNameService as CATEGORY_NAME;
 use App\Services\Front\CategoryWiseSearchBar;
@@ -94,30 +96,6 @@ final class SearchController extends Controller
                     'cities.name as city'
                 );
 
-                if ($request->get('sub_category_id')) {
-                    $query->where('posts.sub_category_id', $request->get('sub_category_id'));
-                }
-
-                if ($request->get('state_id')) {
-                    $query->where('posts.state_id', $request->get('state_id'));
-                }
-
-                if ($request->get('price_range')) {
-                    $query->whereBetween('posts.price', [1, $request->get('price_range')]);
-                }
-
-                if ($request->get('size_range')) {
-                    $query->whereBetween('property_details.size', [1, $request->get('size_range')]);
-                }
-
-                if ($request->get('room_number')) {
-                    $query->where('property_details.number_of_room', $request->get('room_number'));
-                }
-
-                if ($request->get('washroom_no')) {
-                    $query->where('property_details.number_of_room', $request->get('washroom_no'));
-                }
-
             } elseif ($this->getCategoryNameById($request->get('category_id')) == 'vehicle') {
                 $query->leftJoin('vehicle_details', 'posts.id', '=', 'vehicle_details.post_id')
                     ->select(
@@ -134,18 +112,49 @@ final class SearchController extends Controller
                         'cities.name as city'
                     );
 
-                if ($request->get('sub_category_id')) {
-                    $query->where('posts.sub_category_id', $request->get('sub_category_id'));
+            } elseif ($request->get('category_id') == 5) { // 5 = fashion
+                $query->leftJoin('fashion_details', 'posts.id', '=', 'fashion_details.post_id')
+                    ->select(
+                        'posts.id',
+                        'posts.price',
+                        'posts.title',
+                        'posts.category_id',
+                        'posts.sub_category_id',
+                        'posts.updated_at',
+                        'posts.created_by',
+                        'fashion_details.color_id',
+                        'fashion_details.type_id',
+                        'fashion_details.material_id',
+                        'states.name as state',
+                        'cities.name as city'
+                    );
+            }
+
+            if ($request->get('sub_category_id')) {
+                $query->where('posts.sub_category_id', $request->get('sub_category_id'));
+            }
+
+            if ($request->get('state_id')) {
+                $query->where('posts.state_id', $request->get('state_id'));
+            }
+
+            if ($request->get('price_range')) {
+                $query->whereBetween('posts.price', [1, $request->get('price_range')]);
+            }
+
+            if ($this->getCategoryNameById($request->get('category_id')) == 'property') {
+                if ($request->get('size_range')) {
+                    $query->whereBetween('property_details.size', [1, $request->get('size_range')]);
                 }
 
-                if ($request->get('state_id')) {
-                    $query->where('posts.state_id', $request->get('state_id'));
+                if ($request->get('room_number')) {
+                    $query->where('property_details.number_of_room', $request->get('room_number'));
                 }
 
-                if ($request->get('price_range')) {
-                    $query->whereBetween('posts.price', [1, $request->get('price_range')]);
+                if ($request->get('washroom_no')) {
+                    $query->where('property_details.number_of_room', $request->get('washroom_no'));
                 }
-
+            } elseif ($this->getCategoryNameById($request->get('category_id')) == 'vehicle') {
                 if ($request->get('brand_id')) {
                     $query->where('vehicle_details.brand_id', $request->get('brand_id'));
                 }
@@ -157,7 +166,17 @@ final class SearchController extends Controller
                 if ($request->get('km')) {
                     $query->whereBetween('vehicle_details.km', [1, $request->get('km')]);
                 }
+            } elseif ($request->get('category_id') == 5) { // 5 = fashion
+                if ($request->get('color_id')) {
+                    $query->where('fashion_details.color_id', $request->get('color_id'));
+                }
+                if ($request->get('type_id')) {
+                    $query->where('fashion_details.type_id', $request->get('type_id'));
+                }
 
+                if ($request->get('material_id')) {
+                    $query->where('fashion_details.material_id',$request->get('material_id'));
+                }
             }
 
 
@@ -252,6 +271,24 @@ final class SearchController extends Controller
         }
 
         return $query->count();
+    }
+
+    public function getTypeMaterialList(Request $request)
+    {
+        try {
+            $types = FashionType::where('sub_category_id', $request->get('sub_category_id'))->where('is_active', 1)->get(['id', 'name']);
+            $materials = Material::where('sub_category_id', $request->get('sub_category_id'))->where('is_active', 1)->get(['id', 'name']);
+
+            return response()->json([
+                'status' => true,
+                'type' => $types,
+                'material' => $materials
+            ]);
+        }catch (\Exception $e){
+            return response()->json([
+                'status' => false
+            ]);
+        }
     }
 
 }

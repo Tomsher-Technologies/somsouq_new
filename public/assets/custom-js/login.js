@@ -18,9 +18,9 @@ $("#loginForm").submit(function(e) {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         success: function(data) {
-            if(data.is_login){
+            if(data.is_login) {
                 $("#loginForm").get(0).reset();
-                window.location.href = BASE_URL;
+                window.location.href = data.url;
             }
 
             if(!data.success && data.error){

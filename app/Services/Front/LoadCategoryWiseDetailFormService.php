@@ -3,14 +3,20 @@
 namespace App\Services\Front;
 
 use App\Enums\Front\ConditionStatus;
+use App\Enums\Front\FashionCondition;
 use App\Enums\Front\FuelType;
 use App\Enums\Front\FurnitureStatus;
+use App\Enums\Front\Movement;
 use App\Enums\Front\Transmissions;
 use App\Models\AutoPartType;
 use App\Models\BoatType;
 use App\Models\BodyType;
 use App\Models\Brand;
 use App\Models\Color;
+use App\Models\Fashion\FashionType;
+use App\Models\Fashion\Gemstone;
+use App\Models\Fashion\Material;
+use App\Models\Fashion\Occasion;
 use App\Models\HeavyEquipmentType;
 
 class LoadCategoryWiseDetailFormService
@@ -86,6 +92,58 @@ class LoadCategoryWiseDetailFormService
                 //post detail data for the edit page
                 static::$htmlFormData['postDetail'] = ($postId) ? CategoryWisePostDetailDataService::getData(categoryId: $categoryId, postId: $postId) : "";
 
+                break;
+            case CategoryNameService::FASHION:
+                static::$htmlFormData['colors'] = Color::where('is_active', 1)->get(['name', 'id']);
+                static::$htmlFormData['conditions'] = FashionCondition::getFashionCondition();
+
+                if (in_array($subCategoryId, [33])) {
+                    static::$htmlFormData['clothType'] = FashionType::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+                    static::$htmlFormData['materials'] = Material::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+                    static::$htmlFormData['occasions'] = Occasion::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+
+                    static::$htmlFormName = "frontEnd.post.form.fashion.men_cloth";
+                } elseif (in_array($subCategoryId, [34])) {
+                    static::$htmlFormData['clothType'] = FashionType::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+                    static::$htmlFormData['materials'] = Material::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+                    static::$htmlFormData['occasions'] = Occasion::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+
+                    static::$htmlFormName = "frontEnd.post.form.fashion.women_cloth";
+                } elseif (in_array($subCategoryId, [35])) {
+                    static::$htmlFormData['clothType'] = FashionType::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+                    static::$htmlFormData['materials'] = Material::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+                    static::$htmlFormData['occasions'] = Occasion::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+
+                    static::$htmlFormName = "frontEnd.post.form.fashion.kid_cloth";
+                } elseif (in_array($subCategoryId, [36])) {
+                    static::$htmlFormData['jewelleryType'] = FashionType::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+                    static::$htmlFormData['occasions'] = Occasion::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+                    static::$htmlFormData['gemstones'] = Gemstone::where('is_active', 1)->get();
+
+                    static::$htmlFormName = "frontEnd.post.form.fashion.jewellery";
+                } elseif (in_array($subCategoryId, [37])) {
+                    static::$htmlFormData['shoesType'] = FashionType::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+                    static::$htmlFormData['materials'] = Material::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+                    static::$htmlFormData['occasions'] = Occasion::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+
+                    static::$htmlFormName = "frontEnd.post.form.fashion.shoes";
+                } elseif (in_array($subCategoryId, [38])) {
+                    static::$htmlFormData['watchType'] = FashionType::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+                    static::$htmlFormData['materials'] = Material::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+                    static::$htmlFormData['occasions'] = Occasion::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+                    static::$htmlFormData['movements'] = Movement::getMovement();
+
+                    static::$htmlFormName = "frontEnd.post.form.fashion.watch";
+                } elseif (in_array($subCategoryId, [39])) {
+                    static::$htmlFormData['bagType'] = FashionType::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+                    static::$htmlFormData['materials'] = Material::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+                    static::$htmlFormData['occasions'] = Occasion::where('sub_category_id', $subCategoryId)->where('is_active', 1)->get();
+
+                    static::$htmlFormName = "frontEnd.post.form.fashion.bag";
+                }
+
+                //post detail data for the edit page
+                static::$htmlFormData['postDetail'] = ($postId) ? CategoryWisePostDetailDataService::getData(categoryId: $categoryId, postId: $postId) : "";
                 break;
             default:
                 break;

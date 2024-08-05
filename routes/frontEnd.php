@@ -6,6 +6,7 @@ use App\Http\Controllers\frontEnd\Auth\AuthController;
 use App\Http\Controllers\frontEnd\BuySellController;
 use App\Http\Controllers\frontEnd\CategoryController;
 use App\Http\Controllers\frontEnd\ContactController;
+use App\Http\Controllers\frontEnd\FashionTypeController;
 use App\Http\Controllers\frontEnd\HelpController;
 use App\Http\Controllers\frontEnd\HomeController;
 use App\Http\Controllers\frontEnd\MyAccountController;
@@ -63,7 +64,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
     Route::get('help', [HelpController::class, 'index'])->name('help');
     Route::get('term-condition', [TermConditionController::class, 'index'])->name('term-condition');
     Route::get('privacy-policy', [PolicyController::class, 'index'])->name('privacy-policy');
+    Route::get('copyright-infringement-policy', [PolicyController::class, 'copyright'])->name('copyright-policy');
     Route::get('buy-sell', [BuySellController::class, 'index'])->name('buy-sell');
+
+    //get type and material list for search bar
+    Route::get('get-type-material-list', [SearchController::class, 'getTypeMaterialList'])->name('type-material.list');
 
     Route::middleware(['auth:web', 'user'])->group(callback: function () {
 
@@ -100,6 +105,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
         //report ad
         Route::post('report-submit', [ReportController::class, 'reportSubmit'])->name('report.submit');
+
+        //fashion type wise size
+        Route::get('fashion-type/type-wise-size', [FashionTypeController::class, 'getFashionTypeWiseSize'])->name('fashion-type.size');
     });
 
 

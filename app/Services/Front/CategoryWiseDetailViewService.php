@@ -9,6 +9,7 @@ use App\Models\BoatType;
 use App\Models\BodyType;
 use App\Models\Brand;
 use App\Models\Color;
+use App\Models\Fashion\FashionDetail;
 use App\Models\HeavyEquipmentType;
 use App\Models\PropertyDetail;
 use App\Models\VehicleDetail;
@@ -125,6 +126,127 @@ class CategoryWiseDetailViewService
 
                 static::$htmlFormData['postDetail'] = $query->where('vehicle_details.post_id', $postId)->first();
 
+                break;
+
+            case CategoryNameService::FASHION:
+                $query = FashionDetail::query()
+                    ->leftJoin('colors', 'colors.id', '=', 'fashion_details.color_id')
+                    ->leftJoin('fashion_types', 'fashion_types.id', '=', 'fashion_details.type_id')
+                    ->leftJoin('materials', 'materials.id', '=', 'fashion_details.material_id')
+                    ->leftJoin('occasions', 'occasions.id', '=', 'fashion_details.occasion_id');
+
+                if (in_array($subCategoryId, [33])) {
+                    $query->leftJoin('variant_value', 'variant_value.id', '=', 'fashion_details.size_id')
+                            ->select(
+                                'fashion_details.*',
+                                'colors.name as color_name',
+                                'fashion_types.name as type_name',
+                                'variant_value.name as size',
+                                'materials.name as material_name',
+                                'occasions.name as occasion_name',
+                            );
+                    if ($viewType == 'user') {
+                        static::$htmlFormName = "frontEnd.post.views.fashion.men_cloth";
+                    }elseif ($viewType == 'public'){
+                        static::$htmlFormName = "frontEnd.post.publicView.fashion.men_cloth";
+                    }
+                } elseif (in_array($subCategoryId, [34])) {
+                    $query->leftJoin('variant_value', 'variant_value.id', '=', 'fashion_details.size_id')
+                        ->select(
+                            'fashion_details.*',
+                            'colors.name as color_name',
+                            'fashion_types.name as type_name',
+                            'variant_value.name as size',
+                            'materials.name as material_name',
+                            'occasions.name as occasion_name',
+                        );
+                    if ($viewType == 'user') {
+                        static::$htmlFormName = "frontEnd.post.views.fashion.women_cloth";
+                    }elseif ($viewType == 'public'){
+                        static::$htmlFormName = "frontEnd.post.publicView.fashion.women_cloth";
+                    }
+                } elseif (in_array($subCategoryId, [35])) {
+                    $query->leftJoin('variant_value', 'variant_value.id', '=', 'fashion_details.size_id')
+                        ->select(
+                            'fashion_details.*',
+                            'colors.name as color_name',
+                            'fashion_types.name as type_name',
+                            'variant_value.name as size',
+                            'materials.name as material_name',
+                            'occasions.name as occasion_name',
+                        );
+
+                    if ($viewType == 'user') {
+                        static::$htmlFormName = "frontEnd.post.views.fashion.kid";
+                    }elseif ($viewType == 'public'){
+                        static::$htmlFormName = "frontEnd.post.publicView.fashion.kid";
+                    }
+
+                } elseif (in_array($subCategoryId, [36])) {
+                    $query->leftJoin('gemstones', 'gemstones.id', '=', 'fashion_details.gemstone_id')
+                        ->select(
+                            'fashion_details.*',
+                            'colors.name as color_name',
+                            'fashion_types.name as type_name',
+                            'gemstones.name as stone_name',
+                            'materials.name as material_name',
+                            'occasions.name as occasion_name',
+                        );
+
+                    if ($viewType == 'user') {
+                        static::$htmlFormName = "frontEnd.post.views.fashion.jewellery";
+                    }elseif ($viewType == 'public') {
+                        static::$htmlFormName = "frontEnd.post.publicView.fashion.jewellery";
+                    }
+                } elseif (in_array($subCategoryId, [37])) {
+                    $query->leftJoin('variant_value', 'variant_value.id', '=', 'fashion_details.size_id')
+                        ->select(
+                            'fashion_details.*',
+                            'colors.name as color_name',
+                            'fashion_types.name as type_name',
+                            'variant_value.name as size',
+                            'materials.name as material_name',
+                            'occasions.name as occasion_name',
+                        );
+
+                    if ($viewType == 'user') {
+                        static::$htmlFormName = "frontEnd.post.views.fashion.shoes";
+                    }elseif ($viewType == 'public') {
+                        static::$htmlFormName = "frontEnd.post.publicView.fashion.shoes";
+                    }
+                } elseif (in_array($subCategoryId, [38])) {
+                    $query->select(
+                            'fashion_details.*',
+                            'colors.name as color_name',
+                            'fashion_types.name as type_name',
+                            'materials.name as material_name',
+                            'occasions.name as occasion_name',
+                        );
+
+                    if ($viewType == 'user') {
+                        static::$htmlFormName = "frontEnd.post.views.fashion.watch";
+                    }elseif ($viewType == 'public') {
+                        static::$htmlFormName = "frontEnd.post.publicView.fashion.watch";
+                    }
+                } elseif (in_array($subCategoryId, [39])) {
+                    $query->leftJoin('variant_value', 'variant_value.id', '=', 'fashion_details.size_id')
+                        ->select(
+                            'fashion_details.*',
+                            'colors.name as color_name',
+                            'fashion_types.name as type_name',
+                            'variant_value.name as size',
+                            'materials.name as material_name',
+                            'occasions.name as occasion_name',
+                        );
+
+                    if ($viewType == 'user') {
+                        static::$htmlFormName = "frontEnd.post.views.fashion.bag";
+                    }elseif ($viewType == 'public') {
+                        static::$htmlFormName = "frontEnd.post.publicView.fashion.bag";
+                    }
+                }
+
+                static::$htmlFormData['postDetail'] = $query->where('fashion_details.post_id', $postId)->first();
                 break;
             default:
                 break;

@@ -25,12 +25,12 @@ class PartsTypeController extends Controller
         }
 
         $parts = $query->latest()->paginate(10);
-        return view('admin.partsType.index', compact('parts', 'searchText'));
+        return view('admin.vehicle.partsType.index', compact('parts', 'searchText'));
     }
 
     public function create()
     {
-        return view('admin.partsType.create', [
+        return view('admin.vehicle.partsType.create', [
             'languages' => \App\Models\Language::all(),
         ]);
     }
@@ -61,7 +61,7 @@ class PartsTypeController extends Controller
     public function edit(AutoPartType $autoPartType)
     {
         $languages =  \App\Models\Language::all();
-        return view('admin.partsType.edit', compact('autoPartType', 'languages'));
+        return view('admin.vehicle.partsType.edit', compact('autoPartType', 'languages'));
     }
 
     public function update(Request $request)

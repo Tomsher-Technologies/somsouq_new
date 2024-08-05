@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ getLocaleLang() }}" dir="">
+<html lang="{{ getLocaleLang() }}" dir="{{ (getLocaleLang() == 'ar') ? 'rtl' : 'ltl' }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,7 +13,6 @@
           rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/frontEnd/vendor/toastr/toastr.min.css') }}">
     @yield('stylesheet')
-
 </head>
 <body>
 @include('frontEnd.includes.main-header')
@@ -37,6 +36,7 @@
 <script>
     let BASE_URL = "{{ route('home') }}";
     let setLocalLang = "{{ getLocaleLang() }}";
+    let select = "{{ __('post.select') }}";
     $(".btn-custom-close").on('click', function (e){
         $(e.target).parent().remove();
     });

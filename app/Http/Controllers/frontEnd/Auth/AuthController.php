@@ -29,7 +29,8 @@ final class AuthController extends Controller
                 return response()->json([
                     'message' => trans('auth.login_in'),
                     'success' => true,
-                    'is_login' => true
+                    'is_login' => true,
+                    'url' => url()->previous()
                 ]);
             } else {
                 return response()->json([

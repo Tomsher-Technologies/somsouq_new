@@ -56,7 +56,7 @@
                     <tr>
                         <td>{{ $key + 1 + ($safetyTips->currentPage() - 1) * $safetyTips->perPage() }}</td>
                         <td>{{ $safetyTip->category_name ?? "" }}</td>
-                        <td>{{ $safetyTip->getTranslation('name', 'en') }}</td>
+                        <td>{!! $safetyTip->getTranslation('tip', 'en') !!}</td>
 
                         <td class="text-center">
                             <b>{!! $safetyTip->is_active == 1 ? '<span class="text-success">Active</span>' : '<span class="text-danger">Inactive</span>' !!}</b>

@@ -8,12 +8,13 @@ return [
     'privacy_policy' => 'Qaanuunka Arrimaha Khaaska ah',
     'help' => 'Caawimo',
     'contact_us' => 'Nala soo xiriir',
-    'how_to_sell_and_buy' => 'How To Sell And Buy',
+    'how_to_sell_and_buy' => 'Sida loo iibsado oyo la iskaga iibiyo',
+    'copyright_policy' => 'Siyaasadda  Xuquuqda Lahaanshaha',
 
     'content_type' => [
-        '1' => 'How to sell on som souq?',
-        '2' => 'How to buy on som souq?',
-        '3' => 'Sell like a pro!',
+        '1' => 'Sidee som souq wax loogu iibiyaa?',
+        '2' => 'Sida looga iibsado som souq?',
+        '3' => 'U iibi si heer caalami ah!',
     ]
 
 

@@ -30,6 +30,13 @@ class CategoryWisePostDetailDataService
 
                 static::$postDetailDate['data'] = $query->first();
                 break;
+            case CategoryNameService::FASHION:
+                $query->join('fashion_details', 'fashion_details.post_id', '=', 'posts.id')
+                    ->select('posts.title', 'posts.price', 'posts.description', 'fashion_details.*')
+                    ->where('fashion_details.post_id', $postId);
+
+                static::$postDetailDate['data'] = $query->first();
+                break;
             default:
                 break;
         }

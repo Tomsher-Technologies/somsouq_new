@@ -84,7 +84,7 @@ return [
 //    'tell_us_about_your_property' => 'Tell Us About Your Property',
     'promote_ad' => 'Promote Your Ad',
     'free' => 'Free',
-    'tell_us_about_your_boat' => 'Tell Us About Your Boats and Watercraft',
+    //'tell_us_about_your_boat' => 'Tell Us About Your Boats and Watercraft',
     'brand_make' => 'Brand/ Make',
 
     'new' => 'New',
@@ -94,12 +94,12 @@ return [
     'local_used' => 'مستخدم محليًا',
     'refurbished' => 'Refurbished',
 
-    'tell_us_about_your_bus' => 'Tell Us About Your Buses',
-    'tell_us_about_your_car' => 'Tell Us About Your Car',
-    'tell_us_about_your_heavy' => 'Tell Us About Your Heavy Equipment',
-    'tell_us_about_your_motorcycle' => 'Tell Us About Your Motorcycle and Scooter',
-    'tell_us_about_your_auto' => 'Tell Us About Your Auto Parts',
-    'tell_us_about_your_truck' => 'Tell Us About Your Trucks and Trailers',
+//    'tell_us_about_your_bus' => 'Tell Us About Your Buses',
+//    'tell_us_about_your_car' => 'Tell Us About Your Car',
+//    'tell_us_about_your_heavy' => 'Tell Us About Your Heavy Equipment',
+//    'tell_us_about_your_motorcycle' => 'Tell Us About Your Motorcycle and Scooter',
+//    'tell_us_about_your_auto' => 'Tell Us About Your Auto Parts',
+//    'tell_us_about_your_truck' => 'Tell Us About Your Trucks and Trailers',
     'damaged' => 'Damaged',
     'ad_title' => 'Ad Title',
     'price' => 'Price',
@@ -134,4 +134,28 @@ return [
     'upload_high_quality_photo' => 'Upload High Quality Photos',
     'might_also_like' => 'You might also like',
 
+    //Fashion category
+    'clothing_type' => 'Clothing Type',
+    'material' => 'Material',
+    'occasion' => 'Occasion',
+    'gender' => 'Gender',
+    'male' => 'Male',
+    'female' => 'Female',
+    'unisex' => 'Unisex',
+    'kids' => 'Kids',
+    'jewellery_type' => 'Jewellery Type',
+    'gemstone' => 'Gemstone',
+    'watch_type' => 'Watch Type',
+    'movement' => 'Movement',
+
+    'movements' => [
+        'quartz' => 'Quartz',
+        'mechanical' => 'Mechanical',
+        'automatic' => 'Automatic',
+        'hybrid' => 'Hybrid',
+    ],
+
+    'style' => 'Style',
+    'type' => 'Type',
+    'shoes_type' => 'Shoes Type',
 ];

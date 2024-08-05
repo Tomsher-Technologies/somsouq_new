@@ -22,12 +22,12 @@ class HeavyEquipmentController extends Controller
             $query->where('name', 'like', '%' . $searchText . '%');
         }
         $equipments = $query->latest()->paginate(10);
-        return view('admin.equipment.index', compact('equipments', 'searchText'));
+        return view('admin.vehicle.equipment.index', compact('equipments', 'searchText'));
     }
 
     public function create()
     {
-        return view('admin.equipment.create', [
+        return view('admin.vehicle.equipment.create', [
             'languages' => \App\Models\Language::all(),
         ]);
     }
@@ -58,7 +58,7 @@ class HeavyEquipmentController extends Controller
     public function edit(HeavyEquipmentType $heavyEquipmentType)
     {
         $languages =  \App\Models\Language::all();
-        return view('admin.equipment.edit', compact('heavyEquipmentType', 'languages'));
+        return view('admin.vehicle.equipment.edit', compact('heavyEquipmentType', 'languages'));
     }
 
     public function update(Request $request)

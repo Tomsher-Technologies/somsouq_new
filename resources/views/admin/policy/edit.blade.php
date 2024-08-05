@@ -7,7 +7,7 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-8 mx-auto">
+        <div class="col-lg-12 mx-auto">
             <div class="card">
                 <div class="card-body p-0">
                     <nav>
@@ -23,30 +23,17 @@
 
                     <form class="p-4" action="{{ route('policy.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="policy_id" value="{{ $policy->id }}">
-
                         <div class="tab-content" id="nav-tabContent">
-                            <div class="form-group mb-3">
-                                <label for="name">Priority no.</label>
-                                <input type="number" placeholder="Enter priority no" value="{{ $policy->priority ?? "" }}" name="priority" class="form-control">
-                                @if($errors->has('priority'))
-                                    <span class="text-danger">{{ $errors->first('priority') }}</span>
-                                @endif
-                            </div>
                             {{--                        english--}}
                             <div class="tab-pane fade  show active" id="nav-en" role="tabpanel" aria-labelledby="nav-en-tab">
                                 <div class="form-group mb-3">
                                     <label for="name">Title</label>
-                                    <input type="text" placeholder="Enter Title" value="{{ $policy->getTranslation('title', 'en') }}" name="title_en" class="form-control">
-
-                                    @if($errors->has('title_en'))
-                                        <span class="text-danger">{{ $errors->first('title_en') }}</span>
-                                    @endif
+                                    <input type="text" placeholder="Enter Title" value="{{ $policy->getTranslation2('title', 'en') }}" name="title_en" class="form-control">
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <label for="name">Description</label>
-                                    <textarea class="form-control" placeholder="Enter Description" name="description_en" id="description_en">{{ $policy->getTranslation('description', 'en') }}</textarea>
+                                    <label for="name">Content</label>
+                                    <textarea class="form-control" placeholder="Enter Description" name="description_en" id="description_en">{{ $policy->description_en ?? "" }}</textarea>
 
                                     @if($errors->has('description_en'))
                                         <span class="text-danger">{{ $errors->first('description_en') }}</span>
@@ -59,12 +46,12 @@
                             <div class="tab-pane fade" id="nav-ar" role="tabpanel" aria-labelledby="nav-ar-tab">
                                 <div class="form-group mb-3">
                                     <label for="name">Title</label>
-                                    <input type="text" placeholder="Enter Title" value="{{ $policy->getTranslation('title', 'ar') }}" name="title_ar" class="form-control">
+                                    <input type="text" placeholder="Enter Title" value="{{ $policy->getTranslation2('title', 'ar') }}" name="title_ar" class="form-control">
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <label for="name">Description</label>
-                                    <textarea class="form-control" placeholder="Enter Description" name="description_ar" id="description_ar">{{ $policy->getTranslation('description', 'ar') }}</textarea>
+                                    <label for="name">Content</label>
+                                    <textarea class="form-control" placeholder="Enter Description" name="description_ar" id="description_ar">{{ $policy->description_ar ?? "" }}</textarea>
                                 </div>
                             </div>
                             {{--                        arabic--}}
@@ -73,19 +60,18 @@
                             <div class="tab-pane fade" id="nav-so" role="tabpanel" aria-labelledby="nav-so-tab">
                                 <div class="form-group mb-3">
                                     <label for="name">Title</label>
-                                    <input type="text" placeholder="Enter Title" value="{{ $policy->getTranslation('title', 'so') }}" name="title_so" class="form-control">
+                                    <input type="text" placeholder="Enter Title" value="{{ $policy->getTranslation2('title', 'so') }}" name="title_so" class="form-control">
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <label for="name">Description</label>
-                                    <textarea class="form-control" placeholder="Enter Description" name="description_so" id="description_so">{{ $policy->getTranslation('description', 'so') }}</textarea>
+                                    <label for="name">Content</label>
+                                    <textarea class="form-control" placeholder="Enter Description" name="description_so" id="description_so">{{ $policy->description_so }}</textarea>
                                 </div>
                             </div>
                             {{--                        somali--}}
 
                             <div class="form-group mb-3 text-right">
                                 <button type="submit" class="btn btn-sm btn-primary">Save</button>
-                                <a href="{{ route('policy.index') }}" class="btn btn-sm btn-warning">{{translate('Cancel')}}</a>
                             </div>
 
                         </div>
@@ -106,7 +92,7 @@
             license_key: 'gpl',
             promotion: false,
             branding: false,
-            height: 300,
+            height: 400,
             plugins: [
                 'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
@@ -124,7 +110,7 @@
             license_key: 'gpl',
             promotion: false,
             branding: false,
-            height: 300,
+            height: 400,
             plugins: [
                 'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
@@ -142,7 +128,7 @@
             license_key: 'gpl',
             promotion: false,
             branding: false,
-            height: 300,
+            height: 400,
             plugins: [
                 'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',

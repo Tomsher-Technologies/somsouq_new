@@ -3,11 +3,11 @@
 @section('content')
 
     <div class="aiz-titlebar text-left mt-2 mb-3">
-        <h5 class="mb-0 h6">Privacy Policy Information</h5>
+        <h5 class="mb-0 h6">Copyright Infringement Information</h5>
     </div>
 
     <div class="row">
-        <div class="col-lg-8 mx-auto">
+        <div class="col-lg-12 mx-auto">
             <div class="card">
                 <div class="card-body p-0">
                     <nav>
@@ -21,31 +21,21 @@
                         </div>
                     </nav>
 
-                    <form class="p-4" action="{{ route('policy.store') }}" method="POST" enctype="multipart/form-data">
+                    <form class="p-4" action="{{ route('copy-right.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="tab-content" id="nav-tabContent">
-                            <div class="form-group mb-3">
-                                <label for="name">Priority no.</label>
-                                <input type="number" placeholder="Enter priority no" value="{{ old('priority') }}" name="priority" class="form-control">
-                                @if($errors->has('priority'))
-                                    <span class="text-danger">{{ $errors->first('priority') }}</span>
-                                @endif
-                            </div>
                             {{--                        english--}}
+
                             <div class="tab-pane fade  show active" id="nav-en" role="tabpanel" aria-labelledby="nav-en-tab">
                                 <div class="form-group mb-3">
                                     <label for="name">Title</label>
-                                    <input type="text" placeholder="Enter Title" value="{{ old('title_en') }}" name="title_en" class="form-control">
-
-                                    @if($errors->has('title_en'))
-                                        <span class="text-danger">{{ $errors->first('title_en') }}</span>
-                                    @endif
+                                    <input type="text" placeholder="Enter Title" value="{{ $copyright->getTranslation2('title', 'en') }}" name="title_en" class="form-control">
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <label for="name">Description</label>
-                                    <textarea class="form-control" placeholder="Enter Description" name="description_en" id="description_en">{{ old('description_en') }}</textarea>
+                                    <label for="name">Content</label>
+                                    <textarea class="form-control" placeholder="Enter Description" name="description_en" id="description_en">{{ $copyright->content_en ?? "" }}</textarea>
 
                                     @if($errors->has('description_en'))
                                         <span class="text-danger">{{ $errors->first('description_en') }}</span>
@@ -58,12 +48,14 @@
                             <div class="tab-pane fade" id="nav-ar" role="tabpanel" aria-labelledby="nav-ar-tab">
                                 <div class="form-group mb-3">
                                     <label for="name">Title</label>
-                                    <input type="text" placeholder="Enter Title" value="{{ old('title_ar') }}" name="title_ar" class="form-control">
+                                    <input type="text" placeholder="Enter Title" value="{{ $copyright->getTranslation2('title', 'ar') }}" name="title_ar" class="form-control">
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <label for="name">Description</label>
-                                    <textarea class="form-control" placeholder="Enter Description" name="description_ar" id="description_ar">{{ old('description_ar') }}</textarea>
+                                    <label for="name">Content</label>
+                                    <textarea class="form-control" placeholder="Enter Description" name="description_ar" id="description_ar">
+                                        {{ $copyright->content_ar ?? "" }}
+                                    </textarea>
                                 </div>
                             </div>
                             {{--                        arabic--}}
@@ -72,19 +64,20 @@
                             <div class="tab-pane fade" id="nav-so" role="tabpanel" aria-labelledby="nav-so-tab">
                                 <div class="form-group mb-3">
                                     <label for="name">Title</label>
-                                    <input type="text" placeholder="Enter Title" value="{{ old('title_so') }}" name="title_so" class="form-control">
+                                    <input type="text" placeholder="Enter Title" value="{{ $copyright->getTranslation2('title', 'so') }}" name="title_so" class="form-control">
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <label for="name">Description</label>
-                                    <textarea class="form-control" placeholder="Enter Description" name="description_so" id="description_so">{{ old('description_so') }}</textarea>
+                                    <label for="name">Content</label>
+                                    <textarea class="form-control" placeholder="Enter Description" name="description_so" id="description_so">
+                                        {{ $copyright->content_so ?? "" }}
+                                    </textarea>
                                 </div>
                             </div>
                             {{--                        somali--}}
 
                             <div class="form-group mb-3 text-right">
                                 <button type="submit" class="btn btn-sm btn-primary">Save</button>
-                                <a href="{{ route('policy.index') }}" class="btn btn-sm btn-warning">{{translate('Cancel')}}</a>
                             </div>
 
                         </div>
@@ -105,15 +98,15 @@
             license_key: 'gpl',
             promotion: false,
             branding: false,
-            height: 300,
+            height: 400,
             plugins: [
                 'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
                 'insertdatetime', 'media', 'table', 'help', 'wordcount'
             ],
             toolbar: 'undo redo | blocks | ' +
-                'bold italic backcolor | bullist numlist | alignleft aligncenter ' +
-                'alignright alignjustify | outdent indent | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
                 'removeformat | help',
             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
         });
@@ -121,9 +114,10 @@
         tinymce.init({
             selector: 'textarea#description_ar',
             license_key: 'gpl',
+            directionality : 'rtl',
             promotion: false,
             branding: false,
-            height: 300,
+            height: 400,
             plugins: [
                 'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
@@ -141,7 +135,7 @@
             license_key: 'gpl',
             promotion: false,
             branding: false,
-            height: 300,
+            height: 400,
             plugins: [
                 'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',

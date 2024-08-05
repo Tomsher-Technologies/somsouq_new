@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\About;
-use App\Models\AboutDescription;
 use App\Models\SafetyTip;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class SafetyTipController extends Controller
 {
@@ -32,29 +29,31 @@ class SafetyTipController extends Controller
 
     public function create()
     {
-        return view('admin.safetyTip.create');
+        $languages =  \App\Models\Language::all();
+        return view('admin.safetyTip.create', compact('languages'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'category_id' => 'required',
-            'name_en' => 'required',
+            'tip_en' => 'required',
         ]);
 
         try {
             $tip = new SafetyTip();
             $tip->category_id = $request->get('category_id');
-            $tip->name = setTranslation([
-                'en' => $request->get('name_en'),
-                'ar' => $request->get('name_ar'),
-                'so' => $request->get('name_so'),
+            $tip->tip = setTranslation([
+                'en' => $request->get('tip_en'),
+                'ar' => $request->get('tip_ar'),
+                'so' => $request->get('tip_so'),
             ]);
             $tip->save();
 
             flash('Store safety tip successfully')->success();
             return redirect()->back();
         }catch (\Exception $e){
+            dd($e->getMessage());
             flash('Something went wrong')->error();
             return redirect()->back();
         }
@@ -62,23 +61,24 @@ class SafetyTipController extends Controller
 
     public function edit(SafetyTip $safetyTip)
     {
-        return view('admin.safetyTip.edit', compact('safetyTip'));
+        $languages =  \App\Models\Language::all();
+        return view('admin.safetyTip.edit', compact('safetyTip', 'languages'));
     }
 
     public function update(Request $request)
     {
         $request->validate([
             'category_id' => 'required',
-            'name_en' => 'required',
+            'tip_en' => 'required',
         ]);
 
         try {
-            $tip = SafetyTip::find($request->get('id'));
+            $tip = SafetyTip::find($request->get('tip_id') ?? "");
             $tip->category_id = $request->get('category_id');
-            $tip->name = setTranslation([
-                'en' => $request->get('name_en'),
-                'ar' => $request->get('name_ar'),
-                'so' => $request->get('name_so'),
+            $tip->tip = setTranslation([
+                'en' => $request->get('tip_en'),
+                'ar' => $request->get('tip_ar'),
+                'so' => $request->get('tip_so'),
             ]);
             $tip->is_active = $request->get('status');
             $tip->save();

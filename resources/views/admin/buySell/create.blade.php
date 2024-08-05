@@ -134,6 +134,7 @@
         tinymce.init({
             selector: 'textarea#description_ar',
             license_key: 'gpl',
+            directionality: 'rtl',
             promotion: false,
             branding: false,
             height: 300,

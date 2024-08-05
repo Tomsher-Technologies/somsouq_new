@@ -63,6 +63,8 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('assets/custom-js/getCityByStateId.js') }}"></script>
+    <script src="{{ asset('assets/custom-js/login.js') }}"></script>
     <script src="{{ asset('assets/frontEnd/js/jquery-validation/jquery.validate.js') }}"></script>
     <script>
         $('#contactForm').validate({

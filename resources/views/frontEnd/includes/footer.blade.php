@@ -77,6 +77,9 @@ $category = CommonFunction::getCategory();
                             <li>
                                 <a href="{{ route('privacy-policy') }}">{{ __('pages.privacy_policy') }}</a>
                             </li>
+                            <li>
+                                <a href="{{ route('copyright-policy') }}">{{ __('pages.copyright_policy') }}</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

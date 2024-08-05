@@ -4,23 +4,40 @@
     <div class="aiz-titlebar text-left mt-2 mb-3">
         <div class="row align-items-center">
             <div class="col-md-6">
-                <h1 class="h3">All Privacy Policy</h1>
+                <h1 class="h3">All Type</h1>
             </div>
             <div class="col-md-6 text-md-right">
-                <a href="{{ route('policy.create') }}" class="btn btn-primary">
-                    <span><i class="las la-plus aiz-side-nav-icon"></i>Add</span>
+                <a href="{{ route('fashion-type.create') }}" class="btn btn-primary">
+                    <i class="las la-plus aiz-side-nav-icon"></i> <span>Add</span>
                 </a>
             </div>
         </div>
     </div>
     <div class="card">
         <div class="card-header d-block d-md-flex">
+            <h5 class="mb-0 h6 mr-4">Type</h5>
             <form class="" id="sort_categories" action="" method="GET" style="width: 100%">
+
                 <div class="row gutters-5">
                     <div class="col-md-4">
-                        <h5 class="mb-0 h6 mr-4">Privacy Policy</h5>
+                        <input type="text" class="form-control" id="search" name="search" value="{{ $searchText }}" placeholder="Enter type name">
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-control form-control-sm aiz-selectpicker mb-2 mb-md-0" data-live-search="true"
+                                name="category" id="" data-selected={{ $subCategory }}>
+                            <option value="0">All</option>
+                            @foreach ($subCategories as $item)
+                                <option value="{{ $item->id }}">{{ $item->en_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <button class="btn btn-primary" type="submit">Filter</button>
+                        <a href="{{ route('fashion-type.index') }}" class="btn btn-warning">{{translate('Reset')}}</a>
                     </div>
                 </div>
+
             </form>
         </div>
 
@@ -29,29 +46,30 @@
                 <thead>
                 <tr>
                     <th >#</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Priority</th>
+                    <th>type</th>
+                    <th>Sub-category</th>
+                    <th>Size variant</th>
                     <th class="text-center">Status</th>
                     <th width="10%" class="text-center">Options</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach ($policies as $key => $policy)
+                @foreach ($types as $key => $type)
                     <tr>
-                        <td>{{ $key + 1 + ($policies->currentPage() - 1) * $policies->perPage() }}</td>
-                        <td>{{ $policy->getTranslation('title', 'en') }}</td>
+                        <td>{{ $key + 1 + ($types->currentPage() - 1) * $types->perPage() }}</td>
                         <td>
-                            {!! $policy->getTranslation('description', 'en') !!}
+                            {{ $type->getTranslation('name', 'en') }}
                         </td>
                         <td>
-                            {{ $policy->priority ?? "" }}
+                            {{ $type->en_name ?? "" }}
                         </td>
-
+                        <td>
+                            {{ $type->variant_name ?? "" }}
+                        </td>
                         <td class="text-center">
                             <label class="aiz-switch aiz-switch-success mb-0">
-                                <input type="checkbox" onchange="update_status(this)" value="{{ $policy->id }}"
-                                        <?php if ($policy->is_active == 1) {
+                                <input type="checkbox" onchange="update_status(this)" value="{{ $type->id }}"
+                                        <?php if ($type->is_active == 1) {
                                     echo 'checked';
                                 } ?>>
                                 <span></span>
@@ -59,12 +77,12 @@
                         </td>
                         <td class="text-center">
                             <a class="btn btn-soft-primary btn-icon btn-circle btn-sm"
-                               href="{{ route('policy.edit', ['policy' => $policy->id]) }}"
+                               href="{{ route('fashion-type.edit', ['fashionType' => $type->id]) }}"
                                title="Edit">
                                 <i class="las la-edit"></i>
                             </a>
                             <a href="#" class="btn btn-soft-danger btn-icon btn-circle btn-sm confirm-delete"
-                               data-href="{{ route('policy.destroy', ['policy' => $policy->id]) }}" title="Delete">
+                               data-href="{{ route('fashion-type.destroy', ['fashionType' => $type->id]) }}" title="Delete">
                                 <i class="las la-trash"></i>
                             </a>
                         </td>
@@ -73,7 +91,7 @@
                 </tbody>
             </table>
             <div class="aiz-pagination">
-                {{ $policies->appends(request()->input())->links('pagination::bootstrap-5') }}
+                {{ $types->appends(request()->input())->links('pagination::bootstrap-5') }}
             </div>
         </div>
     </div>
@@ -94,7 +112,7 @@
             } else {
                 var status = 0;
             }
-            $.post('{{ route('policy.status') }}', {
+            $.post('{{ route('fashion-type.status') }}', {
                 _token: '{{ csrf_token() }}',
                 id: el.value,
                 status: status

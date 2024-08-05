@@ -7,6 +7,7 @@ class CategoryNameService {
     const PROPERTY_FOR_SALE = 2;
     const VEHICLE_FOR_RENT = 3;
     const VEHICLE_FOR_SALE = 4;
+    const FASHION = 5;
 
 
     //sub category
@@ -18,9 +19,6 @@ class CategoryNameService {
     const SHOP_FOR_RENT = 18;
     const CAR_FOR_RENT = 19;
     const TRUCK_AND_TRAILER_FOR_RENT = 20;
-
-
-
 
 
 }

@@ -7,7 +7,7 @@
     </div>
 
     <div class="row">
-        <div class="col-lg-8 mx-auto">
+        <div class="col-lg-12 mx-auto">
             <div class="card">
                 <div class="card-body p-0">
                     <nav>
@@ -23,26 +23,19 @@
 
                     <form class="p-4" action="{{ route('condition.update') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        <input type="hidden" name="condition_id" value="{{ $condition->id }}">
+
                         <div class="tab-content" id="nav-tabContent">
                             {{--                        english--}}
-                            <div class="form-group mb-3">
-                                <label for="name">Priority no.</label>
-                                <input type="number" placeholder="Enter priority no" value="{{ $condition->priority }}" name="priority" class="form-control">
-                            </div>
+
                             <div class="tab-pane fade  show active" id="nav-en" role="tabpanel" aria-labelledby="nav-en-tab">
                                 <div class="form-group mb-3">
                                     <label for="name">Title</label>
-                                    <input type="text" placeholder="Enter Title" value="{{ $condition->getTranslation('title', 'en') }}" name="title_en" class="form-control">
-
-                                    @if($errors->has('title_en'))
-                                        <span class="text-danger">{{ $errors->first('title_en') }}</span>
-                                    @endif
+                                    <input type="text" placeholder="Enter Title" value="{{ $condition->getTranslation2('title', 'en') }}" name="title_en" class="form-control">
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <label for="name">Description</label>
-                                    <textarea class="form-control" placeholder="Enter Description" name="description_en" id="description_en">{{ $condition->getTranslation('description', 'en') }}</textarea>
+                                    <label for="name">Content</label>
+                                    <textarea class="form-control" placeholder="Enter Description" name="description_en" id="description_en">{{ $condition->description_en ?? "" }}</textarea>
 
                                     @if($errors->has('description_en'))
                                         <span class="text-danger">{{ $errors->first('description_en') }}</span>
@@ -55,13 +48,13 @@
                             <div class="tab-pane fade" id="nav-ar" role="tabpanel" aria-labelledby="nav-ar-tab">
                                 <div class="form-group mb-3">
                                     <label for="name">Title</label>
-                                    <input type="text" placeholder="Enter Title" value="{{ $condition->getTranslation('title', 'ar') }}" name="title_ar" class="form-control">
+                                    <input type="text" placeholder="Enter Title" value="{{ $condition->getTranslation2('title', 'ar') }}" name="title_ar" class="form-control">
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <label for="name">Description</label>
+                                    <label for="name">Content</label>
                                     <textarea class="form-control" placeholder="Enter Description" name="description_ar" id="description_ar">
-                                        {{ $condition->getTranslation('description', 'ar') }}
+                                        {{ $condition->description_ar ?? "" }}
                                     </textarea>
                                 </div>
                             </div>
@@ -71,13 +64,13 @@
                             <div class="tab-pane fade" id="nav-so" role="tabpanel" aria-labelledby="nav-so-tab">
                                 <div class="form-group mb-3">
                                     <label for="name">Title</label>
-                                    <input type="text" placeholder="Enter Title" value="{{ $condition->getTranslation('title', 'so') }}" name="title_so" class="form-control">
+                                    <input type="text" placeholder="Enter Title" value="{{ $condition->getTranslation2('title', 'so') }}" name="title_so" class="form-control">
                                 </div>
 
                                 <div class="form-group mb-3">
-                                    <label for="name">Description</label>
+                                    <label for="name">Content</label>
                                     <textarea class="form-control" placeholder="Enter Description" name="description_so" id="description_so">
-                                        {{ $condition->getTranslation('description', 'so') }}
+                                        {{ $condition->description_so ?? "" }}
                                     </textarea>
                                 </div>
                             </div>
@@ -85,7 +78,6 @@
 
                             <div class="form-group mb-3 text-right">
                                 <button type="submit" class="btn btn-sm btn-primary">Save</button>
-                                <a href="{{ route('condition.index') }}" class="btn btn-sm btn-warning">{{translate('Cancel')}}</a>
                             </div>
 
                         </div>
@@ -106,7 +98,7 @@
             license_key: 'gpl',
             promotion: false,
             branding: false,
-            height: 300,
+            height: 400,
             plugins: [
                 'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
@@ -122,9 +114,10 @@
         tinymce.init({
             selector: 'textarea#description_ar',
             license_key: 'gpl',
+            directionality : 'rtl',
             promotion: false,
             branding: false,
-            height: 300,
+            height: 400,
             plugins: [
                 'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
@@ -142,7 +135,7 @@
             license_key: 'gpl',
             promotion: false,
             branding: false,
-            height: 300,
+            height: 400,
             plugins: [
                 'advlist', 'autolink', 'lists', 'link', 'charmap', 'preview',
                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',

@@ -26,18 +26,7 @@
 
                         <input type="hidden" name="brand_id" value="{{ $brand->id }}">
                         <div class="tab-content" id="nav-tabContent">
-                            <div class="form-group mb-3">
-                                <label for="name">Category</label>
-                                <select class="select2 form-control aiz-selectpicker" name="category" data-selected="{{ $brand->category_id ?? "" }}" data-toggle="select2" data-placeholder="Choose ..." data-live-search="true">
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->en_name }}</option>
-                                    @endforeach
-                                </select>
 
-                                @if($errors->has('category'))
-                                    <span class="text-danger">{{ $errors->first('category') }}</span>
-                                @endif
-                            </div>
                             {{--                        english--}}
                             <div class="tab-pane fade  show active" id="nav-en" role="tabpanel" aria-labelledby="nav-en-tab">
 

@@ -98,13 +98,7 @@
                                     <span class="aiz-side-nav-text">Ad Lists</span>
                                 </a>
                             </li>
-                            @can('brand')
-                                <li class="aiz-side-nav-item">
-                                    <a href="{{ route('brand.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['brand.index', 'brand.create', 'brand.edit']) }}">
-                                        <span class="aiz-side-nav-text">Brand</span>
-                                    </a>
-                                </li>
-                            @endcan
+
                             @can('color')
                                 <li class="aiz-side-nav-item">
                                     <a href="{{ route('color.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['color.index', 'color.create', 'color.edit']) }}">
@@ -112,6 +106,26 @@
                                     </a>
                                 </li>
                             @endcan
+                        </ul>
+                    </li>
+                @endcan
+
+                @can('vehicle')
+                    <li class="aiz-side-nav-item">
+                        <a href="#" class="aiz-side-nav-link">
+                            <i class="las la-car-side aiz-side-nav-icon"></i>
+                            <span class="aiz-side-nav-text">Vehicle</span>
+                            <span class="aiz-side-nav-arrow"></span>
+                        </a>
+                        <ul class="aiz-side-nav-list level-2">
+                            @can('brand')
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('brand.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['brand.index', 'brand.create', 'brand.edit']) }}">
+                                        <span class="aiz-side-nav-text">Brand</span>
+                                    </a>
+                                </li>
+                            @endcan
+
                             @can('body_type')
                                 <li class="aiz-side-nav-item">
                                     <a href="{{ route('body.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['body.index', 'body.create', 'body.edit']) }}">
@@ -143,6 +157,43 @@
                                 </li>
                             @endcan
 
+                        </ul>
+                    </li>
+                @endcan
+
+                @can('fashion')
+                    <li class="aiz-side-nav-item">
+                        <a href="#" class="aiz-side-nav-link">
+                            <i class="las la-hat-cowboy aiz-side-nav-icon"></i>
+                            <span class="aiz-side-nav-text">Fashion</span>
+                            <span class="aiz-side-nav-arrow"></span>
+                        </a>
+                        <ul class="aiz-side-nav-list level-2">
+                            <li class="aiz-side-nav-item">
+                                <a href="{{ route('fashion-type.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['fashion-type.index', 'fashion-type.create', 'fashion-type.edit']) }}">
+                                    <span class="aiz-side-nav-text">Type</span>
+                                </a>
+                            </li>
+                            <li class="aiz-side-nav-item">
+                                <a href="{{ route('variant.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['variant.index', 'variant.create', 'variant.edit']) }}">
+                                    <span class="aiz-side-nav-text">Size variant</span>
+                                </a>
+                            </li>
+                            <li class="aiz-side-nav-item">
+                                <a href="{{ route('material.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['material.index', 'material.create', 'material.edit']) }}">
+                                    <span class="aiz-side-nav-text">Material</span>
+                                </a>
+                            </li>
+                            <li class="aiz-side-nav-item">
+                                <a href="{{ route('occasion.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['occasion.index', 'occasion.create', 'occasion.edit']) }}">
+                                    <span class="aiz-side-nav-text">Occasion</span>
+                                </a>
+                            </li>
+                            <li class="aiz-side-nav-item">
+                                <a href="{{ route('stone.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['stone.index', 'stone.create', 'stone.edit']) }}">
+                                    <span class="aiz-side-nav-text">Gemstone</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 @endcan
@@ -265,6 +316,12 @@
                                     </a>
                                 </li>
                             @endcan
+
+                            <li class="aiz-side-nav-item">
+                                <a href="{{ route('copy-right.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['copy-right.index', 'copy-right.create', 'buy.edit']) }}">
+                                    <span class="aiz-side-nav-text">Copyright policy</span>
+                                </a>
+                            </li>
 
                         </ul>
                     </li>

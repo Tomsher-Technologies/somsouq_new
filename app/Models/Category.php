@@ -21,7 +21,7 @@ class Category extends Model
 
     public function getTranslation($field = '', $lang = false)
     {
-        $lang = $lang == false ? getActiveLanguage() : $lang;
+        $lang = $lang == false ? getLocaleLang() : $lang;
 
         if ($lang !== false) {
             $field = $lang.'_' . $field;

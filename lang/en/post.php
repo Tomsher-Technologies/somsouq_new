@@ -133,4 +133,30 @@ return [
     'right' => 'Right',
     'upload_high_quality_photo' => 'Upload High Quality Photos',
     'might_also_like' => 'You might also like',
+
+    //Fashion category
+    'clothing_type' => 'Clothing Type',
+    'material' => 'Material',
+    'occasion' => 'Occasion',
+    'gender' => 'Gender',
+    'male' => 'Male',
+    'female' => 'Female',
+    'unisex' => 'Unisex',
+    'kids' => 'Kids',
+    'jewellery_type' => 'Jewellery Type',
+    'gemstone' => 'Gemstone',
+    'watch_type' => 'Watch Type',
+    'movement' => 'Movement',
+
+    'movements' => [
+        'quartz' => 'Quartz',
+        'mechanical' => 'Mechanical',
+        'automatic' => 'Automatic',
+        'hybrid' => 'Hybrid',
+    ],
+
+    'style' => 'Style',
+    'type' => 'Type',
+    'shoes_type' => 'Shoes Type',
+
 ];

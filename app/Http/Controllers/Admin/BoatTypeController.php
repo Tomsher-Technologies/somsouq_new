@@ -23,12 +23,12 @@ class BoatTypeController extends Controller
             $query->where('name', 'like', '%' . $search . '%');
         }
         $boatTypes = $query->latest()->paginate(10);
-        return view('admin.boat.index', compact('boatTypes', 'searchText'));
+        return view('admin.vehicle.boat.index', compact('boatTypes', 'searchText'));
     }
 
     public function create()
     {
-        return view('admin.boat.create', [
+        return view('admin.vehicle.boat.create', [
             'languages' => \App\Models\Language::all(),
         ]);
     }
@@ -59,7 +59,7 @@ class BoatTypeController extends Controller
     public function edit(BoatType $boatType)
     {
         $languages =  \App\Models\Language::all();
-        return view('admin.boat.edit', compact('boatType', 'languages'));
+        return view('admin.vehicle.boat.edit', compact('boatType', 'languages'));
     }
 
     public function update(Request $request)

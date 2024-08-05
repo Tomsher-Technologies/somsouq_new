@@ -19,31 +19,32 @@ final class HomeController extends Controller
             $data['popular_ads'] = [];
             if (webUser()) {
                 $viewed_category= LastViewPost::where('user_id', webUser()->id ?? "")->orderBy('updated_at', 'desc')->limit(2)->get(['category_id'])->toArray();
+
                 $query = Post::query();
-                $query->leftJoin('states', 'states.id', '=', 'posts.state_id')
-                    ->leftJoin('cities', 'cities.id', '=', 'posts.city_id')
-                    ->whereIn('posts.category_id', $viewed_category)
-                    ->whereIn('posts.status', ['approved']);
+                $query->latest("p.updated_at")
+                    ->fromSub('select *, ROW_NUMBER() OVER (PARTITION BY category_id) as RowNumber from posts', 'p')
+                    ->leftJoin('states', 'states.id', '=', 'p.state_id')
+                    ->leftJoin('cities', 'cities.id', '=', 'p.city_id')
+                    ->whereIn('p.category_id', $viewed_category)
+                    ->where('RowNumber', '<=', 5);
 
                 if (Session::get('location')) {
-                    $query->where('posts.state_id', Session::get('location'));
+                    $query->where('p.state_id', Session::get('location'));
                 }
 
-                $data['popular_ads'] = $query->orderBy('posts.updated_at', 'desc')
-                    ->limit(8)
+                $data['popular_ads'] = $query->whereIn('p.status', ['approved'])
+                    ->orderBy('p.updated_at', 'desc')
                     ->get([
-                        'posts.id',
-                        'posts.title',
-                        'posts.price',
-                        'posts.status',
-                        'posts.category_id',
+                        'p.id',
+                        'p.category_id',
+                        'p.title',
+                        'p.price',
+                        'p.status',
+                        'p.category_id',
                         'states.name as state',
                         'cities.name as city',
                     ]);
             }
-
-
-//            dd($data['popular_ads'], $viewed_category);
 
 //        $getPost = Post::leftJoin('states', 'states.id', '=', 'posts.state_id')
 //            ->leftJoin('cities', 'cities.id', '=', 'posts.city_id')
@@ -64,14 +65,14 @@ final class HomeController extends Controller
                 ->fromSub('select *, ROW_NUMBER() OVER (PARTITION BY category_id) as RowNumber from posts', 'p')
                 ->leftJoin('states', 'states.id', '=', 'p.state_id')
                 ->leftJoin('cities', 'cities.id', '=', 'p.city_id')
-                ->where('RowNumber', '<=', 8);
+                ->where('RowNumber', '<=', 9);
 
             if (Session::get('location')) {
                 $query->where('p.state_id', Session::get('location'));
             }
 
             $getPost = $query->whereIn('p.status', ['approved'])
-                ->orderBy('p.updated_at', 'desc')
+                ->orderBy('p.created_at', 'desc')
                 ->get([
                     'p.id',
                     'p.category_id',
@@ -91,7 +92,7 @@ final class HomeController extends Controller
 
             return view('frontEnd.home.home', $data);
         } catch (\Exception $e) {
-//            dd($e->getMessage());
+            dd($e->getMessage());
             abort(404);
         }
     }
