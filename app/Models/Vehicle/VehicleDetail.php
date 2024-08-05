@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Vehicle;
 
-use Illuminate\Database\Eloquent\Model;
 use App;
+use Illuminate\Database\Eloquent\Model;
 
 class VehicleDetail extends Model
 {

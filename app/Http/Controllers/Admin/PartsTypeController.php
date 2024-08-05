@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\AutoPartType;
-use App\Models\Color;
+use App\Models\Vehicle\AutoPartType;
 use Illuminate\Http\Request;
 
 class PartsTypeController extends Controller

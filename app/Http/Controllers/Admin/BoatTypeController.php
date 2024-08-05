@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\BoatType;
-use App\Models\Color;
+use App\Models\Vehicle\BoatType;
 use Illuminate\Http\Request;
 
 class BoatTypeController extends Controller

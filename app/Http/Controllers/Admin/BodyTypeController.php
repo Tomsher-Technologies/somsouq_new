@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\BodyType;
+use App\Models\Vehicle\BodyType;
 use Illuminate\Http\Request;
 
 class BodyTypeController extends Controller

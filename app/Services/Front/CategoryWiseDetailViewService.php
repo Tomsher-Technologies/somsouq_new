@@ -2,17 +2,9 @@
 
 namespace App\Services\Front;
 
-use App\Enums\Front\FuelType;
-use App\Enums\Front\Transmissions;
-use App\Models\AutoPartType;
-use App\Models\BoatType;
-use App\Models\BodyType;
-use App\Models\Brand;
-use App\Models\Color;
 use App\Models\Fashion\FashionDetail;
-use App\Models\HeavyEquipmentType;
 use App\Models\PropertyDetail;
-use App\Models\VehicleDetail;
+use App\Models\Vehicle\VehicleDetail;
 
 class CategoryWiseDetailViewService
 {

@@ -99,6 +99,14 @@
                                 </a>
                             </li>
 
+                            @can('brand')
+                                <li class="aiz-side-nav-item">
+                                    <a href="{{ route('brand.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['brand.index', 'brand.create', 'brand.edit']) }}">
+                                        <span class="aiz-side-nav-text">Brand</span>
+                                    </a>
+                                </li>
+                            @endcan
+
                             @can('color')
                                 <li class="aiz-side-nav-item">
                                     <a href="{{ route('color.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['color.index', 'color.create', 'color.edit']) }}">
@@ -118,14 +126,6 @@
                             <span class="aiz-side-nav-arrow"></span>
                         </a>
                         <ul class="aiz-side-nav-list level-2">
-                            @can('brand')
-                                <li class="aiz-side-nav-item">
-                                    <a href="{{ route('brand.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['brand.index', 'brand.create', 'brand.edit']) }}">
-                                        <span class="aiz-side-nav-text">Brand</span>
-                                    </a>
-                                </li>
-                            @endcan
-
                             @can('body_type')
                                 <li class="aiz-side-nav-item">
                                     <a href="{{ route('body.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['body.index', 'body.create', 'body.edit']) }}">

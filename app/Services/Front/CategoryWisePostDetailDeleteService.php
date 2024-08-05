@@ -3,7 +3,7 @@
 namespace App\Services\Front;
 
 use App\Models\PropertyDetail;
-use App\Models\VehicleDetail;
+use App\Models\Vehicle\VehicleDetail;
 
 class CategoryWisePostDetailDeleteService
 {
