@@ -29,8 +29,8 @@
                             <div class="form-group mb-3">
                                 <label for="name">Category</label>
                                 <select class="select2 form-control aiz-selectpicker" name="category" data-selected="{{ $brand->category_id ?? "" }}" data-toggle="select2" data-placeholder="Choose ..." data-live-search="true">
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->en_name }}</option>
+                                    @foreach ($categories as $key => $category)
+                                        <option value="{{ $key }}">{{ $category }}</option>
                                     @endforeach
                                 </select>
 

@@ -69,6 +69,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
     //get type and material list for search bar
     Route::get('get-type-material-list', [SearchController::class, 'getTypeMaterialList'])->name('type-material.list');
+    Route::get('get-electronic-type-list', [SearchController::class, 'getElectronicTypeList'])->name('electronic-type.list');
 
     Route::middleware(['auth:web', 'user'])->group(callback: function () {
 

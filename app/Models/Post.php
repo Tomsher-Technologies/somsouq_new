@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App;
 use Illuminate\Support\Facades\Auth;
+use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 class Post extends Model
 {
+    use HasEagerLimit;
+
    protected $table = 'posts';
 
     public function getTranslation($field, $lang)

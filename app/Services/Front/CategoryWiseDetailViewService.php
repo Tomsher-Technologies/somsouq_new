@@ -2,6 +2,7 @@
 
 namespace App\Services\Front;
 
+use App\Models\Electronic\ElectronicDetail;
 use App\Models\Fashion\FashionDetail;
 use App\Models\PropertyDetail;
 use App\Models\Vehicle\VehicleDetail;
@@ -41,9 +42,9 @@ class CategoryWiseDetailViewService
             case CategoryNameService::VEHICLE_FOR_RENT:
             case CategoryNameService::VEHICLE_FOR_SALE:
 
-            $query = VehicleDetail::query();
-            $query->leftJoin('brands', 'brands.id', '=', 'vehicle_details.brand_id')
-                  ->leftJoin('colors', 'colors.id', '=', 'vehicle_details.color_id');
+                $query = VehicleDetail::query();
+                $query->leftJoin('brands', 'brands.id', '=', 'vehicle_details.brand_id')
+                    ->leftJoin('colors', 'colors.id', '=', 'vehicle_details.color_id');
 
                 if (in_array($subCategoryId, [19, 26])) {
                     $query->leftJoin('body_types', 'body_types.id', '=', 'vehicle_details.body_type_id')
@@ -129,14 +130,14 @@ class CategoryWiseDetailViewService
 
                 if (in_array($subCategoryId, [33])) {
                     $query->leftJoin('variant_value', 'variant_value.id', '=', 'fashion_details.size_id')
-                            ->select(
-                                'fashion_details.*',
-                                'colors.name as color_name',
-                                'fashion_types.name as type_name',
-                                'variant_value.name as size',
-                                'materials.name as material_name',
-                                'occasions.name as occasion_name',
-                            );
+                        ->select(
+                            'fashion_details.*',
+                            'colors.name as color_name',
+                            'fashion_types.name as type_name',
+                            'variant_value.name as size',
+                            'materials.name as material_name',
+                            'occasions.name as occasion_name',
+                        );
                     if ($viewType == 'user') {
                         static::$htmlFormName = "frontEnd.post.views.fashion.men_cloth";
                     }elseif ($viewType == 'public'){
@@ -208,12 +209,12 @@ class CategoryWiseDetailViewService
                     }
                 } elseif (in_array($subCategoryId, [38])) {
                     $query->select(
-                            'fashion_details.*',
-                            'colors.name as color_name',
-                            'fashion_types.name as type_name',
-                            'materials.name as material_name',
-                            'occasions.name as occasion_name',
-                        );
+                        'fashion_details.*',
+                        'colors.name as color_name',
+                        'fashion_types.name as type_name',
+                        'materials.name as material_name',
+                        'occasions.name as occasion_name',
+                    );
 
                     if ($viewType == 'user') {
                         static::$htmlFormName = "frontEnd.post.views.fashion.watch";
@@ -239,6 +240,62 @@ class CategoryWiseDetailViewService
                 }
 
                 static::$htmlFormData['postDetail'] = $query->where('fashion_details.post_id', $postId)->first();
+                break;
+            case CategoryNameService::ELECTRONIC:
+                $query = ElectronicDetail::query();
+
+                if ($subCategoryId != 52) {
+                    $query->leftJoin('brands', 'brands.id', '=', 'electronic_details.brand_id')
+                        ->leftJoin('electronic_types', 'electronic_types.id', '=', 'electronic_details.type_id')
+                        ->leftJoin('colors', 'colors.id', '=', 'electronic_details.color_id');
+                }
+
+                if (in_array($subCategoryId, [40, 42, 43, 44, 46, 48, 49, 50])) {
+                    $query->select('electronic_details.*', 'brands.name as brand_name', 'colors.name as color_name', 'electronic_types.name as type_name');
+
+                    if ($viewType == 'user') {
+                        static::$htmlFormName = "frontEnd.post.views.electronic.common_view";
+                    }elseif ($viewType == 'public') {
+                        static::$htmlFormName = "frontEnd.post.publicView.electronic.common_view";
+                    }
+
+                } elseif (in_array($subCategoryId, [41])) {
+                    $query->select('electronic_details.*', 'brands.name as brand_name', 'colors.name as color_name', 'electronic_types.name as type_name');
+
+                    if ($viewType == 'user') {
+                        static::$htmlFormName = "frontEnd.post.views.electronic.laptop_desktop";
+                    }elseif ($viewType == 'public') {
+                        static::$htmlFormName = "frontEnd.post.publicView.electronic.laptop_desktop";
+                    }
+                } elseif (in_array($subCategoryId, [45])) {
+                    $query->select('electronic_details.*', 'brands.name as brand_name', 'colors.name as color_name', 'electronic_types.name as type_name');
+
+                    if ($viewType == 'user') {
+                        static::$htmlFormName = "frontEnd.post.views.electronic.computer_monitor";
+                    }elseif ($viewType == 'public'){
+                        static::$htmlFormName = "frontEnd.post.publicView.electronic.computer_monitor";
+                    }
+                } elseif (in_array($subCategoryId, [47, 51])) {
+                    $query->select('electronic_details.*', 'brands.name as brand_name', 'colors.name as color_name', 'electronic_types.name as type_name');
+
+                    if ($viewType == 'user') {
+                        static::$htmlFormName = "frontEnd.post.views.electronic.headphone_printer_scanner";
+                    } elseif ($viewType == 'public') {
+                        static::$htmlFormName = "frontEnd.post.publicView.electronic.headphone_printer_scanner";
+                    }
+                } elseif (in_array($subCategoryId, [52])) { //video game
+                    $query->leftJoin('genres', 'genres.id', '=', 'electronic_details.genre_id')
+                        ->leftJoin('platforms', 'platforms.id', '=', 'electronic_details.platform_id')
+                        ->select('electronic_details.*', 'genres.name as genre_name', 'platforms.name as platform_name');
+
+                    if ($viewType == 'user') {
+                        static::$htmlFormName = "frontEnd.post.views.electronic.game";
+                    }elseif ($viewType == 'public'){
+                        static::$htmlFormName = "frontEnd.post.publicView.electronic.game";
+                    }
+                }
+
+                static::$htmlFormData['postDetail'] = $query->where('electronic_details.post_id', $postId)->first();
                 break;
             default:
                 break;

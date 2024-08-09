@@ -62,7 +62,7 @@
 
                     <div class="col-md-2">
                         <div class="form-floating">
-                            <select class="form-select" aria-label="Floating label select example" id="material_id" name="material_id" onchange="postBarSearch()">
+                            <select class="form-select border-0" aria-label="Floating label select example" id="material_id" name="material_id" onchange="postBarSearch()">
                                 <option value="">-{{ __('post.select') }}-</option>
                             </select>
                             <label for="floatingSelect">{{ __('post.material') }}</label>
