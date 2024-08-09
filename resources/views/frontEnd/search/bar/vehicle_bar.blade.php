@@ -64,7 +64,7 @@
                 </div>
                 <div class="col-md-2">
                     <div class="form-floating">
-                        <select class="form-select" aria-label="Floating label select example" name="km" onchange="postBarSearch()">
+                        <select class="form-select border-0" aria-label="Floating label select example" name="km" onchange="postBarSearch()">
                             <option value="">-{{ __('post.select') }}-</option>
                             @foreach($km as $key => $data)
                                 <option value="{{ $data }}">{{ $data }}Km</option>

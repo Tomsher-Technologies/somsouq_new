@@ -70,7 +70,7 @@ return [
     'next' => 'Next',
     'location_title' => 'Where should we place your Ad?',
     'city' => 'City',
-    'add_details' => 'Add Details',
+    'add_details' => 'Ad Details',
     'submit' => 'Submit',
 
     //image
@@ -158,5 +158,28 @@ return [
     'style' => 'Style',
     'type' => 'Type',
     'shoes_type' => 'Shoes Type',
+
+    //electronic
+    'for_parts' => 'For Parts or Not Working',
+    'brand_new' => 'Brand new',
+    'warranty' => 'Warranty',
+    'processor' => 'Processor',
+    'generation' => 'Generation',
+    'ram' => 'RAM',
+    'storage_capacity' => 'Storage capacity',
+    'screen_size' => 'Screen size (inch)',
+    'graphic_card' => 'Graphics card memory',
+    'operating_system' => 'Operating system',
+    'display_technology' => 'Display technology',
+
+    'connectivity' => 'Connectivity',
+    'wired' => 'Wired',
+    'wireless' => 'Wireless',
+    'both' => 'Wired/ Wireless',
+    'game_name' => 'Game name',
+    'genre' => 'Genre',
+    'platform' => 'Platform',
+
+
 
 ];

@@ -186,6 +186,7 @@
         {
             var actionurl = $('#search_bar_form').attr('action');
             //do your own request an handle the results
+            $('#load_post_id').html("");
             $.ajax({
                 url: actionurl,
                 type: 'post',
@@ -264,7 +265,7 @@
                 success: function(data) {
                     if(data.status) {
                         $('#load_post_id').html(data.postHtml);
-                        $("#inlineFormSelectPref").val(sortingValue).change();
+                        $("#inlineFormSelectPref").val(sortingValue);
                     }
                 },
                 complete: function() {
@@ -313,6 +314,49 @@
                     console.log(xhr, status, error)
                 }
             });
+        });
+
+        $('body').on('change', '#electronic_sub_category_id',function (e) {
+            let subCategoryId = e.target.value;
+            if(parseInt(subCategoryId) === 52) {
+                $('.game-div').show();
+                $('.common-div').hide();
+
+                $('#e_brand_id').val("");
+                $('#e_type_id').val("");
+            } else {
+                $('.game-div').hide();
+                $('.common-div').show();
+
+                $('#genre_id').val("");
+                $('#platform').val("");
+
+                $.ajax({
+                    url: "{{ route('electronic-type.list') }}",
+                    type: 'get',
+                    data: {
+                        sub_category_id: subCategoryId
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        var type = '<option value="">-' + select + '-</option>';
+
+                        if (response.status) {
+                            $.each(response.type, function (id, value) {
+                                let data = JSON.parse(value.name);
+                                type += '<option value="' + value.id + '">' + data[setLocalLang] + '</option>';
+                            });
+                        }
+
+                        $("#type_id").html(type);
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(xhr, status, error)
+                    }
+                });
+            }
         });
     </script>
 

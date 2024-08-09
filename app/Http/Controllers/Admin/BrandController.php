@@ -16,43 +16,23 @@ class BrandController extends Controller
 
     public function index(Request $request)
     {
-        $categories = Category::where('parent_id', 0)->where('is_active', 1)
-            ->get([
-                'id',
-                'en_name',
-                'ar_name',
-                'so_name',
-                'parent_id',
-                'icon'
-            ])->reject(function ($value) {
-                return in_array($value->id, [1, 2, 4]);
-            });
+        $categories = $this->getCategory();
 
-        $query = Brand::query()->leftJoin('categories', 'categories.id', '=', 'brands.category_id');
+        $query = Brand::query();
         $category = $request->get('category') ?? "";
         if ($request->get('category')) {
             $category = $request->get('category');
             $query->where('category_id', '=', $category);
         }
 
-        $brands = $query->select('brands.*', 'categories.en_name')->latest()->paginate(10);
+        $brands = $query->latest()->paginate(10);
 
         return view('admin.brand.index', compact('brands', 'categories', 'category'));
     }
 
     public function create()
     {
-        $categories = Category::where('parent_id', 0)->where('is_active', 1)
-            ->get([
-                'id',
-                'en_name',
-                'ar_name',
-                'so_name',
-                'parent_id',
-                'icon'
-            ])->reject(function ($value) {
-                return in_array($value->id, [1, 2, 4]);
-            });
+        $categories = $this->getCategory();
 
         return view('admin.brand.create', [
             'languages' => \App\Models\Language::all(),
@@ -87,17 +67,7 @@ class BrandController extends Controller
 
     public function edit(Brand $brand)
     {
-        $categories = Category::where('parent_id', 0)->where('is_active', 1)
-            ->get([
-                'id',
-                'en_name',
-                'ar_name',
-                'so_name',
-                'parent_id',
-                'icon'
-            ])->reject(function ($value) {
-                return in_array($value->id, [1, 2, 4]);
-            });
+        $categories = $this->getCategory();
 
         $languages =  \App\Models\Language::all();
         return view('admin.brand.edit', compact('brand', 'languages', 'categories'));
@@ -158,5 +128,13 @@ class BrandController extends Controller
                 'message' => 'Something went wrong'
             ]);
         }
+    }
+
+    public function getCategory()
+    {
+        return [
+            '3' => 'Vehicle',
+            '6' => 'Electronic'
+        ];
     }
 }

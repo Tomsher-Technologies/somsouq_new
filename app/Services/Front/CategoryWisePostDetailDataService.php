@@ -37,6 +37,14 @@ class CategoryWisePostDetailDataService
 
                 static::$postDetailDate['data'] = $query->first();
                 break;
+
+            case CategoryNameService::ELECTRONIC:
+                $query->join('electronic_details', 'electronic_details.post_id', '=', 'posts.id')
+                    ->select('posts.title', 'posts.price', 'posts.description', 'electronic_details.*')
+                    ->where('electronic_details.post_id', $postId);
+
+                static::$postDetailDate['data'] = $query->first();
+                break;
             default:
                 break;
         }

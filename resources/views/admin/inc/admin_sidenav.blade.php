@@ -198,6 +198,33 @@
                     </li>
                 @endcan
 
+                @can('electronic')
+                    <li class="aiz-side-nav-item">
+                        <a href="#" class="aiz-side-nav-link">
+                            <i class="las la-plug aiz-side-nav-icon"></i>
+                            <span class="aiz-side-nav-text">Electronic</span>
+                            <span class="aiz-side-nav-arrow"></span>
+                        </a>
+                        <ul class="aiz-side-nav-list level-2">
+                            <li class="aiz-side-nav-item">
+                                <a href="{{ route('electronic-type.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['electronic-type.index', 'electronic-type.create', 'electronic-type.edit']) }}">
+                                    <span class="aiz-side-nav-text">Type</span>
+                                </a>
+                            </li>
+                            <li class="aiz-side-nav-item">
+                                <a href="{{ route('genre.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['genre.index', 'genre.create', 'genre.edit']) }}">
+                                    <span class="aiz-side-nav-text">Genre</span>
+                                </a>
+                            </li>
+                            <li class="aiz-side-nav-item">
+                                <a href="{{ route('platform.index') }}" class="aiz-side-nav-link {{ areActiveRoutes(['platform.index', 'platform.create', 'platform.edit']) }}">
+                                    <span class="aiz-side-nav-text">Platform</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
+
                 @can('report')
                     <li class="aiz-side-nav-item">
                         <a href="{{ route('report.index') }}" class="aiz-side-nav-link">

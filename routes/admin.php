@@ -14,13 +14,16 @@ use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CopyRightController;
+use App\Http\Controllers\Admin\ElectronicTypeController;
 use App\Http\Controllers\Admin\FashionTypeController;
 use App\Http\Controllers\Admin\GemstoneController;
+use App\Http\Controllers\Admin\GenreController;
 use App\Http\Controllers\Admin\HeavyEquipmentController;
 use App\Http\Controllers\Admin\HelpController;
 use App\Http\Controllers\Admin\MaterialController;
 use App\Http\Controllers\Admin\OccasionController;
 use App\Http\Controllers\Admin\PartsTypeController;
+use App\Http\Controllers\Admin\PlatformController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -302,6 +305,39 @@ Route::middleware(['auth:admin'])->prefix('admin')->group(function () {
         Route::post('/update','update')->name('stone.update');
         Route::get('/destroy/{gemstone}', 'destroy')->name('stone.destroy');
         Route::post('/status','updateStatus')->name('stone.status');
+    });
+
+    //electronic type
+    Route::prefix('electronic-type')->controller(ElectronicTypeController::class)->group(function () {
+        Route::get('/', 'index')->name('electronic-type.index');
+        Route::get('/create', 'create')->name('electronic-type.create');
+        Route::post('/store', 'store')->name('electronic-type.store');
+        Route::get('/edit/{electronicType}', 'edit')->name('electronic-type.edit');
+        Route::post('/update','update')->name('electronic-type.update');
+        Route::get('/destroy/{electronicType}', 'destroy')->name('electronic-type.destroy');
+        Route::post('/status','updateStatus')->name('electronic-type.status');
+    });
+
+    //game genre
+    Route::prefix('genre')->controller(GenreController::class)->group(function () {
+        Route::get('/', 'index')->name('genre.index');
+        Route::get('/create', 'create')->name('genre.create');
+        Route::post('/store', 'store')->name('genre.store');
+        Route::get('/edit/{genre}', 'edit')->name('genre.edit');
+        Route::post('/update','update')->name('genre.update');
+        Route::get('/destroy/{genre}', 'destroy')->name('genre.destroy');
+        Route::post('/status','updateStatus')->name('genre.status');
+    });
+
+    //game genre
+    Route::prefix('platform')->controller(PlatformController::class)->group(function () {
+        Route::get('/', 'index')->name('platform.index');
+        Route::get('/create', 'create')->name('platform.create');
+        Route::post('/store', 'store')->name('platform.store');
+        Route::get('/edit/{platform}', 'edit')->name('platform.edit');
+        Route::post('/update','update')->name('platform.update');
+        Route::get('/destroy/{platform}', 'destroy')->name('platform.destroy');
+        Route::post('/status','updateStatus')->name('platform.status');
     });
 
 });

@@ -23,8 +23,8 @@
                         <select class="form-control form-control-sm aiz-selectpicker mb-2 mb-md-0" data-live-search="true"
                                 name="category" id="" data-selected={{ $category }}>
                             <option value="0">All</option>
-                            @foreach ($categories as $item)
-                                <option value="{{ $item->id }}">{{ $item->en_name }}</option>
+                            @foreach ($categories as $key => $item)
+                                <option value="{{ $key }}">{{ $item }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -52,7 +52,7 @@
                 @foreach ($brands as $key => $brand)
                     <tr>
                         <td>{{ $key + 1 + ($brands->currentPage() - 1) * $brands->perPage() }}</td>
-                        <td>{{ $brand->en_name }}</td>
+                        <td>{{ $categories[$brand->category_id] }}</td>
                         <td>
                             {{ $brand->getTranslation('name', 'en') }}
                         </td>

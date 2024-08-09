@@ -47,7 +47,7 @@ $category = CommonFunction::getCategory();
                         <ul>
                             @for($i = 4; $i<=7; $i++)
                                 <li>
-                                    <a href="#">{{ $category[$i]->getTranslation('name', getLocaleLang()) }}</a>
+                                    <a href="{{ route('post.detail-category', ['cat_id' => $category[$i]->id]) }}">{{ $category[$i]->getTranslation('name', getLocaleLang()) }}</a>
                                 </li>
                             @endfor
                         </ul>
